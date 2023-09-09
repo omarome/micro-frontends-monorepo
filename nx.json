@@ -6,5 +6,20 @@
                 "casheableOperations": []
             }
         }
+    },
+    "namedInputs": {
+      "noMarkerdown": ["!{projectRoot}/**/*.md"]
+    },
+    "targetDefaults": {
+      "build": {
+        "inputs": ["noMarkerdown", "^noMarkerdown"],
+        "dependsOn": ["^build"]
+      },
+      "dev": {
+        "dependsOn": ["^build"]
+      },
+      "test": {
+        "inputs": ["noMarkerdown", "^noMarkerdown"]
+      }
     }
 }
