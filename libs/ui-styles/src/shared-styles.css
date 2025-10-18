@@ -1,0 +1,101 @@
+/* Smooth fade transition for tab content */
+.tab-content-fade {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1), transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.tab-content-fade.tab-content-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* AstroByte app specific shared styles */
+.astrobyte-container {
+  padding: 40px;
+}
+.astrobyte-title {
+  font-size: 2.2em;
+  margin-bottom: 0.2em;
+}
+.astrobyte-subtitle {
+  font-size: 1.3em;
+  margin-bottom: 1.5em;
+  color: #6ed6ff;
+}
+.astrobyte-fact {
+  font-size: 1.15em;
+  margin: 24px 0;
+  min-height: 2.5em;
+}
+/* Shared UI Styles for all apps */
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Shared button style for all apps */
+.shared-btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #4f8cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.25s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+}
+.shared-btn:hover {
+  background-color: #356ac3;
+  border-color: #356ac3;
+  color: #fff;
+}
+.shared-btn:focus,
+.shared-btn:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
