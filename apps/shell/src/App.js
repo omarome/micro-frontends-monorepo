@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.js';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
+import './App.css';
 
 // Direct Module Federation loading without React.lazy
 const AstrobyteApp = () => {
@@ -111,22 +112,24 @@ const AstrobyteApp = () => {
     loadModule();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h3>Loading AstroByte...</h3>
-      </div>
-    );
-  }
+      if (loading) {
+        return (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <div className="loading-text">Loading AstroByte...</div>
+          </div>
+        );
+      }
 
-  if (error) {
-    return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h2>Failed to load Astrobyte App</h2>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
+      if (error) {
+        return (
+          <div className="error-container">
+            <div className="error-icon">⚠️</div>
+            <div className="error-title">Failed to load Astrobyte App</div>
+            <div className="error-message">Error: {error.message}</div>
+          </div>
+        );
+      }
 
   return Component ? <Component /> : <div>No component loaded</div>;
 };
@@ -179,22 +182,24 @@ const LegacyApp = () => {
     loadModule();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h3>Loading Legacy App...</h3>
-      </div>
-    );
-  }
+      if (loading) {
+        return (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <div className="loading-text">Loading Legacy App...</div>
+          </div>
+        );
+      }
 
-  if (error) {
-    return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h2>Failed to load Legacy App</h2>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
+      if (error) {
+        return (
+          <div className="error-container">
+            <div className="error-icon">⚠️</div>
+            <div className="error-title">Failed to load Legacy App</div>
+            <div className="error-message">Error: {error.message}</div>
+          </div>
+        );
+      }
 
   return Component ? <Component /> : <div>No component loaded</div>;
 };
@@ -214,15 +219,40 @@ function AnimatedRoutes() {
       >
         <div ref={nodeRef}>
           <Routes location={location}>
-            <Route 
-              path="/" 
-              element={
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                  <h1>Welcome to the Micro-Frontend Shell</h1>
-                  <p>Navigate to different micro-frontends using the navigation above.</p>
-                </div>
-              } 
-            />
+                <Route
+                  path="/"
+                  element={
+                    <div className="home-container">
+                      <h1 className="home-title">Welcome To Micro-Frontends World</h1>
+                      <div className="intro-section">
+                        <div className="intro-icon">🎯</div>
+                        <p className="intro-text">Explore modular applications working together seamlessly</p>
+                        <div className="feature-highlights">
+                          <span className="feature-tag">🔄 Independent Deployments</span>
+                          <span className="feature-tag">⚡ Real-time Integration</span>
+                          <span className="feature-tag">🎨 Modern UI/UX</span>
+                        </div>
+                      </div>
+                      <div className="mfe-grid">
+                        <div className="mfe-card">
+                          <div className="mfe-card-icon">🏠</div>
+                          <div className="mfe-card-title">Shell App</div>
+                          <div className="mfe-card-description">Main orchestrator & navigation hub</div>
+                        </div>
+                        <div className="mfe-card">
+                          <div className="mfe-card-icon">🎭</div>
+                          <div className="mfe-card-title">Legacy App</div>
+                          <div className="mfe-card-description">AngularJS with interactive jokes</div>
+                        </div>
+                        <div className="mfe-card">
+                          <div className="mfe-card-icon">🚀</div>
+                          <div className="mfe-card-title">AstroByte App</div>
+                          <div className="mfe-card-description">Modern React TypeScript showcase</div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                />
             <Route
               path="/legacy"
               element={<LegacyApp />}
@@ -231,15 +261,22 @@ function AnimatedRoutes() {
               path="/astrobyte"
               element={<AstrobyteApp />}
             />
-            <Route 
-              path="/app3" 
-              element={
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                  <h2>App 3</h2>
-                  <p>Coming soon...</p>
-                </div>
-              } 
-            />
+                <Route
+                  path="/app3"
+                  element={
+                    <div className="card">
+                      <h2 style={{ marginBottom: '16px', color: '#333' }}>🚀 App 3</h2>
+                      <p style={{ color: '#666', fontSize: '1.1rem', lineHeight: '1.6' }}>
+                        This micro-frontend is coming soon! It will showcase additional features and demonstrate the scalability of the micro-frontend architecture.
+                      </p>
+                      <div style={{ marginTop: '24px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+                        <p style={{ color: '#666', fontStyle: 'italic' }}>
+                          Stay tuned for exciting new features and capabilities!
+                        </p>
+                      </div>
+                    </div>
+                  }
+                />
           </Routes>
         </div>
       </CSSTransition>
@@ -251,7 +288,9 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <AnimatedRoutes />
+      <main className="main-content">
+        <AnimatedRoutes />
+      </main>
     </BrowserRouter>
   );
 }

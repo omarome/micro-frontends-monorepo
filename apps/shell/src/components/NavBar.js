@@ -1,26 +1,51 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './NavBar.css';
 
 import ReactIcon from '../assets/react.svg';
 import AngularIcon from '../assets/angularjs.svg';
 
 const NavBar = () => (
-  <nav >
-    <NavLink to="/">
-      Home (Shell)
-    </NavLink>
-    <NavLink to="/legacy">
-      <img src={AngularIcon} alt="AngularJS" style={{height: 20, verticalAlign: 'middle', marginRight: 8}} />
-      Legacy App
-    </NavLink>
-    <NavLink to="/astrobyte">
-      <img src={ReactIcon} alt="React" style={{height: 20, verticalAlign: 'middle', marginRight: 8}} />
-      AstroByte
-    </NavLink>
-    <NavLink to="/app3">
-      App 3
-    </NavLink>
+  <nav className="nav-bar">
+    <div className="nav-brand">
+      <span className="brand-icon">🏠</span>
+      <span className="brand-text">Welcome To Micro-Frontends World</span>
+    </div>
+    
+    <div className="nav-links">
+      <NavLink 
+        to="/" 
+        className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+      >
+        <span className="link-icon">🏠</span>
+        <span className="link-text">Home</span>
+      </NavLink>
+      
+      <NavLink 
+        to="/legacy" 
+        className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+      >
+        <img src={AngularIcon} alt="AngularJS" className="link-icon" />
+        <span className="link-text">Legacy App</span>
+      </NavLink>
+      
+      <NavLink 
+        to="/astrobyte" 
+        className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+      >
+        <img src={ReactIcon} alt="React" className="link-icon" />
+        <span className="link-text">AstroByte</span>
+      </NavLink>
+      
+      <NavLink 
+        to="/app3" 
+        className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
+      >
+        <span className="link-icon">🚀</span>
+        <span className="link-text">App 3</span>
+      </NavLink>
+    </div>
   </nav>
 );
 
