@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# App3 - InvoiceHub Analytics MFE
+
+This is a React micro-frontend application that displays the InvoiceHub App Plan. It's part of a micro-frontend architecture using Module Federation.
+
+## Tech Stack
+
+- **React 18** - Modern React with hooks and functional components
+- **TypeScript** - Type-safe JavaScript development
+- **Webpack 5** - Module bundling and Module Federation
+- **Module Federation** - Micro-frontend integration
+- **Tailwind CSS** - Utility-first CSS framework (shared across all apps)
 
 ## Getting Started
 
-First, run the development server:
+First, ensure you're in the monorepo root and install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The app will be available at [http://localhost:3003](http://localhost:3003).
 
-## Learn More
+## Integration
 
-To learn more about Next.js, take a look at the following resources:
+This micro-frontend is integrated into the main shell application at [http://localhost:3000/app3](http://localhost:3000/app3).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Shell App** (Port 3000) - Navigation and orchestration
+- **Legacy App** (Port 3001) - AngularJS invoice management
+- **Astrobyte App** (Port 3002) - React payment processing
+- **App3** (Port 3003) - React analytics and planning (this app)
 
-## Deploy on Vercel
+## Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The app uses webpack with Module Federation to expose the `./App` component to other micro-frontends in the system.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Key Files
+
+- `src/App.tsx` - Main React component displaying the InvoiceHub App Plan
+- `src/bootstrap.tsx` - Application entry point
+- `webpack.config.cjs` - Webpack configuration with Module Federation
+- `tsconfig.json` - TypeScript configuration
+
+## Content
+
+This micro-frontend displays the InvoiceHub App Plan overview, including:
+
+- Phase 1 development goals and timeline
+- System architecture overview
+- Development instructions
+- Technical stack information
+
+The content is designed to showcase the micro-frontend architecture and provide guidance for the InvoiceHub billing system development.
