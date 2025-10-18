@@ -59,7 +59,8 @@ module.exports = {
                 ],
                 use: [
                     'style-loader',
-                    'css-loader'
+                    'css-loader',
+                    'postcss-loader'
                 ]
             },
             {

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Smooth fade transition for tab content */
 .tab-content-fade {
   opacity: 0;
