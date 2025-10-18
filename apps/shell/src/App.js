@@ -224,6 +224,7 @@ function AnimatedRoutes() {
                   element={
                     <div className="home-container">
                       <h1 className="home-title">Welcome To Micro-Frontends World</h1>
+                      <p className="home-subtitle">All frontend frameworks in one shell</p>
                       <div className="intro-section">
                         <div className="intro-icon">🎯</div>
                         <p className="intro-text">Explore modular applications working together seamlessly</p>
@@ -263,7 +264,7 @@ function AnimatedRoutes() {
             />
                 <Route
                   path="/app3"
-                  element={
+              element={
                     <div className="card">
                       <h2 style={{ marginBottom: '16px', color: '#333' }}>🚀 App 3</h2>
                       <p style={{ color: '#666', fontSize: '1.1rem', lineHeight: '1.6' }}>
@@ -289,7 +290,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <main className="main-content">
-        <AnimatedRoutes />
+      <AnimatedRoutes />
       </main>
     </BrowserRouter>
   );

@@ -24,14 +24,23 @@ const LegacyAngularApp = () => {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="main-content">
+      <h1 className="home-title">🎭 Legacy AngularJS App</h1>
+      <p className="home-subtitle">AngularJS application with interactive jokes</p>
+      <div className="intro-section">
+        <div className="intro-icon">🎯</div>
+        <p className="intro-text">Experience legacy technology integration</p>
+        <div className="feature-highlights">
+          <span className="feature-tag">📜 AngularJS</span>
+          <span className="feature-tag">🎭 Interactive Jokes</span>
+          <span className="feature-tag">🔄 Legacy Integration</span>
+        </div>
+      </div>
       <div ref={containerRef} ng-app="legacyApp">
         <div ng-controller="MainCtrl">
-          <h1>🎭 Legacy AngularJS App</h1>
-          <p>This is a legacy AngularJS application running on port 3002.</p>
-          <div style={{ marginTop: '20px', padding: '20px', backgroundColor: '#756D57', borderRadius: '8px' }}>
-            <h3>Random Joke:</h3>
-            <p style={{ fontSize: '16px', fontStyle: 'italic' }} ng-bind="joke"></p>
+          <div className="joke-container">
+            <h3>😂 Random Joke:</h3>
+            <p className="joke-text" ng-bind="joke"></p>
             <button 
               onClick={() => {
                 // Trigger AngularJS digest cycle
@@ -45,7 +54,7 @@ const LegacyAngularApp = () => {
                   
                   // Also try to find the specific controller element
                   const controllerElement = containerRef.current?.querySelector('[ng-controller="MainCtrl"]');
-                  console.log('Controller element found:', controllerElement);
+                  console.log('Controller is not found:', controllerElement);
                   
                   if (controllerElement) {
                     const scope = angular.element(controllerElement).scope();
@@ -99,14 +108,7 @@ const LegacyAngularApp = () => {
                   console.error('Error accessing scope:', error);
                 }
               }}
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
+              className="joke-button"
             >
               Next Joke
             </button>

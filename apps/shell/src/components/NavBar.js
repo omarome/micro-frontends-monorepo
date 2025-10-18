@@ -10,7 +10,7 @@ const NavBar = () => (
   <nav className="nav-bar">
     <div className="nav-brand">
       <span className="brand-icon">🏠</span>
-      <span className="brand-text">Welcome To Micro-Frontends World</span>
+      <span className="brand-text">MFE Shell</span>
     </div>
     
     <div className="nav-links">

@@ -1,18 +1,20 @@
 import React from 'react';
+import '@ui-styles/shared-styles.css';
 
 const App: React.FC = () => {
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>🚀 Astrobyte Micro-Frontend</h1>
-      <p>This is the Astrobyte micro-frontend running on port 3003.</p>
-      <div style={{ marginTop: '20px' }}>
-        <h3>Features:</h3>
-        <ul style={{ textAlign: 'left', display: 'inline-block' }}>
-          <li>Built with React + TypeScript</li>
-          <li>Module Federation enabled</li>
-          <li>Hot reloading support</li>
-          <li>Shared UI components</li>
-        </ul>
+    <div className="main-content">
+      <h1 className="home-title">🚀 Astrobyte Micro-Frontend</h1>
+      <p className="home-subtitle">Modern React TypeScript application</p>
+      <div className="intro-section">
+        <div className="intro-icon">⚡</div>
+        <p className="intro-text">Built with cutting-edge technologies</p>
+        <div className="feature-highlights">
+          <span className="feature-tag">⚛️ React + TypeScript</span>
+          <span className="feature-tag">🔗 Module Federation</span>
+          <span className="feature-tag">🔥 Hot Reloading</span>
+          <span className="feature-tag">🎨 Shared Components</span>
+        </div>
       </div>
     </div>
   );
