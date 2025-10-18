@@ -1,14 +1,54 @@
 {
   "name": "micro-frontends-monorepo",
   "version": "1.0.0",
-  "description": "",
+  "description": "A micro-frontend monorepo with Module Federation",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:astrobyte\" \"pnpm run start:legacy\"",
+    "start:shell": "cd apps/shell && pnpm start",
+    "start:astrobyte": "cd apps/astrobyte && pnpm start",
+    "start:legacy": "cd apps/legacy_app && pnpm start",
+    "build": "pnpm run build:shell && pnpm run build:astrobyte && pnpm run build:legacy",
+    "build:shell": "cd apps/shell && pnpm build",
+    "build:astrobyte": "cd apps/astrobyte && pnpm build",
+    "build:legacy": "cd apps/legacy_app && pnpm build",
+    "install:all": "pnpm install && cd apps/shell && pnpm install && cd ../astrobyte && pnpm install && cd ../legacy_app && pnpm install"
   },
-  "keywords": [],
+  "keywords": ["micro-frontends", "module-federation", "react", "angular"],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "angular": "1.8.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.18.0",
+    "react-transition-group": "^4.4.5"
+  },
   "devDependencies": {
-    "nx": "^16.8.1"
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@eslint/js": "^9.29.0",
+    "@svgr/webpack": "^8.1.0",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@types/react-transition-group": "^4.4.12",
+    "@vitejs/plugin-react": "^4.5.2",
+    "babel-loader": "^10.0.0",
+    "concurrently": "^8.2.2",
+    "css-loader": "^7.1.2",
+    "eslint": "^9.29.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "html-webpack-plugin": "^5.6.3",
+    "nx": "^16.8.1",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vite": "^7.0.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   }
 }

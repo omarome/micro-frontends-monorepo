@@ -1,0 +1,30 @@
+.navBar {
+  display: flex;
+  gap: 24px;
+  background: linear-gradient(90deg, #4f8cff 0%, #6ed6ff 100%);
+  padding: 16px 32px;
+  border-radius: 1px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.link:hover {
+  background: rgba(255,255,255,0.18);
+  color: #222;
+}
+
+.active {
+  background: #fff;
+  color: #4f8cff;
+  box-shadow: 0 2px 8px rgba(79,140,255,0.10);
+}
