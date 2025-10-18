@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/bootstrap.js',
   mode: 'development',
   devServer: {
-    port: 3002,
+    port: 3001,
     historyApiFallback: true,
     hot: true,
     headers: {
@@ -16,7 +16,7 @@ module.exports = {
     }
   },
   output: {
-    publicPath: 'http://localhost:3002/',
+    publicPath: 'http://localhost:3001/',
     filename: '[name].bundle.js',
     clean: true
   },
