@@ -204,6 +204,76 @@ const LegacyApp = () => {
   return Component ? <Component /> : <div>No component loaded</div>;
 };
 
+const App3Component = () => {
+  const [Component, setComponent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadModule = async () => {
+      try {
+        setLoading(true);
+        console.log('Loading App3 module...');
+        
+        // Load the Module Federation remote
+        console.log('Loading app3/App...');
+        const module = await import('app3/App');
+        console.log('Module loaded:', module);
+        console.log('Module keys:', Object.keys(module));
+        console.log('Module.default type:', typeof module.default);
+        
+        // Handle the App3 component (similar to Astrobyte structure)
+        if (module.default && typeof module.default === 'function') {
+          console.log('Found App3 component at module.default');
+          setComponent(() => module.default);
+          setError(null);
+          return;
+        } else if (module.default && module.default.default && typeof module.default.default === 'function') {
+          console.log('Found App3 component at module.default.default');
+          setComponent(() => module.default.default);
+          setError(null);
+          return;
+        } else {
+          console.log('No valid React component found in module');
+          console.log('Available exports:', Object.keys(module));
+          console.log('module.default:', module.default);
+          console.log('Full module structure:', module);
+        }
+        
+        throw new Error('No valid React component found in module');
+      } catch (err) {
+        console.error('Failed to load App3:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModule();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Loading App3...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <div className="error-title">Failed to load App3</div>
+        <div className="error-message">Error: {error.message}</div>
+      </div>
+    );
+  }
+
+  return Component ? <Component /> : <div>No component loaded</div>;
+};
+
 function AnimatedRoutes() {
   const location = useLocation();
   const nodeRef = useRef(null);
@@ -264,19 +334,7 @@ function AnimatedRoutes() {
             />
                 <Route
                   path="/app3"
-              element={
-                    <div className="card">
-                      <h2 style={{ marginBottom: '16px', color: '#333' }}>🚀 App 3</h2>
-                      <p style={{ color: '#666', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                        This micro-frontend is coming soon! It will showcase additional features and demonstrate the scalability of the micro-frontend architecture.
-                      </p>
-                      <div style={{ marginTop: '24px', padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-                        <p style={{ color: '#666', fontStyle: 'italic' }}>
-                          Stay tuned for exciting new features and capabilities!
-                        </p>
-                      </div>
-                    </div>
-                  }
+                  element={<App3Component />}
                 />
           </Routes>
         </div>

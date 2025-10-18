@@ -82,8 +82,9 @@ module.exports = {
         new ModuleFederationPlugin({
             name: 'shell',
             remotes: {
-                astrobyte: 'astrobyte@http://localhost:3003/remoteEntry.js',
-                legacyApp: 'legacyApp@http://localhost:3002/remoteEntry.js',
+                astrobyte: 'astrobyte@http://localhost:3002/remoteEntry.js',
+                legacyApp: 'legacyApp@http://localhost:3001/remoteEntry.js',
+                app3: 'app3@http://localhost:3003/remoteEntry.js',
             },
             shared: {
                 react: { 
