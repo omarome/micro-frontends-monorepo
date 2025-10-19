@@ -135,73 +135,174 @@ const AstrobyteApp = () => {
 };
 
 const LegacyApp = () => {
-  const [Component, setComponent] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [containerElement, setContainerElement] = useState(null);
+  const [appLoaded, setAppLoaded] = useState(false);
+  const bridgeService = useRef(null);
+
+  const setContainerRef = (element) => {
+    console.log('setContainerRef called with:', element);
+    console.log('Element type:', typeof element);
+    console.log('Element is null?', element === null);
+    console.log('Element is HTMLElement?', element instanceof HTMLElement);
+    setContainerElement(element);
+  };
 
   useEffect(() => {
-    const loadModule = async () => {
+    if (!containerElement) {
+      console.log('Container element not ready yet');
+      return;
+    }
+
+    const loadInvoiceApp = async () => {
       try {
         setLoading(true);
-        console.log('Loading Legacy module...');
-        
-        // Load the Module Federation remote
-        console.log('Loading invoice/App...');
-        const module = await import('invoice/App');
-        console.log('Module loaded:', module);
-        console.log('Module keys:', Object.keys(module));
-        console.log('Module.default type:', typeof module.default);
-        
-        // The module is not a factory function, it's the actual module
-        if (module.default && typeof module.default === 'function') {
-          console.log('Found LegacyAngularApp component at module.default');
-          setComponent(() => module.default);
-          setError(null);
-          return;
-        } else if (module.LegacyAngularApp && typeof module.LegacyAngularApp === 'function') {
-          console.log('Found LegacyAngularApp component at module.LegacyAngularApp');
-          setComponent(() => module.LegacyAngularApp);
-          setError(null);
-          return;
-        } else {
-          console.log('No valid React component found in module');
-          console.log('Available exports:', Object.keys(module));
-          console.log('module.default:', module.default);
-          console.log('module.LegacyAngularApp:', module.LegacyAngularApp);
-        }
-        
-        throw new Error('No valid React component found in module');
+        setError(null);
+
+        console.log('Loading Invoice App...');
+
+        // Import the ReactBridgeService
+        const { default: ReactBridgeService } = await import('./services/ReactBridgeService.js');
+        bridgeService.current = ReactBridgeService;
+
+        console.log('Container ready, loading Invoice App...');
+        console.log('Container element:', containerElement);
+        console.log('Container type:', typeof containerElement);
+
+        // Use the bridge service to load the remote component
+        await bridgeService.current.loadRemoteComponent(
+          'invoice',
+          './bootstrap',
+          containerElement,
+          {},
+          'angular'
+        );
+
+        setLoading(false);
+        setAppLoaded(true);
       } catch (err) {
-        console.error('Failed to load Legacy:', err);
-        setError(err);
-      } finally {
+        console.error('Failed to load Invoice App:', err);
+        setError(err.message);
         setLoading(false);
       }
     };
 
-    loadModule();
-  }, []);
+    // Start loading when container is available
+    loadInvoiceApp();
 
-      if (loading) {
-        return (
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <div className="loading-text">Loading Legacy App...</div>
-          </div>
-        );
+    // Cleanup on unmount
+    return () => {
+      if (bridgeService.current && containerElement) {
+        bridgeService.current.unmountComponent(containerElement);
       }
+    };
+  }, [containerElement]);
 
-      if (error) {
-        return (
-          <div className="error-container">
-            <div className="error-icon">⚠️</div>
-            <div className="error-title">Failed to load Legacy App</div>
-            <div className="error-message">Error: {error.message}</div>
+  if (loading) {
+    return (
+      <div className="mfe-container">
+        <div className="mfe-loading" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '40px',
+          textAlign: 'center'
+        }}>
+          <div className="loading-spinner" style={{
+            width: '40px',
+            height: '40px',
+            border: '4px solid #f3f3f3',
+            borderTop: '4px solid #007bff',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            marginBottom: '20px'
+          }}></div>
+          <p>Loading Invoice Management...</p>
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mfe-container">
+        <div className="mfe-error" style={{
+          padding: '20px',
+          textAlign: 'center',
+          backgroundColor: '#f8d7da',
+          border: '1px solid #f5c6cb',
+          borderRadius: '8px',
+          color: '#721c24'
+        }}>
+          <h3>Failed to load Invoice App</h3>
+          <p>Error: {error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginTop: '10px'
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  console.log('LegacyApp rendering, containerElement:', containerElement, 'appLoaded:', appLoaded);
+  
+  return (
+    <div className="mfe-container">
+      <div className="mfe-header">
+        <h2>Invoice Management</h2>
+        <p>AngularJS micro-frontend loaded via Module Federation Bridge</p>
+      </div>
+      <div className="mfe-content">
+        {!containerElement && !appLoaded ? (
+          <div className="mfe-loading" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '40px',
+            textAlign: 'center'
+          }}>
+            <div className="loading-spinner" style={{
+              width: '40px',
+              height: '40px',
+              border: '4px solid #f3f3f3',
+              borderTop: '4px solid #007bff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              marginBottom: '20px'
+            }}></div>
+            <p>Initializing Invoice Management...</p>
+            <style>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
           </div>
-        );
-      }
-
-  return Component ? <Component /> : <div>No component loaded</div>;
+        ) : null}
+        <div ref={setContainerRef} style={{ minHeight: '600px' }} />
+      </div>
+    </div>
+  );
 };
 
 const App3Component = () => {
