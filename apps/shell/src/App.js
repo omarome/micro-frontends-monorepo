@@ -146,8 +146,8 @@ const LegacyApp = () => {
         console.log('Loading Legacy module...');
         
         // Load the Module Federation remote
-        console.log('Loading legacyApp/App...');
-        const module = await import('legacyApp/App');
+        console.log('Loading invoice/App...');
+        const module = await import('invoice/App');
         console.log('Module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
@@ -325,7 +325,7 @@ function AnimatedRoutes() {
                   }
                 />
             <Route
-              path="/legacy"
+              path="/invoice"
               element={<LegacyApp />}
             />
             <Route
