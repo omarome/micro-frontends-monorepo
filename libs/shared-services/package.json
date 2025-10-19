@@ -1,0 +1,22 @@
+{
+  "name": "@paybridge/shared-services",
+  "version": "1.0.0",
+  "description": "Shared services library for PayBridge micro-frontends",
+  "main": "src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./invoice": "./src/invoice.service.js"
+  },
+  "scripts": {
+    "build": "echo 'No build step needed for this library'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "micro-frontend",
+    "shared-services",
+    "paybridge"
+  ],
+  "author": "PayBridge Team",
+  "license": "MIT"
+}

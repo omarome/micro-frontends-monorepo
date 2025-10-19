@@ -267,9 +267,16 @@ const LegacyApp = () => {
   
   return (
     <div className="mfe-container">
-      <div className="mfe-header">
-        <h2>Invoice Management</h2>
-        <p>AngularJS micro-frontend loaded via Module Federation Bridge</p>
+      <div className="mfe-header" style={{
+        textAlign: 'center',
+        marginBottom: '20px',
+        padding: '20px',
+        backgroundColor: '#f8f9fa',
+        borderRadius: '8px',
+        border: '1px solid #e9ecef'
+      }}>
+        <h2 style={{ color: '#007bff', marginBottom: '10px', fontSize: '1.8em' }}>Invoice Management</h2>
+        <p style={{ color: '#6c757d', fontSize: '1.1em', margin: '0' }}>AngularJS micro-frontend loaded via Module Federation Bridge</p>
       </div>
       <div className="mfe-content">
         {!containerElement && !appLoaded ? (

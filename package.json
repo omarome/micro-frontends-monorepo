@@ -11,7 +11,8 @@
     "build:shell": "cd apps/shell && pnpm build",
     "build:astrobyte": "cd apps/astrobyte && pnpm build",
     "build:legacy": "cd apps/legacy_app && pnpm build",
-    "install:all": "pnpm install && cd apps/shell && pnpm install && cd ../astrobyte && pnpm install && cd ../legacy_app && pnpm install"
+    "install:all": "pnpm install && cd apps/shell && pnpm install && cd ../astrobyte && pnpm install && cd ../legacy_app && pnpm install",
+    "build:shared-services": "cd libs/shared-services && pnpm build"
   },
   "keywords": [
     "micro-frontends",
