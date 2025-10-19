@@ -6,8 +6,11 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  width: 1200px;
   max-width: 1200px;
+  min-width: 1200px;
   margin: 20px auto;
+  box-sizing: border-box;
 }
 
 .invoice-title {
@@ -26,18 +29,42 @@
   background: #f8f9fa;
   border-radius: 8px;
   flex-wrap: wrap;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.filters:hover {
+  background: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.6s ease-out;
 }
+
+.filter-group:hover {
+  transform: translateY(-1px);
+}
+
+.filter-group:nth-child(1) { animation-delay: 0.1s; }
+.filter-group:nth-child(2) { animation-delay: 0.2s; }
 
 .filter-group label {
   font-weight: 600;
   color: #495057;
   font-size: 0.9rem;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.7s ease-out;
+}
+
+.filter-group:hover label {
+  color: #2196f3;
+  transform: translateX(3px);
 }
 
 .filter-group select,
@@ -48,6 +75,62 @@
   font-size: 0.9rem;
   color: #2c3e50;
   background: white;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.8s ease-out;
+  position: relative;
+}
+
+.filter-group select:hover,
+.filter-group input:hover {
+  border-color: #2196f3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  transform: translateY(-1px);
+  background: #f8f9ff;
+}
+
+.filter-group select:active,
+.filter-group input:active {
+  transform: translateY(0);
+  transition: all 0.1s ease-in-out;
+}
+
+/* Special animations for active filters */
+.filter-group select:not([value=""]):not([value="all"]),
+.filter-group input:not([value=""]) {
+  border-color: #4caf50;
+  background: #f1f8e9;
+  animation: pulse 0.5s ease-out;
+}
+
+.filter-group select:not([value=""]):not([value="all"]):hover,
+.filter-group input:not([value=""]):hover {
+  border-color: #4caf50;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Loading state for filters */
+.filter-group.loading select,
+.filter-group.loading input {
+  opacity: 0.6;
+  pointer-events: none;
+  animation: pulse 1s infinite;
+}
+
+/* Success state for filters */
+.filter-group.success select,
+.filter-group.success input {
+  border-color: #4caf50;
+  background: #f1f8e9;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .invoice-table {
@@ -58,6 +141,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  table-layout: fixed;
 }
 
 .invoice-table th {
@@ -68,6 +152,13 @@
   font-weight: 600;
 }
 
+.invoice-table th:nth-child(1) { width: 15%; } /* Invoice # */
+.invoice-table th:nth-child(2) { width: 25%; } /* Client */
+.invoice-table th:nth-child(3) { width: 15%; } /* Amount */
+.invoice-table th:nth-child(4) { width: 15%; } /* Status */
+.invoice-table th:nth-child(5) { width: 15%; } /* Due Date */
+.invoice-table th:nth-child(6) { width: 15%; } /* Actions */
+
 .invoice-table td {
   padding: 12px;
   border-bottom: 1px solid #dee2e6;
@@ -75,13 +166,30 @@
   background: white;
 }
 
+.invoice-table tbody tr {
+  transition: all 0.3s ease-in-out;
+}
+
 .invoice-table tbody tr:hover {
   background: #f8f9fa;
   cursor: pointer;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .invoice-table tbody tr:hover td {
   color: #2c3e50;
+}
+
+.invoice-table tbody tr.selected {
+  background: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.invoice-table tbody tr.selected:hover {
+  background: #bbdefb;
+  transform: translateY(-1px);
 }
 
 .badge {
@@ -118,6 +226,15 @@
   padding: 25px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   margin-top: 20px;
+  animation: slideInUp 0.4s ease-out;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.invoice-details:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .details-header {
@@ -143,6 +260,12 @@
 
 .detail-item {
   margin-bottom: 15px;
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.detail-item:hover {
+  transform: translateX(5px);
 }
 
 .detail-label {
@@ -179,9 +302,21 @@
   background: white;
 }
 
+.items-table tbody tr {
+  transition: all 0.3s ease-in-out;
+  animation: fadeIn 0.8s ease-out;
+}
+
 .items-table tbody tr:hover {
   background: #f8f9fa;
+  transform: translateX(3px);
 }
+
+.items-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.items-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+.items-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+.items-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+.items-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
 
 .error {
   background: #f8d7da;
@@ -202,7 +337,112 @@
   background-color: #fff0f3 !important;
 }
 
+/* Animation keyframes */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Button animations */
+.shared-btn {
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.shared-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.shared-btn:active {
+  transform: translateY(0);
+  transition: all 0.1s ease-in-out;
+}
+
+/* Badge animations */
+.badge {
+  transition: all 0.3s ease-in-out;
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+/* Loading animation */
+.loading {
+  animation: pulse 2s infinite;
+}
+
+/* Error animation */
+.error {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Filter results animation */
+.invoice-table tbody {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.invoice-table tbody tr {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.invoice-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+.invoice-table tbody tr:nth-child(2) { animation-delay: 0.15s; }
+.invoice-table tbody tr:nth-child(3) { animation-delay: 0.2s; }
+.invoice-table tbody tr:nth-child(4) { animation-delay: 0.25s; }
+.invoice-table tbody tr:nth-child(5) { animation-delay: 0.3s; }
+.invoice-table tbody tr:nth-child(6) { animation-delay: 0.35s; }
+.invoice-table tbody tr:nth-child(7) { animation-delay: 0.4s; }
+.invoice-table tbody tr:nth-child(8) { animation-delay: 0.45s; }
+.invoice-table tbody tr:nth-child(9) { animation-delay: 0.5s; }
+.invoice-table tbody tr:nth-child(10) { animation-delay: 0.55s; }
+
+@media (max-width: 1300px) {
+  .invoice-container {
+    width: 95%;
+    max-width: 95%;
+    min-width: 95%;
+  }
+}
+
 @media (max-width: 768px) {
+  .invoice-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 100%;
+    margin: 10px;
+    padding: 15px;
+  }
+  
   .details-grid {
     grid-template-columns: 1fr;
   }
@@ -219,4 +459,11 @@
   .invoice-table td {
     padding: 8px 6px;
   }
+  
+  .invoice-table th:nth-child(1) { width: 20%; }
+  .invoice-table th:nth-child(2) { width: 30%; }
+  .invoice-table th:nth-child(3) { width: 15%; }
+  .invoice-table th:nth-child(4) { width: 15%; }
+  .invoice-table th:nth-child(5) { width: 10%; }
+  .invoice-table th:nth-child(6) { width: 10%; }
 }
