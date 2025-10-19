@@ -23,11 +23,11 @@ const NavBar = () => (
       </NavLink>
       
       <NavLink 
-        to="/legacy" 
+        to="/invoice" 
         className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
       >
         <img src={AngularIcon} alt="AngularJS" className="link-icon" />
-        <span className="link-text">Legacy App</span>
+        <span className="link-text">Invoice MFE</span>
       </NavLink>
       
       <NavLink 
