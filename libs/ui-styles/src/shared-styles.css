@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import invoice-specific styles */
+@import './invoice-styles.css';
+
 /* Smooth fade transition for tab content */
 .tab-content-fade {
   opacity: 0;
@@ -90,6 +93,7 @@ h1 {
 .shared-btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
 
 @media (prefers-color-scheme: light) {
   :root {

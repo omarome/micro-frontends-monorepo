@@ -1,12 +1,16 @@
+/* Invoice Management Styles */
 .invoice-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #2c3e50;
+  background-color: #f9fbfd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
-.astrobyte-title {
+.invoice-title {
   color: #2c3e50;
   text-align: center;
   margin-bottom: 30px;
@@ -44,32 +48,6 @@
   font-size: 0.9rem;
   color: #2c3e50;
   background: white;
-}
-
-.error {
-  background: #f8d7da;
-  color: #721c24;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-  border: 1px solid #f5c6cb;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #6c757d;
-}
-
-/* Ensure all text is visible */
-.invoice-container * {
-  color: inherit;
-}
-
-.invoice-container p,
-.invoice-container div,
-.invoice-container span {
-  color: #2c3e50;
 }
 
 .invoice-table {
@@ -132,21 +110,6 @@
 .badge-secondary {
   background: #e2e3e5;
   color: #383d41;
-}
-
-.shared-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-
-.shared-btn:hover {
-  background: #0056b3;
 }
 
 .invoice-details {
@@ -218,6 +181,25 @@
 
 .items-table tbody tr:hover {
   background: #f8f9fa;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c6cb;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #6c757d;
+}
+
+.overdue-row {
+  background-color: #fff0f3 !important;
 }
 
 @media (max-width: 768px) {

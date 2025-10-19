@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.js';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
+import '@ui-styles/invoice-styles.css';
 import './App.css';
 
 // Direct Module Federation loading without React.lazy
@@ -267,16 +268,22 @@ const LegacyApp = () => {
   
   return (
     <div className="mfe-container">
-      <div className="mfe-header" style={{
-        textAlign: 'center',
-        marginBottom: '20px',
-        padding: '20px',
+      <div className="mfe-header text-center mb-5 p-5 bg-gray-50 rounded-lg border border-gray-200" style={{
         backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-        border: '1px solid #e9ecef'
+        border: '2px solid #e9ecef'
       }}>
-        <h2 style={{ color: '#007bff', marginBottom: '10px', fontSize: '1.8em' }}>Invoice Management</h2>
-        <p style={{ color: '#6c757d', fontSize: '1.1em', margin: '0' }}>AngularJS micro-frontend loaded via Module Federation Bridge</p>
+        <h2 className="text-blue-700 mb-2 text-3xl font-bold" style={{
+          color: '#1d4ed8',
+          fontSize: '2rem',
+          fontWeight: '700',
+          marginBottom: '0.5rem'
+        }}>Invoice Management</h2>
+        <p className="text-gray-700 text-lg m-0 font-medium" style={{
+          color: '#374151',
+          fontSize: '1.125rem',
+          fontWeight: '500',
+          margin: '0'
+        }}>AngularJS micro-frontend loaded via Module Federation Bridge</p>
       </div>
       <div className="mfe-content">
         {!containerElement && !appLoaded ? (
