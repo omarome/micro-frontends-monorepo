@@ -1,11 +1,11 @@
 <div class="invoice-container">
-  <h1 class="astrobyte-title">📄 Invoice Management</h1>
+  <h1 class="invoice-title">📄 Invoice Management</h1>
   
   <!-- Filters -->
   <div class="filters">
     <div class="filter-group">
       <label for="statusFilter">Status Filter:</label>
-      <select id="statusFilter" ng-model="statusFilter" ng-change="loadInvoices()">
+      <select id="statusFilter" ng-model="vm.statusFilter" ng-change="vm.loadInvoices()">
         <option value="all">All Invoices</option>
         <option value="paid">Paid</option>
         <option value="unpaid">Unpaid</option>
@@ -14,20 +14,52 @@
     </div>
     <div class="filter-group">
       <label for="searchTerm">Search:</label>
-      <input id="searchTerm" type="text" ng-model="searchTerm" placeholder="Client name or invoice number" />
+      <input id="searchTerm" type="text" ng-model="vm.searchTerm" placeholder="Client name or invoice number" />
     </div>
   </div>
 
   <!-- Error Message -->
-  <div ng-if="error" class="error">{{ error }}</div>
+  <div ng-if="vm.error" class="error">{{ vm.error }}</div>
 
   <!-- Loading State -->
-  <div ng-if="loading" class="loading">
+  <div ng-if="vm.loading" class="loading">
     <p>Loading invoices...</p>
   </div>
 
+  <!-- Statistics -->
+  <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats" style="
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  ">
+    <div>
+      <div style="font-size: 1.5em; font-weight: bold; color: #2196f3;">{{ vm.stats.total }}</div>
+      <div style="font-size: 0.9em; color: #666;">Total Invoices</div>
+    </div>
+    <div>
+      <div style="font-size: 1.5em; font-weight: bold; color: #4caf50;">{{ vm.stats.paid }}</div>
+      <div style="font-size: 0.9em; color: #666;">Paid</div>
+    </div>
+    <div>
+      <div style="font-size: 1.5em; font-weight: bold; color: #ff9800;">{{ vm.stats.unpaid }}</div>
+      <div style="font-size: 0.9em; color: #666;">Unpaid</div>
+    </div>
+    <div>
+      <div style="font-size: 1.5em; font-weight: bold; color: #f44336;">{{ vm.stats.overdue }}</div>
+      <div style="font-size: 0.9em; color: #666;">Overdue</div>
+    </div>
+    <div>
+      <div style="font-size: 1.5em; font-weight: bold; color: #9c27b0;">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
+      <div style="font-size: 0.9em; color: #666;">Total Amount</div>
+    </div>
+  </div>
+
   <!-- Invoice Table -->
-  <table ng-if="!loading && !error" class="invoice-table">
+  <table ng-if="!vm.loading && !vm.error" class="invoice-table">
     <thead>
       <tr>
         <th>Invoice #</th>
@@ -39,20 +71,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="invoice in filteredInvoices() track by invoice.id" ng-click="selectInvoice(invoice)">
+      <tr ng-repeat="invoice in vm.filteredInvoices() track by invoice.id" ng-click="vm.selectInvoice(invoice)">
         <td>{{ invoice.invoiceNumber }}</td>
         <td>{{ invoice.clientName }}</td>
-        <td>{{ formatCurrency(invoice.amount) }}</td>
+        <td>{{ vm.formatCurrency(invoice.amount) }}</td>
         <td>
-          <span class="badge" ng-class="getStatusClass(invoice.status)">
+          <span class="badge" ng-class="vm.getStatusClass(invoice.status)">
             {{ invoice.status }}
           </span>
         </td>
-        <td>{{ formatDate(invoice.dueDate) }}</td>
+        <td>{{ vm.formatDate(invoice.dueDate) }}</td>
         <td>
           <button ng-if="invoice.status !== 'paid'"
                   class="shared-btn"
-                  ng-click="markAsPaid(invoice); $event.stopPropagation()"
+                  ng-click="vm.markAsPaid(invoice); $event.stopPropagation()"
                   style="padding: 6px 12px; font-size: 12px;">
             Mark Paid
           </button>
@@ -62,12 +94,12 @@
   </table>
 
   <!-- Invoice Details -->
-  <div ng-if="selectedInvoice" class="invoice-details">
+  <div ng-if="vm.selectedInvoice" class="invoice-details">
     <div class="details-header">
-      <h3>Invoice Details - {{ selectedInvoice.invoiceNumber }}</h3>
-      <button ng-if="selectedInvoice.status !== 'paid'"
+      <h3>Invoice Details - {{ vm.selectedInvoice.invoiceNumber }}</h3>
+      <button ng-if="vm.selectedInvoice.status !== 'paid'"
               class="shared-btn"
-              ng-click="markAsPaid(selectedInvoice)">
+              ng-click="vm.markAsPaid(vm.selectedInvoice)">
         Mark as Paid
       </button>
     </div>
@@ -76,34 +108,34 @@
       <div>
         <div class="detail-item">
           <div class="detail-label">Client Name</div>
-          <div class="detail-value">{{ selectedInvoice.clientName }}</div>
+          <div class="detail-value">{{ vm.selectedInvoice.clientName }}</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Client Email</div>
-          <div class="detail-value">{{ selectedInvoice.clientEmail }}</div>
+          <div class="detail-value">{{ vm.selectedInvoice.clientEmail }}</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Issue Date</div>
-          <div class="detail-value">{{ formatDate(selectedInvoice.issueDate) }}</div>
+          <div class="detail-value">{{ vm.formatDate(vm.selectedInvoice.issueDate) }}</div>
         </div>
       </div>
       <div>
         <div class="detail-item">
           <div class="detail-label">Due Date</div>
-          <div class="detail-value">{{ formatDate(selectedInvoice.dueDate) }}</div>
+          <div class="detail-value">{{ vm.formatDate(vm.selectedInvoice.dueDate) }}</div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Status</div>
           <div class="detail-value">
-            <span class="badge" ng-class="getStatusClass(selectedInvoice.status)">
-              {{ selectedInvoice.status }}
+            <span class="badge" ng-class="vm.getStatusClass(vm.selectedInvoice.status)">
+              {{ vm.selectedInvoice.status }}
             </span>
           </div>
         </div>
         <div class="detail-item">
           <div class="detail-label">Total Amount</div>
           <div class="detail-value" style="font-size: 18px; font-weight: 600;">
-            {{ formatCurrency(selectedInvoice.amount) }}
+            {{ vm.formatCurrency(vm.selectedInvoice.amount) }}
           </div>
         </div>
       </div>
@@ -121,11 +153,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="item in selectedInvoice.items track by $index">
+        <tr ng-repeat="item in vm.selectedInvoice.items track by $index">
           <td>{{ item.description }}</td>
           <td>{{ item.quantity }}</td>
-          <td>{{ formatCurrency(item.unitPrice) }}</td>
-          <td>{{ formatCurrency(item.total) }}</td>
+          <td>{{ vm.formatCurrency(item.unitPrice) }}</td>
+          <td>{{ vm.formatCurrency(item.total) }}</td>
         </tr>
       </tbody>
     </table>

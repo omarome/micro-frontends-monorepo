@@ -1,8 +1,8 @@
 import angular from 'angular';
 
-// Invoice Controller
+// Invoice Controller - Uses Model Service
 angular.module('invoiceComponent')
-  .controller('InvoiceController', function($http) {
+  .controller('InvoiceController', function(InvoiceModel) {
     const vm = this;
     
     // Initialize data
@@ -12,41 +12,41 @@ angular.module('invoiceComponent')
     vm.searchTerm = '';
     vm.loading = false;
     vm.error = null;
+    vm.stats = null;
 
-    // API base URL
-    const API_BASE = 'http://localhost:4000/api';
-
-    // Load invoices from API
+    // Load invoices using model service
     vm.loadInvoices = function() {
       vm.loading = true;
       vm.error = null;
       
-      let url = `${API_BASE}/invoices`;
-      if (vm.statusFilter && vm.statusFilter !== 'all') {
-        url += `?status=${vm.statusFilter}`;
-      }
-
-      $http.get(url)
-        .then(function(response) {
-          vm.invoices = response.data;
+      InvoiceModel.fetchInvoices(vm.statusFilter)
+        .then(function(invoices) {
+          vm.invoices = invoices;
+          vm.stats = InvoiceModel.getInvoiceStats(invoices);
           vm.loading = false;
         })
         .catch(function(error) {
-          vm.error = 'Failed to load invoices: ' + (error.data?.error || error.statusText);
+          vm.error = error.message;
           vm.loading = false;
           console.error('Error loading invoices:', error);
         });
     };
 
-    // Mark invoice as paid
+    // Mark invoice as paid using model service
     vm.markAsPaid = function(invoice) {
       if (confirm(`Mark invoice ${invoice.invoiceNumber} as paid?`)) {
-        $http.post(`${API_BASE}/invoices/${invoice.id}/paid`)
-          .then(function(response) {
+        InvoiceModel.markInvoiceAsPaid(invoice)
+          .then(function(updatedInvoice) {
             // Update local invoice
-            invoice.status = 'paid';
-            invoice.paidDate = response.data.invoice.paidDate;
-            vm.selectedInvoice = invoice;
+            const index = vm.invoices.findIndex(function(inv) {
+              return inv.id === invoice.id;
+            });
+            if (index !== -1) {
+              vm.invoices[index] = updatedInvoice;
+            }
+            
+            vm.selectedInvoice = updatedInvoice;
+            vm.stats = InvoiceModel.getInvoiceStats(vm.invoices);
             
             // Emit event for other MFEs
             if (window.eventBus) {
@@ -60,7 +60,7 @@ angular.module('invoiceComponent')
             alert('Invoice marked as paid successfully!');
           })
           .catch(function(error) {
-            alert('Error: ' + (error.data?.error || error.statusText));
+            alert('Error: ' + error.message);
             console.error('Error marking invoice as paid:', error);
           });
       }
@@ -71,50 +71,16 @@ angular.module('invoiceComponent')
       vm.selectedInvoice = invoice;
     };
 
-    // Filter invoices by search term
+    // Filter invoices using model service
     vm.filteredInvoices = function() {
-      if (!vm.searchTerm) {
-        return vm.invoices;
-      }
-      return vm.invoices.filter(function(invoice) {
-        return invoice.clientName.toLowerCase().includes(vm.searchTerm.toLowerCase()) ||
-               invoice.invoiceNumber.toLowerCase().includes(vm.searchTerm.toLowerCase());
-      });
+      return InvoiceModel.filterInvoices(vm.invoices, vm.searchTerm);
     };
 
-    // Format currency
-    vm.formatCurrency = function(amount) {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      }).format(amount);
-    };
-
-    // Format date
-    vm.formatDate = function(dateString) {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    };
-
-    // Get status badge class
-    vm.getStatusClass = function(status) {
-      switch(status) {
-        case 'paid': return 'badge-success';
-        case 'unpaid': return 'badge-warning';
-        case 'overdue': return 'badge-danger';
-        default: return 'badge-secondary';
-      }
-    };
+    // Delegate formatting methods to model
+    vm.formatCurrency = InvoiceModel.formatCurrency;
+    vm.formatDate = InvoiceModel.formatDate;
+    vm.getStatusClass = InvoiceModel.getStatusClass;
 
     // Load invoices on controller init
     vm.loadInvoices();
-
-    // Watch for filter changes
-    vm.$watch = function() {
-      // Note: $watch is not available in controllerAs pattern
-      // We'll handle this differently
-    };
   });

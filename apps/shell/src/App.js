@@ -138,67 +138,18 @@ const AstrobyteApp = () => {
 const LegacyApp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [containerElement, setContainerElement] = useState(null);
   const [appLoaded, setAppLoaded] = useState(false);
-  const bridgeService = useRef(null);
-
-  const setContainerRef = (element) => {
-    console.log('setContainerRef called with:', element);
-    console.log('Element type:', typeof element);
-    console.log('Element is null?', element === null);
-    console.log('Element is HTMLElement?', element instanceof HTMLElement);
-    setContainerElement(element);
-  };
 
   useEffect(() => {
-    if (!containerElement) {
-      console.log('Container element not ready yet');
-      return;
-    }
-
-    const loadInvoiceApp = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        console.log('Loading Invoice App...');
-
-        // Import the ReactBridgeService
-        const { default: ReactBridgeService } = await import('./services/ReactBridgeService.js');
-        bridgeService.current = ReactBridgeService;
-
-        console.log('Container ready, loading Invoice App...');
-        console.log('Container element:', containerElement);
-        console.log('Container type:', typeof containerElement);
-
-        // Use the bridge service to load the remote component
-        await bridgeService.current.loadRemoteComponent(
-          'invoice',
-          './bootstrap',
-          containerElement,
-          {},
-          'angular'
-        );
-
-        setLoading(false);
-        setAppLoaded(true);
-      } catch (err) {
-        console.error('Failed to load Invoice App:', err);
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    // Start loading when container is available
-    loadInvoiceApp();
-
-    // Cleanup on unmount
-    return () => {
-      if (bridgeService.current && containerElement) {
-        bridgeService.current.unmountComponent(containerElement);
-      }
-    };
-  }, [containerElement]);
+    // Simple iframe approach for loading the MVC invoice app
+    setLoading(true);
+    
+    // Simulate loading time
+    setTimeout(() => {
+      setLoading(false);
+      setAppLoaded(true);
+    }, 1000);
+  }, []);
 
   if (loading) {
     return (
@@ -264,7 +215,7 @@ const LegacyApp = () => {
     );
   }
 
-  console.log('LegacyApp rendering, containerElement:', containerElement, 'appLoaded:', appLoaded);
+  console.log('LegacyApp rendering, loading:', loading, 'appLoaded:', appLoaded);
   
   return (
     <div className="mfe-container">
@@ -286,7 +237,7 @@ const LegacyApp = () => {
         }}>AngularJS micro-frontend loaded via Module Federation Bridge</p>
       </div>
       <div className="mfe-content">
-        {!containerElement && !appLoaded ? (
+        {loading ? (
           <div className="mfe-loading" style={{
             display: 'flex',
             flexDirection: 'column',
@@ -304,7 +255,7 @@ const LegacyApp = () => {
               animation: 'spin 1s linear infinite',
               marginBottom: '20px'
             }}></div>
-            <p>Initializing Invoice Management...</p>
+            <p>Loading Invoice Management (MVC)...</p>
             <style>{`
               @keyframes spin {
                 0% { transform: rotate(0deg); }
@@ -312,8 +263,20 @@ const LegacyApp = () => {
               }
             `}</style>
           </div>
-        ) : null}
-        <div ref={setContainerRef} style={{ minHeight: '600px' }} />
+        ) : (
+          <iframe
+            src="http://localhost:3001"
+            width="100%"
+            height="800px"
+            frameBorder="0"
+            style={{
+              border: 'none',
+              borderRadius: '8px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+            }}
+            title="Invoice Management - MVC Implementation"
+          />
+        )}
       </div>
     </div>
   );
