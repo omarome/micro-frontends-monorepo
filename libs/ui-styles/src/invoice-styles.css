@@ -1,24 +1,52 @@
 /* Invoice Management Styles */
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
 .invoice-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
-  background-color: #f9fbfd;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  width: 1200px;
-  max-width: 1200px;
-  min-width: 1200px;
-  margin: 20px auto;
-  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  color: #2c3e50 !important;
+  background-color: #f9fbfd !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .invoice-title {
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 2.5rem;
-  font-weight: 300;
+  color: #2c3e50 !important;
+  text-align: center !important;
+  margin-bottom: 30px !important;
+  font-size: 2.5rem !important;
+  font-weight: 300 !important;
 }
 
 .filters {
@@ -108,6 +136,76 @@
   border-color: #4caf50;
   background: #f1f8e9;
   animation: pulse 0.5s ease-out;
+}
+
+/* Invoice Statistics */
+.invoice-stats {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  padding: 25px !important;
+  border-radius: 12px !important;
+  margin-bottom: 30px !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  text-align: center !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease-in-out !important;
+  animation: slideInDown 0.6s ease-out !important;
+}
+
+.invoice-stats:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.stat-item {
+  transition: all 0.3s ease-in-out;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.1s; }
+.stat-item:nth-child(2) { animation-delay: 0.2s; }
+.stat-item:nth-child(3) { animation-delay: 0.3s; }
+.stat-item:nth-child(4) { animation-delay: 0.4s; }
+.stat-item:nth-child(5) { animation-delay: 0.5s; }
+
+.stat-item:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.stat-value.stat-total {
+  color: #ffffff;
+}
+
+.stat-value.stat-paid {
+  color: #4ade80;
+}
+
+.stat-value.stat-unpaid {
+  color: #fbbf24;
+}
+
+.stat-value.stat-overdue {
+  color: #f87171;
+}
+
+.stat-value.stat-amount {
+  color: #c084fc;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .filter-group select:not([value=""]):not([value="all"]):hover,
@@ -280,6 +378,26 @@
   font-size: 1rem;
 }
 
+.detail-value.detail-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2196f3;
+  background: linear-gradient(45deg, #2196f3, #21cbf3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.items-title {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
 .items-table {
   width: 100%;
   border-collapse: collapse;
@@ -387,6 +505,11 @@
   transition: all 0.1s ease-in-out;
 }
 
+.shared-btn.btn-small {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+}
+
 /* Badge animations */
 .badge {
   transition: all 0.3s ease-in-out;
@@ -428,9 +551,9 @@
 
 @media (max-width: 1300px) {
   .invoice-container {
-    width: 95%;
-    max-width: 95%;
-    min-width: 95%;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
   }
 }
 

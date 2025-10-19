@@ -43,6 +43,17 @@ body {
   gap: 20px;
 }
 
+/* Micro-Frontend Container */
+.mfe-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+}
+
 /* Tab Content Transitions */
 .tab-content-fade-enter {
   opacity: 0;

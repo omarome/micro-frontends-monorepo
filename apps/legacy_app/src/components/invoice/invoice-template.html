@@ -27,34 +27,26 @@
   </div>
 
   <!-- Statistics -->
-  <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats" style="
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-  ">
-    <div>
-      <div style="font-size: 1.5em; font-weight: bold; color: #2196f3;">{{ vm.stats.total }}</div>
-      <div style="font-size: 0.9em; color: #666;">Total Invoices</div>
+  <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats">
+    <div class="stat-item">
+      <div class="stat-value stat-total">{{ vm.stats.total }}</div>
+      <div class="stat-label">Total Invoices</div>
     </div>
-    <div>
-      <div style="font-size: 1.5em; font-weight: bold; color: #4caf50;">{{ vm.stats.paid }}</div>
-      <div style="font-size: 0.9em; color: #666;">Paid</div>
+    <div class="stat-item">
+      <div class="stat-value stat-paid">{{ vm.stats.paid }}</div>
+      <div class="stat-label">Paid</div>
     </div>
-    <div>
-      <div style="font-size: 1.5em; font-weight: bold; color: #ff9800;">{{ vm.stats.unpaid }}</div>
-      <div style="font-size: 0.9em; color: #666;">Unpaid</div>
+    <div class="stat-item">
+      <div class="stat-value stat-unpaid">{{ vm.stats.unpaid }}</div>
+      <div class="stat-label">Unpaid</div>
     </div>
-    <div>
-      <div style="font-size: 1.5em; font-weight: bold; color: #f44336;">{{ vm.stats.overdue }}</div>
-      <div style="font-size: 0.9em; color: #666;">Overdue</div>
+    <div class="stat-item">
+      <div class="stat-value stat-overdue">{{ vm.stats.overdue }}</div>
+      <div class="stat-label">Overdue</div>
     </div>
-    <div>
-      <div style="font-size: 1.5em; font-weight: bold; color: #9c27b0;">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
-      <div style="font-size: 0.9em; color: #666;">Total Amount</div>
+    <div class="stat-item">
+      <div class="stat-value stat-amount">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
+      <div class="stat-label">Total Amount</div>
     </div>
   </div>
 
@@ -83,9 +75,8 @@
         <td>{{ vm.formatDate(invoice.dueDate) }}</td>
         <td>
           <button ng-if="invoice.status !== 'paid'"
-                  class="shared-btn"
-                  ng-click="vm.markAsPaid(invoice); $event.stopPropagation()"
-                  style="padding: 6px 12px; font-size: 12px;">
+                  class="shared-btn btn-small"
+                  ng-click="vm.markAsPaid(invoice); $event.stopPropagation()">
             Mark Paid
           </button>
         </td>
@@ -134,7 +125,7 @@
         </div>
         <div class="detail-item">
           <div class="detail-label">Total Amount</div>
-          <div class="detail-value" style="font-size: 18px; font-weight: 600;">
+          <div class="detail-value detail-amount">
             {{ vm.formatCurrency(vm.selectedInvoice.amount) }}
           </div>
         </div>
@@ -142,7 +133,7 @@
     </div>
 
     <!-- Invoice Items -->
-    <h4 style="margin-top: 20px; margin-bottom: 10px;">Invoice Items</h4>
+    <h4 class="items-title">Invoice Items</h4>
     <table class="items-table">
       <thead>
         <tr>
