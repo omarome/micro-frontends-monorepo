@@ -1,11 +1,11 @@
 import angular from 'angular';
 import '../../../libs/ui-styles/src/shared-styles.css';
-import { InvoiceService } from '../../../libs/shared-services/src/index.js';
+import { createInvoiceService } from '../../../libs/shared-services/src/index.js';
 
 angular.module('legacyApp', [])
   .controller('InvoiceController', function($scope, $http) {
     // Initialize the shared service
-    const invoiceService = new InvoiceService();
+    const invoiceService = createInvoiceService();
     
     // Initialize data
     $scope.invoices = [];

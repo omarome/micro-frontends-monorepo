@@ -1,8 +1,8 @@
 import angular from 'angular';
-import { InvoiceService } from '../../../../../libs/shared-services/src/index.js';
+import { createInvoiceService } from '../../../../../libs/shared-services/src/index.js';
 
 // Initialize the shared InvoiceService
-const invoiceService = new InvoiceService();
+const invoiceService = createInvoiceService();
 
 // Invoice Model - Functions-based MVC implementation
 angular.module('invoiceComponent')
