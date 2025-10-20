@@ -9,9 +9,8 @@ body {
 
 /* Main container for invoice app */
 .legacy-app-container {
-  width: 100vw;
-  min-width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
@@ -45,10 +44,10 @@ body {
 }
 
 .invoice-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
   display: flex;
   flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
 }
 
 .invoice-title {
