@@ -154,30 +154,9 @@ const LegacyApp = () => {
   if (loading) {
     return (
       <div className="mfe-container">
-        <div className="mfe-loading" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '40px',
-          textAlign: 'center'
-        }}>
-          <div className="loading-spinner" style={{
-            width: '40px',
-            height: '40px',
-            border: '4px solid #f3f3f3',
-            borderTop: '4px solid #007bff',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            marginBottom: '20px'
-          }}></div>
+        <div className="mfe-loading">
+          <div className="loading-spinner"></div>
           <p>Loading Invoice Management...</p>
-          <style>{`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}</style>
         </div>
       </div>
     );
@@ -186,28 +165,10 @@ const LegacyApp = () => {
   if (error) {
     return (
       <div className="mfe-container">
-        <div className="mfe-error" style={{
-          padding: '20px',
-          textAlign: 'center',
-          backgroundColor: '#f8d7da',
-          border: '1px solid #f5c6cb',
-          borderRadius: '8px',
-          color: '#721c24'
-        }}>
+        <div className="mfe-error">
           <h3>Failed to load Invoice App</h3>
           <p>Error: {error}</p>
-          <button 
-            onClick={() => window.location.reload()}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              marginTop: '10px'
-            }}
-          >
+          <button onClick={() => window.location.reload()}>
             Retry
           </button>
         </div>
@@ -219,61 +180,17 @@ const LegacyApp = () => {
   
   return (
     <div className="mfe-container">
-      <div className="mfe-header text-center mb-5 p-5 bg-gray-50 rounded-lg border border-gray-200" style={{
-        backgroundColor: '#f8f9fa',
-        border: '2px solid #e9ecef'
-      }}>
-        <h2 className="text-blue-700 mb-2 text-3xl font-bold" style={{
-          color: '#1d4ed8',
-          fontSize: '2rem',
-          fontWeight: '700',
-          marginBottom: '0.5rem'
-        }}>Invoice Management</h2>
-        <p className="text-gray-700 text-lg m-0 font-medium" style={{
-          color: '#374151',
-          fontSize: '1.125rem',
-          fontWeight: '500',
-          margin: '0'
-        }}>AngularJS micro-frontend loaded via Module Federation Bridge</p>
-      </div>
       <div className="mfe-content">
         {loading ? (
-          <div className="mfe-loading" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '40px',
-            textAlign: 'center'
-          }}>
-            <div className="loading-spinner" style={{
-              width: '40px',
-              height: '40px',
-              border: '4px solid #f3f3f3',
-              borderTop: '4px solid #007bff',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-              marginBottom: '20px'
-            }}></div>
+          <div className="mfe-loading">
+            <div className="loading-spinner"></div>
             <p>Loading Invoice Management (MVC)...</p>
-            <style>{`
-              @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-              }
-            `}</style>
           </div>
         ) : (
           <iframe
             src="http://localhost:3001"
-            width="100%"
-            height="800px"
+            className="mfe-iframe"
             frameBorder="0"
-            style={{
-              border: 'none',
-              borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-            }}
             title="Invoice Management - MVC Implementation"
           />
         )}

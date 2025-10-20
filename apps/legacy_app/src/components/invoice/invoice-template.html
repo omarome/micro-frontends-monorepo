@@ -1,20 +1,48 @@
-<div class="invoice-container">
+<div class="legacy-app-container">
+  <div class="invoice-container">
   <h1 class="invoice-title">📄 Invoice Management</h1>
   
-  <!-- Filters -->
-  <div class="filters">
-    <div class="filter-group">
-      <label for="statusFilter">Status Filter:</label>
-      <select id="statusFilter" ng-model="vm.statusFilter" ng-change="vm.loadInvoices()">
-        <option value="all">All Invoices</option>
-        <option value="paid">Paid</option>
-        <option value="unpaid">Unpaid</option>
-        <option value="overdue">Overdue</option>
-      </select>
+  <!-- Filters and Stats Row -->
+  <div class="filters-stats-row">
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="statusFilter">Status Filter:</label>
+        <select id="statusFilter" ng-model="vm.statusFilter" ng-change="vm.loadInvoices()">
+          <option value="all">All Invoices</option>
+          <option value="paid">Paid</option>
+          <option value="unpaid">Unpaid</option>
+          <option value="overdue">Overdue</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="searchTerm">Search:</label>
+        <input id="searchTerm" type="text" ng-model="vm.searchTerm" placeholder="Client name or invoice number" />
+      </div>
     </div>
-    <div class="filter-group">
-      <label for="searchTerm">Search:</label>
-      <input id="searchTerm" type="text" ng-model="vm.searchTerm" placeholder="Client name or invoice number" />
+
+    <!-- Statistics -->
+    <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats">
+      <div class="stat-item">
+        <div class="stat-value stat-total">{{ vm.stats.total }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value stat-paid">{{ vm.stats.paid }}</div>
+        <div class="stat-label">Paid</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value stat-unpaid">{{ vm.stats.unpaid }}</div>
+        <div class="stat-label">Unpaid</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value stat-overdue">{{ vm.stats.overdue }}</div>
+        <div class="stat-label">Overdue</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value stat-amount">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
+        <div class="stat-label">Amount</div>
+      </div>
     </div>
   </div>
 
@@ -24,30 +52,6 @@
   <!-- Loading State -->
   <div ng-if="vm.loading" class="loading">
     <p>Loading invoices...</p>
-  </div>
-
-  <!-- Statistics -->
-  <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats">
-    <div class="stat-item">
-      <div class="stat-value stat-total">{{ vm.stats.total }}</div>
-      <div class="stat-label">Total Invoices</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value stat-paid">{{ vm.stats.paid }}</div>
-      <div class="stat-label">Paid</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value stat-unpaid">{{ vm.stats.unpaid }}</div>
-      <div class="stat-label">Unpaid</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value stat-overdue">{{ vm.stats.overdue }}</div>
-      <div class="stat-label">Overdue</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value stat-amount">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
-      <div class="stat-label">Total Amount</div>
-    </div>
   </div>
 
   <!-- Invoice Table -->
@@ -63,7 +67,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="invoice in vm.filteredInvoices() track by invoice.id" ng-click="vm.selectInvoice(invoice)">
+      <tr ng-repeat="invoice in vm.filteredInvoices() track by invoice.id" 
+          ng-click="vm.selectInvoice(invoice)"
+          ng-class="{'selected': vm.selectedInvoice && vm.selectedInvoice.id === invoice.id}">
         <td>{{ invoice.invoiceNumber }}</td>
         <td>{{ invoice.clientName }}</td>
         <td>{{ vm.formatCurrency(invoice.amount) }}</td>
@@ -152,5 +158,6 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </div>
