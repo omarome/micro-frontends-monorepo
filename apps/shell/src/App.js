@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.js';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
+import '@ui-styles/invoice-styles.css';
 import './App.css';
 
 // Direct Module Federation loading without React.lazy
@@ -143,36 +144,39 @@ const LegacyApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Legacy module...');
+        console.log('Loading Legacy App module...');
         
-        // Load the Module Federation remote
-        console.log('Loading invoice/App...');
-        const module = await import('invoice/App');
-        console.log('Module loaded:', module);
+        // Import the Module Federation remote
+        const module = await import('legacy_app/InvoiceComponent');
+        console.log('Legacy App module loaded:', module);
         console.log('Module keys:', Object.keys(module));
-        console.log('Module.default type:', typeof module.default);
+        console.log('Module.default:', module.default);
+        console.log('Module.InvoiceComponent:', module.InvoiceComponent);
         
-        // The module is not a factory function, it's the actual module
+        // Handle the component
         if (module.default && typeof module.default === 'function') {
-          console.log('Found LegacyAngularApp component at module.default');
+          console.log('Found Legacy App component at module.default');
           setComponent(() => module.default);
           setError(null);
-          return;
-        } else if (module.LegacyAngularApp && typeof module.LegacyAngularApp === 'function') {
-          console.log('Found LegacyAngularApp component at module.LegacyAngularApp');
-          setComponent(() => module.LegacyAngularApp);
+        } else if (module.InvoiceComponent && typeof module.InvoiceComponent === 'function') {
+          console.log('Found Legacy App component at module.InvoiceComponent');
+          setComponent(() => module.InvoiceComponent);
           setError(null);
-          return;
+        } else if (module.LegacyAppWrapper && typeof module.LegacyAppWrapper === 'function') {
+          console.log('Found Legacy App component at module.LegacyAppWrapper');
+          setComponent(() => module.LegacyAppWrapper);
+          setError(null);
+        } else if (module.LegacyApp && typeof module.LegacyApp === 'function') {
+          console.log('Found Legacy App component at module.LegacyApp');
+          setComponent(() => module.LegacyApp);
+          setError(null);
         } else {
-          console.log('No valid React component found in module');
+          console.log('No valid component found in module');
           console.log('Available exports:', Object.keys(module));
-          console.log('module.default:', module.default);
-          console.log('module.LegacyAngularApp:', module.LegacyAngularApp);
+          throw new Error('No valid component found in module');
         }
-        
-        throw new Error('No valid React component found in module');
       } catch (err) {
-        console.error('Failed to load Legacy:', err);
+        console.error('Failed to load Legacy App:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -182,26 +186,38 @@ const LegacyApp = () => {
     loadModule();
   }, []);
 
-      if (loading) {
-        return (
-          <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <div className="loading-text">Loading Legacy App...</div>
-          </div>
-        );
-      }
+  if (loading) {
+    return (
+      <div className="mfe-container">
+        <div className="mfe-loading">
+          <div className="loading-spinner"></div>
+          <p>Loading Invoice Management...</p>
+        </div>
+      </div>
+    );
+  }
 
-      if (error) {
-        return (
-          <div className="error-container">
-            <div className="error-icon">⚠️</div>
-            <div className="error-title">Failed to load Legacy App</div>
-            <div className="error-message">Error: {error.message}</div>
-          </div>
-        );
-      }
+  if (error) {
+    return (
+      <div className="mfe-container">
+        <div className="mfe-error">
+          <h3>Failed to load Invoice App</h3>
+          <p>Error: {error.message}</p>
+          <button onClick={() => window.location.reload()}>
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-  return Component ? <Component /> : <div>No component loaded</div>;
+  return (
+    <div className="mfe-container">
+      <div className="mfe-content">
+        {Component ? <Component /> : <div>No component loaded</div>}
+      </div>
+    </div>
+  );
 };
 
 const App3Component = () => {

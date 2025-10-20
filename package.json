@@ -2,6 +2,10 @@
   "name": "micro-frontends-monorepo",
   "version": "1.0.0",
   "description": "A micro-frontend monorepo with Module Federation",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "scripts": {
     "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:astrobyte\" \"pnpm run start:legacy\"",
     "start:shell": "cd apps/shell && pnpm start",
@@ -11,7 +15,8 @@
     "build:shell": "cd apps/shell && pnpm build",
     "build:astrobyte": "cd apps/astrobyte && pnpm build",
     "build:legacy": "cd apps/legacy_app && pnpm build",
-    "install:all": "pnpm install && cd apps/shell && pnpm install && cd ../astrobyte && pnpm install && cd ../legacy_app && pnpm install"
+    "install:all": "pnpm install",
+    "build:shared-services": "cd libs/shared-services && pnpm build"
   },
   "keywords": [
     "micro-frontends",
@@ -23,6 +28,7 @@
   "license": "ISC",
   "dependencies": {
     "angular": "1.8.3",
+    "jquery": "^3.7.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^6.18.0",

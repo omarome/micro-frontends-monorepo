@@ -1,7 +1,6 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import LegacyAngularApp from './ReactWrapper.js';
+import ReactWrapper from './ReactWrapper.js';
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-root.render(<LegacyAngularApp />);
+// Export for Module Federation
+export { default as InvoiceComponent } from './ReactWrapper.js';
+export { default as LegacyApp } from './ReactWrapper.js';
+export default ReactWrapper;

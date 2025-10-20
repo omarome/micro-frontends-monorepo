@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { ModuleFederationPlugin } = require('webpack').container;
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -49,6 +49,10 @@ module.exports = {
         test: /\.css$/, 
         use: ['style-loader', 'css-loader'] 
       },
+      {
+        test: /\.html$/,
+        use: ['html-loader']
+      },
       { 
         test: /\.svg$/, 
         use: ['@svgr/webpack'] 
@@ -56,27 +60,28 @@ module.exports = {
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({ template: './index.html' }),
     new ModuleFederationPlugin({
-      name: 'legacyApp',
+      name: 'legacy_app',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/ReactWrapper.js',
+        './InvoiceComponent': './src/ReactWrapper.js'
       },
       shared: {
-        react: { 
-          singleton: true, 
-          requiredVersion: '^18.2.0',
-          strictVersion: false,
-          eager: false
+        angular: {
+          singleton: true,
+          requiredVersion: '^1.8.3'
         },
-        'react-dom': { 
-          singleton: true, 
-          requiredVersion: '^18.2.0',
-          strictVersion: false,
-          eager: false
+        react: {
+          singleton: true,
+          requiredVersion: '^18.3.1'
+        },
+        'react-dom': {
+          singleton: true,
+          requiredVersion: '^18.3.1'
         }
-      },
+      }
     }),
-    new HtmlWebpackPlugin({ template: './index.html' }),
   ],
 };

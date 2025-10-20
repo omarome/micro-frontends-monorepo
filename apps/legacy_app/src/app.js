@@ -1,8 +1,12 @@
 import angular from 'angular';
 import '../../../libs/ui-styles/src/shared-styles.css';
+import { createInvoiceService } from '../../../libs/shared-services/src/index.js';
 
 angular.module('legacyApp', [])
   .controller('InvoiceController', function($scope, $http) {
+    // Initialize the shared service
+    const invoiceService = createInvoiceService();
+    
     // Initialize data
     $scope.invoices = [];
     $scope.selectedInvoice = null;
@@ -11,56 +15,48 @@ angular.module('legacyApp', [])
     $scope.loading = false;
     $scope.error = null;
 
-    // API base URL
-    const API_BASE = 'http://localhost:4000/api';
-
-    // Load invoices from API
-    $scope.loadInvoices = function() {
+    // Load invoices using shared service
+    $scope.loadInvoices = async function() {
       $scope.loading = true;
       $scope.error = null;
       
-      let url = `${API_BASE}/invoices`;
-      if ($scope.statusFilter && $scope.statusFilter !== 'all') {
-        url += `?status=${$scope.statusFilter}`;
+      try {
+        $scope.invoices = await invoiceService.fetchInvoices($scope.statusFilter);
+        $scope.loading = false;
+        $scope.$apply(); // Trigger AngularJS digest cycle
+      } catch (error) {
+        $scope.error = 'Failed to load invoices: ' + error.message;
+        $scope.loading = false;
+        $scope.$apply(); // Trigger AngularJS digest cycle
+        console.error('Error loading invoices:', error);
       }
-
-      $http.get(url)
-        .then(function(response) {
-          $scope.invoices = response.data;
-          $scope.loading = false;
-        })
-        .catch(function(error) {
-          $scope.error = 'Failed to load invoices: ' + (error.data?.error || error.statusText);
-          $scope.loading = false;
-          console.error('Error loading invoices:', error);
-        });
     };
 
-    // Mark invoice as paid
-    $scope.markAsPaid = function(invoice) {
+    // Mark invoice as paid using shared service
+    $scope.markAsPaid = async function(invoice) {
       if (confirm(`Mark invoice ${invoice.invoiceNumber} as paid?`)) {
-        $http.post(`${API_BASE}/invoices/${invoice.id}/paid`)
-          .then(function(response) {
-            // Update local invoice
-            invoice.status = 'paid';
-            invoice.paidDate = response.data.invoice.paidDate;
-            $scope.selectedInvoice = invoice;
-            
-            // Emit event for other MFEs
-            if (window.eventBus) {
-              window.eventBus.emit('invoice:paid', {
-                invoiceId: invoice.id,
-                invoiceNumber: invoice.invoiceNumber,
-                amount: invoice.amount
-              });
-            }
-            
-            alert('Invoice marked as paid successfully!');
-          })
-          .catch(function(error) {
-            alert('Error: ' + (error.data?.error || error.statusText));
-            console.error('Error marking invoice as paid:', error);
-          });
+        try {
+          const response = await invoiceService.markInvoiceAsPaid(invoice);
+          // Update local invoice
+          invoice.status = 'paid';
+          invoice.paidDate = response.invoice.paidDate;
+          $scope.selectedInvoice = invoice;
+          
+          // Emit event for other MFEs
+          if (window.eventBus) {
+            window.eventBus.emit('invoice:paid', {
+              invoiceId: invoice.id,
+              invoiceNumber: invoice.invoiceNumber,
+              amount: invoice.amount
+            });
+          }
+          
+          alert('Invoice marked as paid successfully!');
+          $scope.$apply(); // Trigger AngularJS digest cycle
+        } catch (error) {
+          alert('Error: ' + error.message);
+          console.error('Error marking invoice as paid:', error);
+        }
       }
     };
 
@@ -69,42 +65,24 @@ angular.module('legacyApp', [])
       $scope.selectedInvoice = invoice;
     };
 
-    // Filter invoices by search term
+    // Filter invoices using shared service
     $scope.filteredInvoices = function() {
-      if (!$scope.searchTerm) {
-        return $scope.invoices;
-      }
-      return $scope.invoices.filter(function(invoice) {
-        return invoice.clientName.toLowerCase().includes($scope.searchTerm.toLowerCase()) ||
-               invoice.invoiceNumber.toLowerCase().includes($scope.searchTerm.toLowerCase());
-      });
+      return invoiceService.filterInvoices($scope.invoices, $scope.searchTerm);
     };
 
-    // Format currency
+    // Format currency using shared service
     $scope.formatCurrency = function(amount) {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      }).format(amount);
+      return invoiceService.formatCurrency(amount);
     };
 
-    // Format date
+    // Format date using shared service
     $scope.formatDate = function(dateString) {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
+      return invoiceService.formatDate(dateString);
     };
 
-    // Get status badge class
+    // Get status badge class using shared service
     $scope.getStatusClass = function(status) {
-      switch(status) {
-        case 'paid': return 'badge-success';
-        case 'unpaid': return 'badge-warning';
-        case 'overdue': return 'badge-danger';
-        default: return 'badge-secondary';
-      }
+      return invoiceService.getStatusClass(status);
     };
 
     // Load invoices on controller init
@@ -115,3 +93,11 @@ angular.module('legacyApp', [])
       $scope.loadInvoices();
     });
   });
+
+// Export the LegacyApp for Module Federation
+export default function LegacyApp() {
+  return {
+    template: '<div ng-controller="InvoiceController as vm"><invoice-component></invoice-component></div>',
+    controller: 'InvoiceController'
+  };
+}
