@@ -136,19 +136,54 @@ const AstrobyteApp = () => {
 };
 
 const LegacyApp = () => {
-  const [loading, setLoading] = useState(false);
+  const [Component, setComponent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
-    // Simple iframe approach for loading the MVC invoice app
-    setLoading(true);
-    
-    // Simulate loading time
-    setTimeout(() => {
-      setLoading(false);
-      setAppLoaded(true);
-    }, 1000);
+    const loadModule = async () => {
+      try {
+        setLoading(true);
+        console.log('Loading Legacy App module...');
+        
+        // Import the Module Federation remote
+        const module = await import('legacy_app/InvoiceComponent');
+        console.log('Legacy App module loaded:', module);
+        console.log('Module keys:', Object.keys(module));
+        console.log('Module.default:', module.default);
+        console.log('Module.InvoiceComponent:', module.InvoiceComponent);
+        
+        // Handle the component
+        if (module.default && typeof module.default === 'function') {
+          console.log('Found Legacy App component at module.default');
+          setComponent(() => module.default);
+          setError(null);
+        } else if (module.InvoiceComponent && typeof module.InvoiceComponent === 'function') {
+          console.log('Found Legacy App component at module.InvoiceComponent');
+          setComponent(() => module.InvoiceComponent);
+          setError(null);
+        } else if (module.LegacyAppWrapper && typeof module.LegacyAppWrapper === 'function') {
+          console.log('Found Legacy App component at module.LegacyAppWrapper');
+          setComponent(() => module.LegacyAppWrapper);
+          setError(null);
+        } else if (module.LegacyApp && typeof module.LegacyApp === 'function') {
+          console.log('Found Legacy App component at module.LegacyApp');
+          setComponent(() => module.LegacyApp);
+          setError(null);
+        } else {
+          console.log('No valid component found in module');
+          console.log('Available exports:', Object.keys(module));
+          throw new Error('No valid component found in module');
+        }
+      } catch (err) {
+        console.error('Failed to load Legacy App:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModule();
   }, []);
 
   if (loading) {
@@ -167,7 +202,7 @@ const LegacyApp = () => {
       <div className="mfe-container">
         <div className="mfe-error">
           <h3>Failed to load Invoice App</h3>
-          <p>Error: {error}</p>
+          <p>Error: {error.message}</p>
           <button onClick={() => window.location.reload()}>
             Retry
           </button>
@@ -176,24 +211,10 @@ const LegacyApp = () => {
     );
   }
 
-  console.log('LegacyApp rendering, loading:', loading, 'appLoaded:', appLoaded);
-  
   return (
     <div className="mfe-container">
       <div className="mfe-content">
-        {loading ? (
-          <div className="mfe-loading">
-            <div className="loading-spinner"></div>
-            <p>Loading Invoice Management (MVC)...</p>
-          </div>
-        ) : (
-          <iframe
-            src="http://localhost:3001"
-            className="mfe-iframe"
-            frameBorder="0"
-            title="Invoice Management - MVC Implementation"
-          />
-        )}
+        {Component ? <Component /> : <div>No component loaded</div>}
       </div>
     </div>
   );

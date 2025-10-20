@@ -1,38 +1,45 @@
 import React, { useEffect, useRef } from 'react';
 import angular from 'angular';
-import '../../../libs/ui-styles/src/shared-styles.css';
-import '../../../libs/ui-styles/src/invoice-styles.css';
-// Import MVC components
-import './components/invoice/index.js';
+import './app.js';
+import './components/invoice/invoice.component.js';
+import './components/invoice/invoice.model.js';
+import './components/invoice/invoice.controller.js';
 
-const LegacyAngularApp = () => {
+const LegacyAppWrapper = () => {
   const containerRef = useRef(null);
 
   useEffect(() => {
     if (containerRef.current) {
-      // Bootstrap the AngularJS app with MVC components
-      angular.bootstrap(containerRef.current, ['invoiceApp']);
-    }
+      console.log('ReactWrapper: Setting up AngularJS app...');
+      
+      // Create a div for AngularJS to mount to
+      const angularDiv = document.createElement('div');
+      angularDiv.innerHTML = '<invoice-component></invoice-component>';
+      containerRef.current.appendChild(angularDiv);
 
-    // Cleanup function
-    return () => {
-      if (containerRef.current) {
-        try {
-          angular.element(containerRef.current).scope().$destroy();
-        } catch (e) {
-          // Ignore cleanup errors
-        }
+      console.log('ReactWrapper: AngularJS div created, bootstrapping...');
+      
+      try {
+        // Bootstrap AngularJS
+        angular.bootstrap(angularDiv, ['legacyApp']);
+        console.log('ReactWrapper: AngularJS bootstrapped successfully');
+      } catch (error) {
+        console.error('ReactWrapper: AngularJS bootstrap failed:', error);
       }
-    };
+
+      // Cleanup function
+      return () => {
+        if (angularDiv && angularDiv.parentNode) {
+          angularDiv.parentNode.removeChild(angularDiv);
+        }
+      };
+    }
   }, []);
 
-  return (
-    <div className="main-content">
-      <div ref={containerRef} ng-app="invoiceApp">
-        <invoice-component></invoice-component>
-      </div>
-    </div>
-  );
+  return <div ref={containerRef} />;
 };
 
-export default LegacyAngularApp;
+// Export for Module Federation
+export default LegacyAppWrapper;
+export { LegacyAppWrapper as InvoiceComponent };
+export { LegacyAppWrapper as LegacyApp };

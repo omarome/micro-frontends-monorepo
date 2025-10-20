@@ -156,13 +156,12 @@
   margin: 0;
 }
 
-/* Iframe Styles */
-.mfe-iframe {
+/* MFE Content Styles */
+.mfe-content {
   width: 100%;
-  height: 70vh;
+  min-height: 70vh;
   max-height: 800px;
   min-height: 600px;
-  border: none;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 100%;

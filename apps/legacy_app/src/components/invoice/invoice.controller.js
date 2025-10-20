@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 // Invoice Controller - Uses Model Service
-angular.module('invoiceComponent')
+angular.module('legacyApp')
   .controller('InvoiceController', function(InvoiceModel) {
     const vm = this;
     

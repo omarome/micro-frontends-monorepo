@@ -84,7 +84,7 @@ module.exports = {
             name: 'shell',
             remotes: {
                 astrobyte: 'astrobyte@http://localhost:3002/remoteEntry.js',
-                invoice: 'invoice@http://localhost:3001/remoteEntry.js',
+                legacy_app: 'legacy_app@http://localhost:3001/remoteEntry.js',
                 app3: 'app3@http://localhost:3003/remoteEntry.js',
             },
             shared: {

@@ -5,7 +5,7 @@ import { createInvoiceService } from '../../../../../libs/shared-services/src/in
 const invoiceService = createInvoiceService();
 
 // Invoice Model - Functions-based MVC implementation
-angular.module('invoiceComponent')
+angular.module('legacyApp')
   .service('InvoiceModel', function($q) { // Inject $q for promises
     const model = {};
 

@@ -93,3 +93,11 @@ angular.module('legacyApp', [])
       $scope.loadInvoices();
     });
   });
+
+// Export the LegacyApp for Module Federation
+export default function LegacyApp() {
+  return {
+    template: '<div ng-controller="InvoiceController as vm"><invoice-component></invoice-component></div>',
+    controller: 'InvoiceController'
+  };
+}
