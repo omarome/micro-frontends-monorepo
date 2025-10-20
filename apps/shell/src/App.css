@@ -146,3 +146,14 @@ body {
     min-height: 120px;
   }
 }
+
+/* App container for footer positioning */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}

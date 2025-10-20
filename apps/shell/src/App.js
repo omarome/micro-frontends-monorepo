@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import NavBar from './components/NavBar.js';
+import Footer from './components/Footer.js';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
@@ -362,10 +363,13 @@ function AnimatedRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <NavBar />
-      <main className="main-content">
-      <AnimatedRoutes />
-      </main>
+      <div className="app-container">
+        <NavBar />
+        <main className="main-content">
+          <AnimatedRoutes />
+        </main>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
