@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './NavBar.css';
 
 import ReactIcon from '../assets/react.svg';
 import AngularIcon from '../assets/angularjs.svg';

@@ -5,7 +5,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
 import '@ui-styles/invoice-styles.css';
-import './App.css';
+import '@ui-styles/shell-styles.css';
 
 // Direct Module Federation loading without React.lazy
 const AstrobyteApp = () => {
