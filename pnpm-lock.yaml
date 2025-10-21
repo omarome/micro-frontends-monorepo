@@ -81,6 +81,9 @@ importers:
       globals:
         specifier: ^16.2.0
         version: 16.4.0
+      html-loader:
+        specifier: ^4.2.0
+        version: 4.2.0(webpack@5.102.1(webpack-cli@6.0.1))
       html-webpack-plugin:
         specifier: ^5.6.3
         version: 5.6.4(webpack@5.102.1(webpack-cli@6.0.1))
