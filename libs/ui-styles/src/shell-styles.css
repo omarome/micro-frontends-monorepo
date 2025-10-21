@@ -402,7 +402,6 @@
   color: var(--color-text-secondary);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  background: var(--color-secondary-600);
   padding: var(--spacing-1) var(--spacing-2);
   border-radius: var(--border-radius-base);
   display: inline-block;
