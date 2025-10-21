@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import NavBar from './components/NavBar.js';
 import Footer from './components/Footer.js';
+import { ThemeProvider } from './contexts/ThemeContext.js';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import React, { useRef, useState, useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
@@ -322,20 +323,20 @@ function AnimatedRoutes() {
                         </div>
                       </div>
                       <div className="mfe-grid">
-                        <div className="mfe-card">
-                          <div className="mfe-card-icon">🏠</div>
-                          <div className="mfe-card-title">Shell App</div>
-                          <div className="mfe-card-description">Main orchestrator & navigation hub</div>
+                        <div className="mfe-grid-card">
+                          <div className="mfe-grid-item-icon">🏠</div>
+                          <div className="mfe-grid-item-title">Shell App</div>
+                          <div className="mfe-grid-item-description">Main orchestrator & navigation hub</div>
                         </div>
-                        <div className="mfe-card">
-                          <div className="mfe-card-icon">🎭</div>
-                          <div className="mfe-card-title">Legacy App</div>
-                          <div className="mfe-card-description">AngularJS with interactive jokes</div>
+                        <div className="mfe-grid-card">
+                          <div className="mfe-grid-item-icon">🎭</div>
+                          <div className="mfe-grid-item-title">Legacy App</div>
+                          <div className="mfe-grid-item-description">AngularJS with Invoice Management</div>
                         </div>
-                        <div className="mfe-card">
-                          <div className="mfe-card-icon">🚀</div>
-                          <div className="mfe-card-title">AstroByte App</div>
-                          <div className="mfe-card-description">Modern React TypeScript showcase</div>
+                        <div className="mfe-grid-card">
+                          <div className="mfe-grid-item-icon">🚀</div>
+                          <div className="mfe-grid-item-title">AstroByte App</div>
+                          <div className="mfe-grid-item-description">Modern React TypeScript showcase</div>
                         </div>
                       </div>
                     </div>
@@ -362,15 +363,17 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="app-container">
-        <NavBar />
-        <main className="main-content">
-          <AnimatedRoutes />
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <div className="app-container">
+          <NavBar />
+          <main className="main-content">
+            <AnimatedRoutes />
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

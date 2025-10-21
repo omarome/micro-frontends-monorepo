@@ -29,7 +29,7 @@ const Footer = () => {
             <li><span className="footer-tech">React 18</span></li>
             <li><span className="footer-tech">AngularJS 1.x</span></li>
             <li><span className="footer-tech">Module Federation</span></li>
-            <li><span className="footer-tech">Tailwind CSS</span></li>
+            {/* <li><span className="footer-tech">Tailwind CSS</span></li> */}
           </ul>
         </div>
         

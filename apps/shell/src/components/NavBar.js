@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import ReactIcon from '../assets/react.svg';
 import AngularIcon from '../assets/angularjs.svg';
+import DarkModeToggle from './DarkModeToggle';
 
 const NavBar = () => (
   <nav className="nav-bar">
@@ -44,6 +45,8 @@ const NavBar = () => (
         <span className="link-icon">🚀</span>
         <span className="link-text">App 3</span>
       </NavLink>
+      
+      <DarkModeToggle />
     </div>
   </nav>
 );

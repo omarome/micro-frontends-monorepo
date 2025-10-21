@@ -81,6 +81,11 @@ angular.module('legacyApp')
     vm.formatDate = InvoiceModel.formatDate;
     vm.getStatusClass = InvoiceModel.getStatusClass;
 
+    // Close invoice details popup
+    vm.closeInvoiceDetails = function() {
+      vm.selectedInvoice = null;
+    };
+
     // Load invoices on controller init
     vm.loadInvoices();
   });
