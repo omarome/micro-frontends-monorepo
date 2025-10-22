@@ -172,7 +172,8 @@
 .filter-group select:not([value=""]):not([value="all"]),
 .filter-group input:not([value=""]) {
   border-color: var(--color-success-700);
-  background: var(--color-secondary-950);
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
   animation: pulse var(--duration-500) var(--ease-out);
 }
 
