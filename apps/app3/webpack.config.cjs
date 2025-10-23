@@ -14,6 +14,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    alias: {
+      '@ui-styles': path.resolve(__dirname, '../../libs/ui-styles/src'),
+    },
   },
   module: {
     rules: [

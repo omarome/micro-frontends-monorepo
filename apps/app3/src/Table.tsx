@@ -1,339 +1,264 @@
-import React, { useMemo } from 'react';
-import {
-  useReactTable,
-  getCoreRowModel,
-  getSortedRowModel,
-  getFilteredRowModel,
-  createColumnHelper,
-  flexRender,
-} from '@tanstack/react-table';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Chip,
-  Button,
-  Box,
-  Typography,
-  useTheme,
-  useMediaQuery,
-  Card,
-  CardContent,
-  CardActions,
-  Grid,
-} from '@mui/material';
-import {
-  ArrowUpward,
-  ArrowDownward,
-  Visibility,
-  CheckCircle,
-} from '@mui/icons-material';
+import React, { useState } from 'react';
 
-const ResponsiveTable = ({ 
-  data = [], 
-  columns = [],
-  onRowClick, 
-  onMarkAsPaid, 
-  loading = false,
-  error = null 
-}: {
+interface ResponsiveTableProps {
   data?: any[];
   columns?: any[];
   onRowClick?: (invoice: any) => void;
   onMarkAsPaid?: (invoice: any) => void;
   loading?: boolean;
   error?: string | null;
+}
+
+const ResponsiveTable: React.FC<ResponsiveTableProps> = ({ 
+  data = [], 
+  columns = [],
+  onRowClick, 
+  onMarkAsPaid, 
+  loading = false,
+  error = null 
 }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  const columnHelper = createColumnHelper();
+  // Handle responsive layout
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-  // Default columns if none provided
-  const defaultColumns = useMemo(() => [
-    columnHelper.accessor('invoiceNumber', {
-      header: 'Invoice #',
-      cell: (info) => (
-        <Typography variant="body2" fontWeight="medium">
-          {info.getValue()}
-        </Typography>
-      ),
-      size: 120,
-    }),
-    columnHelper.accessor('clientName', {
-      header: 'Client',
-      cell: (info) => (
-        <Typography variant="body2">
-          {info.getValue()}
-        </Typography>
-      ),
-      size: 200,
-    }),
-    columnHelper.accessor('amount', {
-      header: 'Amount',
-      cell: (info) => (
-        <Typography variant="body2" fontWeight="medium" color="primary">
-          ${(info.getValue() as number).toLocaleString()}
-        </Typography>
-      ),
-      size: 120,
-    }),
-    columnHelper.accessor('status', {
-      header: 'Status',
-      cell: (info) => {
-        const status = info.getValue();
-        const getStatusColor = (status: string) => {
-          switch (status.toLowerCase()) {
-            case 'paid': return 'success';
-            case 'unpaid': return 'warning';
-            case 'overdue': return 'error';
-            default: return 'default';
-          }
-        };
-        return (
-          <Chip
-            label={status}
-            color={getStatusColor(status) as any}
-            size="small"
-            variant="outlined"
-          />
-        );
-      },
-      size: 100,
-    }),
-    columnHelper.accessor('dueDate', {
-      header: 'Due Date',
-      cell: (info) => (
-        <Typography variant="body2">
-          {new Date(info.getValue()).toLocaleDateString()}
-        </Typography>
-      ),
-      size: 120,
-    }),
-    columnHelper.display({
-      id: 'actions',
-      header: 'Actions',
-      cell: (props) => (
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            size="small"
-            variant="outlined"
-            startIcon={<Visibility />}
-            onClick={(e) => {
-              e.stopPropagation();
-              onRowClick?.((props.row.original as any));
-            }}
-          >
-            View
-          </Button>
-          {(props.row.original as any).status !== 'paid' && (
-            <Button
-              size="small"
-              variant="contained"
-              color="success"
-              startIcon={<CheckCircle />}
-              onClick={(e) => {
-                e.stopPropagation();
-                onMarkAsPaid?.((props.row.original as any));
-              }}
-            >
-              Mark Paid
-            </Button>
-          )}
-        </Box>
-      ),
-      size: 150,
-    }),
-  ], [onRowClick, onMarkAsPaid]);
+  // Get status CSS class
+  const getStatusClass = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'paid': return 'mfe-chip-success';
+      case 'unpaid': return 'mfe-chip-warning';
+      case 'overdue': return 'mfe-chip-error';
+      default: return 'mfe-chip-default';
+    }
+  };
 
-  const tableColumns = columns.length > 0 ? columns : defaultColumns;
+  // Handle sorting
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
 
-  const table = useReactTable({
-    data,
-    columns: tableColumns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-  });
+  // Sort data
+  const sortedData = React.useMemo(() => {
+    if (!sortField) return data;
+    
+    return [...data].sort((a, b) => {
+      const aVal = a[sortField];
+      const bVal = b[sortField];
+      
+      if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+      if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [data, sortField, sortDirection]);
 
-  // Mobile Card Layout
-  if (isSmallMobile) {
+  // Mobile Card View
+  if (isMobile) {
     return (
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {data.map((row) => (
-          <Card 
-            key={row.id} 
-            sx={{ 
-              cursor: 'pointer',
-              transition: 'all 0.2s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                boxShadow: theme.shadows[4],
-              }
-            }}
-            onClick={() => onRowClick?.(row)}
-          >
-            <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  {row.invoiceNumber || row.id}
-                </Typography>
-                <Chip
-                  label={row.status}
-                  color={row.status === 'paid' ? 'success' : row.status === 'unpaid' ? 'warning' : 'error'}
-                  size="small"
-                />
-              </Box>
-              
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Typography variant="caption" color="text.secondary">
-                    Client
-                  </Typography>
-                  <Typography variant="body2" fontWeight="medium">
-                    {row.clientName}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="caption" color="text.secondary">
-                    Amount
-                  </Typography>
-                  <Typography variant="body2" fontWeight="bold" color="primary">
-                    ${row.amount?.toLocaleString() || '0'}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="caption" color="text.secondary">
-                    Due Date
-                  </Typography>
-                  <Typography variant="body2">
-                    {row.dueDate ? new Date(row.dueDate).toLocaleDateString() : 'N/A'}
-                  </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography variant="caption" color="text.secondary">
-                    Status
-                  </Typography>
-                  <Typography variant="body2">
-                    {row.status}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
+      <div>
+        {sortedData.map((row) => (
+          <div key={row.id} className="mfe-table-card" onClick={() => onRowClick?.(row)}>
+            <div className="mfe-table-card-header">
+              <div className="mfe-table-card-title">
+                {row.invoiceNumber || row.id}
+              </div>
+              <span className={`mfe-chip ${getStatusClass(row.status)}`}>
+                {row.status}
+              </span>
+            </div>
             
-            <CardActions sx={{ justifyContent: 'flex-end', pt: 0 }}>
-              <Button
-                size="small"
-                variant="outlined"
-                startIcon={<Visibility />}
+            <div className="mfe-table-card-grid">
+              <div className="mfe-table-card-item">
+                <div className="mfe-table-card-label">Client</div>
+                <div className="mfe-table-card-value">{row.clientName}</div>
+              </div>
+              <div className="mfe-table-card-item">
+                <div className="mfe-table-card-label">Amount</div>
+                <div className="mfe-table-card-value" style={{ color: 'var(--color-primary-500)', fontWeight: 'bold' }}>
+                  ${row.amount?.toLocaleString() || '0'}
+                </div>
+              </div>
+              <div className="mfe-table-card-item">
+                <div className="mfe-table-card-label">Due Date</div>
+                <div className="mfe-table-card-value">
+                  {row.dueDate ? new Date(row.dueDate).toLocaleDateString() : 'N/A'}
+                </div>
+              </div>
+            </div>
+            
+            <div className="mfe-table-card-actions">
+              <button
+                className="mfe-table-btn mfe-table-btn-outlined"
                 onClick={(e) => {
                   e.stopPropagation();
                   onRowClick?.(row);
                 }}
               >
-                View Details
-              </Button>
+                <span>👁️</span>
+                View
+              </button>
               {row.status !== 'paid' && (
-                <Button
-                  size="small"
-                  variant="contained"
-                  color="success"
-                  startIcon={<CheckCircle />}
+                <button
+                  className="mfe-table-btn mfe-table-btn-contained"
                   onClick={(e) => {
                     e.stopPropagation();
                     onMarkAsPaid?.(row);
                   }}
                 >
-                  Mark Paid
-                </Button>
+                  <span>✓</span>
+                  Paid
+                </button>
               )}
-            </CardActions>
-          </Card>
+            </div>
+          </div>
         ))}
-      </Box>
+      </div>
     );
   }
 
-  // Desktop/Tablet Table Layout
+  // Desktop Table View
   return (
-    <TableContainer 
-      component={Paper} 
-      sx={{ 
-        maxHeight: '70vh',
-        overflow: 'auto',
-        '&::-webkit-scrollbar': {
-          width: '8px',
-          height: '8px',
-        },
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: theme.palette.grey[100],
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: theme.palette.grey[400],
-          borderRadius: '4px',
-        },
-        '&::-webkit-scrollbar-thumb:hover': {
-          backgroundColor: theme.palette.grey[600],
-        },
-      }}
-    >
-      <Table stickyHeader>
-        <TableHead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableCell
-                  key={header.id}
-                  sx={{
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.primary.contrastText,
-                    fontWeight: 'bold',
-                    cursor: header.column.getCanSort() ? 'pointer' : 'default',
-                    userSelect: 'none',
-                    '&:hover': header.column.getCanSort() ? {
-                      backgroundColor: theme.palette.primary.dark,
-                    } : {},
-                  }}
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                    {header.column.getIsSorted() === 'asc' && <ArrowUpward fontSize="small" />}
-                    {header.column.getIsSorted() === 'desc' && <ArrowDownward fontSize="small" />}
-                  </Box>
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              hover
-              sx={{
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: theme.palette.action.hover,
-                },
-              }}
-              onClick={() => onRowClick?.(row.original)}
+    <div className="mfe-table-paper">
+      <table className="mfe-table">
+        <thead className="mfe-table-head">
+          <tr>
+            <th 
+              className="mfe-table-head-cell" 
+              onClick={() => handleSort('invoiceNumber')}
             >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
+              <div className="mfe-table-head-cell-sortable">
+                Invoice #
+                {sortField === 'invoiceNumber' && (
+                  <span className={`mfe-table-sort-icon ${sortDirection}`}>
+                    {sortDirection === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+              </div>
+            </th>
+            <th 
+              className="mfe-table-head-cell" 
+              onClick={() => handleSort('clientName')}
+            >
+              <div className="mfe-table-head-cell-sortable">
+                Client
+                {sortField === 'clientName' && (
+                  <span className={`mfe-table-sort-icon ${sortDirection}`}>
+                    {sortDirection === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+              </div>
+            </th>
+            <th 
+              className="mfe-table-head-cell" 
+              onClick={() => handleSort('amount')}
+            >
+              <div className="mfe-table-head-cell-sortable">
+                Amount
+                {sortField === 'amount' && (
+                  <span className={`mfe-table-sort-icon ${sortDirection}`}>
+                    {sortDirection === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+              </div>
+            </th>
+            <th 
+              className="mfe-table-head-cell" 
+              onClick={() => handleSort('status')}
+            >
+              <div className="mfe-table-head-cell-sortable">
+                Status
+                {sortField === 'status' && (
+                  <span className={`mfe-table-sort-icon ${sortDirection}`}>
+                    {sortDirection === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+              </div>
+            </th>
+            <th 
+              className="mfe-table-head-cell" 
+              onClick={() => handleSort('dueDate')}
+            >
+              <div className="mfe-table-head-cell-sortable">
+                Due Date
+                {sortField === 'dueDate' && (
+                  <span className={`mfe-table-sort-icon ${sortDirection}`}>
+                    {sortDirection === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+              </div>
+            </th>
+            <th className="mfe-table-head-cell">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody className="mfe-table-body">
+          {sortedData.map((row) => (
+            <tr 
+              key={row.id} 
+              className="mfe-table-row"
+              onClick={() => onRowClick?.(row)}
+            >
+              <td className="mfe-table-cell" style={{ fontWeight: 600 }}>
+                {row.invoiceNumber}
+              </td>
+              <td className="mfe-table-cell">
+                {row.clientName}
+              </td>
+              <td className="mfe-table-cell" style={{ fontWeight: 600, color: 'var(--color-primary-500)' }}>
+                ${row.amount?.toLocaleString() || '0'}
+              </td>
+              <td className="mfe-table-cell">
+                <span className={`mfe-chip ${getStatusClass(row.status)}`}>
+                  {row.status}
+                </span>
+              </td>
+              <td className="mfe-table-cell">
+                {row.dueDate ? new Date(row.dueDate).toLocaleDateString() : 'N/A'}
+              </td>
+              <td className="mfe-table-cell">
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    className="mfe-table-btn mfe-table-btn-outlined"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onRowClick?.(row);
+                    }}
+                  >
+                    <span className="mfe-table-btn-icon">👁️</span>
+                    View
+                  </button>
+                  {row.status !== 'paid' && (
+                    <button
+                      className="mfe-table-btn mfe-table-btn-contained"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onMarkAsPaid?.(row);
+                      }}
+                    >
+                      <span className="mfe-table-btn-icon">✓</span>
+                      Mark Paid
+                    </button>
+                  )}
+                </div>
+              </td>
+            </tr>
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </tbody>
+      </table>
+    </div>
   );
 };
 

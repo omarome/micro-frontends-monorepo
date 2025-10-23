@@ -8,6 +8,7 @@
 /* Import component-specific styles */
 @import './invoice-styles.css';
 @import './mfe-container-styles.css';
+@import './mfeTable.css';
 @import './shell-styles.css';
 
 /* Smooth fade transition for tab content */
