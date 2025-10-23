@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: "./src/bootstrap.js",
+    entry: "./src/main.tsx",
     output: {
         publicPath: 'http://localhost:3002/',
         filename: '[name].bundle.js',
