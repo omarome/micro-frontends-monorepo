@@ -34,29 +34,14 @@ const AstrobyteApp = () => {
         console.log('Module.default:', module.default);
         console.log('Type of module.default:', typeof module.default);
         
-        // Check if module.default is a factory function (common in Module Federation)
+        // Check if module.default is the React component directly
         if (module.default && typeof module.default === 'function') {
-          try {
-            // Call the factory function to get the actual module
-            const factoryResult = module.default();
-            console.log('Factory result:', factoryResult);
-            console.log('Factory result type:', typeof factoryResult);
-            
-            if (factoryResult && typeof factoryResult === 'object' && factoryResult.default) {
-              component = factoryResult.default;
-              console.log('Found component at factoryResult.default');
-            } else if (factoryResult && typeof factoryResult === 'function') {
-              component = factoryResult;
-              console.log('Found component as factoryResult (function)');
-            } else {
-              console.log('Factory result is not a valid component');
-            }
-          } catch (error) {
-            console.error('Error calling factory function:', error);
-            // Fallback to treating module.default as the component directly
-            component = module.default;
-            console.log('Using module.default as component (fallback)');
-          }
+          // First, try using it directly as a React component
+          component = module.default;
+          console.log('Found component at module.default (React component)');
+          setComponent(() => component);
+          setError(null);
+          return;
         } else if (module.default && typeof module.default === 'object') {
           // Direct module object
           if (module.default.default && typeof module.default.default === 'function') {
