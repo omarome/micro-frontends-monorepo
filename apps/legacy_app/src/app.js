@@ -1,5 +1,6 @@
 import angular from 'angular';
 import '../../../libs/ui-styles/src/shared-styles.css';
+import '../../../libs/ui-styles/src/mfeTable.css';
 import { createInvoiceService } from '../../../libs/shared-services/src/index.js';
 
 angular.module('legacyApp', [])

@@ -44,6 +44,7 @@ module.exports = {
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/App.tsx',
+        './TableComponent': './src/TableComponent.tsx',
       },
       shared: {
         react: {

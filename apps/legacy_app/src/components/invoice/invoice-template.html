@@ -46,49 +46,14 @@
     </div>
   </div>
 
-  <!-- Error Message -->
-  <div ng-if="vm.error" class="error">{{ vm.error }}</div>
-
-  <!-- Loading State -->
-  <div ng-if="vm.loading" class="loading">
-    <p>Loading invoices...</p>
-  </div>
-
-  <!-- Invoice Table -->
-  <table ng-if="!vm.loading && !vm.error" class="invoice-table">
-    <thead>
-      <tr>
-        <th>Invoice #</th>
-        <th>Client</th>
-        <th>Amount</th>
-        <th>Status</th>
-        <th>Due Date</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="invoice in vm.filteredInvoices() track by invoice.id" 
-          ng-click="vm.selectInvoice(invoice)"
-          ng-class="{'selected': vm.selectedInvoice && vm.selectedInvoice.id === invoice.id}">
-        <td>{{ invoice.invoiceNumber }}</td>
-        <td>{{ invoice.clientName }}</td>
-        <td>{{ vm.formatCurrency(invoice.amount) }}</td>
-        <td>
-          <span class="badge" ng-class="vm.getStatusClass(invoice.status)">
-            {{ invoice.status }}
-          </span>
-        </td>
-        <td>{{ vm.formatDate(invoice.dueDate) }}</td>
-        <td>
-          <button ng-if="invoice.status !== 'paid'"
-                  class="shared-btn btn-small"
-                  ng-click="vm.markAsPaid(invoice); $event.stopPropagation()">
-            Mark Paid
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- React Material Table from app3 -->
+  <react-table-component 
+    invoices="vm.filteredInvoices()"
+    on-row-click="vm.selectInvoice(invoice)"
+    on-mark-as-paid="vm.markAsPaid(invoice)"
+    loading="vm.loading"
+    error="vm.error">
+  </react-table-component>
 
   <!-- Invoice Details Popup Modal -->
   <div ng-if="vm.selectedInvoice" class="invoice-popup-overlay" ng-click="vm.closeInvoiceDetails()">

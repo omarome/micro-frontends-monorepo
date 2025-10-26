@@ -64,6 +64,9 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'legacy_app',
       filename: 'remoteEntry.js',
+      remotes: {
+        app3: 'app3@http://localhost:3003/remoteEntry.js',
+      },
       exposes: {
         './App': './src/ReactWrapper.js',
         './InvoiceComponent': './src/ReactWrapper.js'
