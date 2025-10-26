@@ -4,6 +4,7 @@ import './app.js';
 import './components/invoice/invoice.component.js';
 import './components/invoice/invoice.model.js';
 import './components/invoice/invoice.controller.js';
+import './components/invoice/react-table.directive.js';
 
 const LegacyAppWrapper = () => {
   const containerRef = useRef(null);

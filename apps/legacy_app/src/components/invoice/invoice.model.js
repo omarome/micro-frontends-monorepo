@@ -26,7 +26,11 @@ angular.module('legacyApp')
     model.markInvoiceAsPaid = function(invoice) {
       return $q(function(resolve, reject) {
         invoiceService.markInvoiceAsPaid(invoice)
-          .then(function(updatedInvoice) {
+          .then(function(response) {
+            // Backend returns { success, message, invoice }
+            // Extract the invoice object from the response
+            const updatedInvoice = response.invoice || response;
+            console.log('Model: Extracted updated invoice:', updatedInvoice);
             resolve(updatedInvoice);
           })
           .catch(function(error) {

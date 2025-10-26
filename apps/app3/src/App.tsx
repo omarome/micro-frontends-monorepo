@@ -1,29 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import TableComponent from './TableComponent';
 import createInvoiceService from '../../../libs/shared-services/src/invoice.service.js';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Grid,
-  Typography,
-  Box,
-  Chip,
-  Divider,
-  ThemeProvider,
-  createTheme,
-  CssBaseline,
-} from '@mui/material';
-import {
-  Close,
-  Person,
-  AttachMoney,
-  CalendarToday,
-  Receipt,
-  CheckCircle,
-} from '@mui/icons-material';
+import '@ui-styles/shared-styles.css';
 
 // Initialize the shared service
 const invoiceService = createInvoiceService();
@@ -125,252 +103,177 @@ const App: React.FC = () => {
     }
   };
 
-  // Get status color
-  const getStatusColor = (status: string) => {
+  // Get status CSS class
+  const getStatusClass = (status: string) => {
     switch (status?.toLowerCase()) {
-      case 'paid': return 'success';
-      case 'unpaid': return 'warning';
-      case 'overdue': return 'error';
-      default: return 'default';
+      case 'paid': return 'mfe-chip-success';
+      case 'unpaid': return 'mfe-chip-warning';
+      case 'overdue': return 'mfe-chip-error';
+      default: return 'mfe-chip-default';
     }
   };
 
-  // Create theme based on dark mode state
-  const theme = useMemo(() => createTheme({
-    palette: {
-      mode: isDarkMode ? 'dark' : 'light',
-      primary: {
-        main: '#1976d2',
-        light: '#42a5f5',
-        dark: '#1565c0',
-      },
-      secondary: {
-        main: '#dc004e',
-      },
-      success: {
-        main: isDarkMode ? '#66bb6a' : '#2e7d32',
-      },
-      warning: {
-        main: '#ed6c02',
-      },
-      error: {
-        main: '#d32f2f',
-      },
-      background: {
-        default: isDarkMode ? '#121212' : '#f5f5f5',
-        paper: isDarkMode ? '#1e1e1e' : '#ffffff',
-      },
-      text: {
-        primary: isDarkMode ? '#ffffff' : 'rgba(0, 0, 0, 0.87)',
-        secondary: isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)',
-      },
-    },
-    typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    },
-    components: {
-      MuiDialog: {
-        styleOverrides: {
-          paper: {
-            backgroundImage: 'none',
-          },
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: {
-            textTransform: 'none',
-            fontWeight: 500,
-          },
-        },
-      },
-    },
-  }), [isDarkMode]);
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-    <div style={{ padding: '20px' }}>
+    <div className="mfe-table-container">
       <TableComponent
-          data={invoices}
+        data={invoices}
         onRowClick={handleRowClick}
         onMarkAsPaid={handleMarkAsPaid}
-          loading={loading}
-          error={error}
-          isDarkMode={isDarkMode}
-        />
+        loading={loading}
+        error={error}
+        isDarkMode={isDarkMode}
+      />
 
-        {/* Invoice Details Modal */}
-        <Dialog
-          open={modalOpen}
-          onClose={handleCloseModal}
-          maxWidth="sm"
-          fullWidth
-          PaperProps={{
-            sx: {
-              borderRadius: 2,
-              boxShadow: 24,
-            }
-          }}
-        >
-          <DialogTitle
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              backgroundColor: 'primary.main',
-              color: 'primary.contrastText',
-              py: 2,
-            }}
-          >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Receipt />
-            <Typography variant="h6" fontWeight="bold">
-              Invoice Details
-            </Typography>
-          </Box>
-          <Button
-            onClick={handleCloseModal}
-            sx={{ color: 'primary.contrastText', minWidth: 'auto', p: 0.5 }}
-          >
-            <Close />
-          </Button>
-        </DialogTitle>
+      {/* Invoice Details Modal */}
+      {modalOpen && (
+        <div className="mfe-dialog-overlay" onClick={handleCloseModal}>
+          <div className="mfe-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="mfe-dialog-header">
+              <h2 className="mfe-dialog-title">
+                <span>📄</span>
+                Invoice Details
+              </h2>
+              <button 
+                className="mfe-dialog-close-btn"
+                onClick={handleCloseModal}
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
 
-        <DialogContent sx={{ mt: 2 }}>
-          {selectedInvoice && (
-            <Grid container spacing={3}>
-              {/* Invoice Number */}
-              <Grid item xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <Receipt color="primary" />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Invoice Number
-                  </Typography>
-                </Box>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  {selectedInvoice.invoiceNumber}
-                </Typography>
-              </Grid>
+            <div className="mfe-dialog-content">
+              {selectedInvoice && (
+                <>
+                  {/* Invoice Number */}
+                  <div className="mfe-dialog-grid-item" style={{ marginBottom: '24px' }}>
+                    <div className="mfe-dialog-label">
+                      <span>📄</span>
+                      Invoice Number
+                    </div>
+                    <div className="mfe-dialog-value" style={{ fontSize: '1.5rem', color: 'var(--color-primary-500)' }}>
+                      {selectedInvoice.invoiceNumber}
+                    </div>
+                  </div>
 
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
+                  <hr className="mfe-dialog-divider" />
 
-              {/* Client Name */}
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <Person color="action" />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Client Name
-                  </Typography>
-                </Box>
-                <Typography variant="body1" fontWeight="medium">
-                  {selectedInvoice.clientName}
-                </Typography>
-              </Grid>
+                  {/* Details Grid */}
+                  <div className="mfe-dialog-grid">
+                    {/* Client Name */}
+                    <div className="mfe-dialog-grid-item">
+                      <div className="mfe-dialog-label">
+                        <span>👤</span>
+                        Client Name
+                      </div>
+                      <div className="mfe-dialog-value">
+                        {selectedInvoice.clientName}
+                      </div>
+                    </div>
 
-              {/* Status */}
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <CheckCircle color="action" />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Status
-                  </Typography>
-                </Box>
-                <Chip
-                  label={selectedInvoice.status}
-                  color={getStatusColor(selectedInvoice.status) as any}
-                  size="medium"
-                  sx={{ fontWeight: 'medium' }}
-                />
-              </Grid>
+                    {/* Status */}
+                    <div className="mfe-dialog-grid-item">
+                      <div className="mfe-dialog-label">
+                        <span>✓</span>
+                        Status
+                      </div>
+                      <div>
+                        <span className={`mfe-chip ${getStatusClass(selectedInvoice.status)}`}>
+                          {selectedInvoice.status}
+                        </span>
+                      </div>
+                    </div>
 
-              {/* Amount */}
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <AttachMoney color="action" />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Amount
-                  </Typography>
-                </Box>
-                <Typography variant="h5" fontWeight="bold" color="success.main">
-                  ${selectedInvoice.amount?.toLocaleString() || '0.00'}
-                </Typography>
-              </Grid>
+                    {/* Amount */}
+                    <div className="mfe-dialog-grid-item">
+                      <div className="mfe-dialog-label">
+                        <span>💰</span>
+                        Amount
+                      </div>
+                      <div className="mfe-dialog-value-large">
+                        ${selectedInvoice.amount?.toLocaleString() || '0.00'}
+                      </div>
+                    </div>
 
-              {/* Due Date */}
-              <Grid item xs={12} sm={6}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <CalendarToday color="action" />
-                  <Typography variant="subtitle2" color="text.secondary">
-                    Due Date
-                  </Typography>
-                </Box>
-                <Typography variant="body1" fontWeight="medium">
-                  {selectedInvoice.dueDate 
-                    ? new Date(selectedInvoice.dueDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })
-                    : 'N/A'}
-                </Typography>
-              </Grid>
+                    {/* Due Date */}
+                    <div className="mfe-dialog-grid-item">
+                      <div className="mfe-dialog-label">
+                        <span>📅</span>
+                        Due Date
+                      </div>
+                      <div className="mfe-dialog-value">
+                        {selectedInvoice.dueDate 
+                          ? new Date(selectedInvoice.dueDate).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })
+                          : 'N/A'}
+                      </div>
+                    </div>
+                  </div>
 
-              {/* Paid Date (if applicable) */}
-              {selectedInvoice.paidDate && (
-                <Grid item xs={12}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <CalendarToday color="action" />
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Paid Date
-                    </Typography>
-                  </Box>
-                  <Typography variant="body1" fontWeight="medium">
-                    {new Date(selectedInvoice.paidDate).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </Typography>
-                </Grid>
+                  {/* Paid Date (if applicable) */}
+                  {selectedInvoice.paidDate && (
+                    <>
+                      <hr className="mfe-dialog-divider" />
+                      <div className="mfe-dialog-grid-item">
+                        <div className="mfe-dialog-label">
+                          <span>📅</span>
+                          Paid Date
+                        </div>
+                        <div className="mfe-dialog-value">
+                          {new Date(selectedInvoice.paidDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* Description (if available) */}
+                  {selectedInvoice.description && (
+                    <>
+                      <hr className="mfe-dialog-divider" />
+                      <div className="mfe-dialog-grid-item">
+                        <div className="mfe-dialog-label">
+                          Description
+                        </div>
+                        <div className="mfe-dialog-value">
+                          {selectedInvoice.description}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </>
               )}
+            </div>
 
-              {/* Description (if available) */}
-              {selectedInvoice.description && (
-                <Grid item xs={12}>
-                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                    Description
-                  </Typography>
-                  <Typography variant="body2">
-                    {selectedInvoice.description}
-                  </Typography>
-                </Grid>
+            <div className="mfe-dialog-actions">
+              <button 
+                className="mfe-table-btn mfe-table-btn-outlined"
+                onClick={handleCloseModal}
+              >
+                Close
+              </button>
+              {selectedInvoice?.status !== 'paid' && (
+                <button
+                  className="mfe-table-btn mfe-table-btn-contained"
+                  onClick={() => {
+                    handleMarkAsPaid(selectedInvoice);
+                    handleCloseModal();
+                  }}
+                >
+                  <span>✓</span>
+                  Mark as Paid
+                </button>
               )}
-            </Grid>
-          )}
-        </DialogContent>
-
-        <DialogActions sx={{ px: 3, pb: 2, gap: 1 }}>
-          <Button onClick={handleCloseModal} variant="outlined" color="inherit">
-            Close
-          </Button>
-          {selectedInvoice?.status !== 'paid' && (
-            <Button
-              onClick={() => {
-                handleMarkAsPaid(selectedInvoice);
-                handleCloseModal();
-              }}
-              variant="contained"
-              color="success"
-              startIcon={<CheckCircle />}
-            >
-              Mark as Paid
-            </Button>
-          )}
-        </DialogActions>
-      </Dialog>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </ThemeProvider>
   );

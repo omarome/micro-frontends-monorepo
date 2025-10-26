@@ -198,13 +198,7 @@ const LegacyApp = () => {
     );
   }
 
-  return (
-    <div className="mfe-container">
-      <div className="mfe-content">
-        {Component ? <Component /> : <div>No component loaded</div>}
-      </div>
-    </div>
-  );
+  return Component ? <Component /> : <div>No component loaded</div>;
 };
 
 const App3Component = () => {

@@ -4,10 +4,12 @@
 .legacy-app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: var(--spacing-5);
   padding-bottom: var(--spacing-8);
   box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Keyframe animations */
@@ -42,6 +44,31 @@
   flex-direction: column;
   font-family: var(--font-family-secondary);
   color: var(--color-text-primary);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* React Table Component Wrapper */
+.invoice-container react-table-component {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-5);
+}
+
+/* Ensure React table containers are properly sized */
+.invoice-container .react-table-container,
+.invoice-container .react-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.invoice-container .mfe-table-container {
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .invoice-title {
@@ -50,10 +77,6 @@
   margin-bottom: var(--spacing-3);
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Filters and Stats Row */
@@ -97,7 +120,11 @@
 }
 
 .filter-group:nth-child(1) { animation-delay: var(--duration-100); }
-.filter-group:nth-child(2) { animation-delay: var(--duration-200); }
+.filter-group:nth-child(2) { 
+  animation-delay: var(--duration-200);
+  flex: 1; /* Make search input take all available space */
+  min-width: 200px; /* Ensure minimum width on small screens */
+}
 
 .filter-group label {
   font-weight: var(--font-weight-semibold);
@@ -119,6 +146,8 @@
   border-radius: var(--border-radius-base);
   font-size: var(--font-size-sm);
   color: var(--color-text-primary);
+  width: 100%; /* Make inputs take full width of their container */
+  box-sizing: border-box; /* Include padding and border in width calculation */
   background: var(--color-background-primary);
   transition: var(--transition-all);
   animation: fadeIn var(--duration-700) var(--ease-out);
@@ -198,6 +227,9 @@
 }
 
 .stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: var(--transition-all);
   animation: fadeInUp var(--duration-700) var(--ease-out);
   flex: 1;
@@ -217,7 +249,7 @@
 .stat-value {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
-  margin-bottom: var(--spacing-1);
+  margin-top: var(--spacing-1);
   text-shadow: var(--shadow-sm);
   transition: var(--transition-all);
 }
@@ -722,17 +754,24 @@
   .invoice-container {
     width: 100%;
     max-width: 100%;
-    min-width: 80vw;
   }
 }
 
 @media (max-width: 768px) {
+  .legacy-app-container {
+    padding: var(--spacing-3);
+    padding-bottom: var(--spacing-4);
+  }
+  
   .invoice-container {
     width: 100%;
     max-width: 100%;
-    min-width: 80vw;
-    margin: 10px;
-    padding: 15px;
+    padding: 0;
+  }
+  
+  .invoice-container react-table-component {
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .filters-stats-row {
@@ -748,6 +787,15 @@
   .invoice-stats {
     min-width: auto;
     width: 100%;
+    flex-direction: row; /* Keep horizontal */
+    gap: var(--spacing-1);
+    padding: var(--spacing-2);
+  }
+  
+  .stat-item {
+    min-width: 0;
+    flex: 1 1 auto; /* Allow shrinking and growing */
+    padding: var(--spacing-1);
   }
   
   .details-grid {
@@ -756,6 +804,17 @@
   
   .filters {
     flex-direction: column;
+  }
+  
+  .stat-value {
+    font-size: var(--font-size-base); /* Smaller on mobile */
+    word-break: break-word; /* Break long numbers if needed */
+    overflow-wrap: break-word;
+  }
+  
+  .stat-label {
+    font-size: 0.55rem; /* Extra small on mobile - smaller than 2xs */
+    letter-spacing: 0.02em;
   }
   
   .invoice-table {
@@ -773,4 +832,31 @@
   .invoice-table th:nth-child(4) { width: 15%; }
   .invoice-table th:nth-child(5) { width: 10%; }
   .invoice-table th:nth-child(6) { width: 10%; }
+}
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+  .invoice-stats {
+    flex-direction: row; /* Keep horizontal layout */
+    gap: var(--spacing-1);
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+  
+  .stat-item {
+    min-width: 0;
+    flex: 1;
+    padding: var(--spacing-1);
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: var(--font-size-sm); /* Smaller on very small screens */
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  .stat-label {
+    font-size: 0.5rem; /* Extra tiny labels on very small screens */
+    letter-spacing: 0.01em;
+  }
 }
