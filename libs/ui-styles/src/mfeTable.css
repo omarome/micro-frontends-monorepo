@@ -90,13 +90,11 @@
 .mfe-table-row {
   transition: var(--transition-all);
   border-bottom: 1px solid var(--color-border-primary);
-  cursor: pointer;
+  cursor: default;
 }
 
 .mfe-table-row:hover {
   background: var(--color-background-secondary);
-  transform: translateY(calc(-1 * var(--spacing-05)));
-  box-shadow: var(--shadow-sm);
 }
 
 .mfe-table-row:last-child {

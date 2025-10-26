@@ -209,7 +209,6 @@ const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
             <tr 
               key={row.id} 
               className="mfe-table-row"
-              onClick={() => onRowClick?.(row)}
             >
               <td className="mfe-table-cell" style={{ fontWeight: 600 }}>
                 {row.invoiceNumber}

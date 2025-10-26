@@ -7,6 +7,7 @@ angular.module('legacyApp')
     
     // Initialize data
     vm.invoices = [];
+    vm.filteredInvoicesData = []; // Store filtered results here
     vm.selectedInvoice = null;
     vm.statusFilter = 'all';
     vm.searchTerm = '';
@@ -24,12 +25,19 @@ angular.module('legacyApp')
           vm.invoices = invoices;
           vm.stats = InvoiceModel.getInvoiceStats(invoices);
           vm.loading = false;
+          // Update filtered invoices after loading
+          vm.updateFilteredInvoices();
         })
         .catch(function(error) {
           vm.error = error.message;
           vm.loading = false;
           console.error('Error loading invoices:', error);
         });
+    };
+    
+    // Update filtered invoices based on search term
+    vm.updateFilteredInvoices = function() {
+      vm.filteredInvoicesData = InvoiceModel.filterInvoices(vm.invoices, vm.searchTerm);
     };
 
     // Mark invoice as paid using model service
@@ -64,6 +72,9 @@ angular.module('legacyApp')
             // vm.selectedInvoice = updatedInvoice; // REMOVED
             vm.stats = InvoiceModel.getInvoiceStats(vm.invoices);
             
+            // Update filtered invoices to reflect the change
+            vm.updateFilteredInvoices();
+            
             // Force Angular digest cycle
             $scope.$applyAsync();
             
@@ -90,11 +101,6 @@ angular.module('legacyApp')
       vm.selectedInvoice = invoice;
     };
 
-    // Filter invoices using model service
-    vm.filteredInvoices = function() {
-      return InvoiceModel.filterInvoices(vm.invoices, vm.searchTerm);
-    };
-
     // Delegate formatting methods to model
     vm.formatCurrency = InvoiceModel.formatCurrency;
     vm.formatDate = InvoiceModel.formatDate;
@@ -104,6 +110,13 @@ angular.module('legacyApp')
     vm.closeInvoiceDetails = function() {
       vm.selectedInvoice = null;
     };
+
+    // Watch searchTerm and update filtered invoices
+    $scope.$watch('vm.searchTerm', function(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        vm.updateFilteredInvoices();
+      }
+    });
 
     // Load invoices on controller init
     vm.loadInvoices();
