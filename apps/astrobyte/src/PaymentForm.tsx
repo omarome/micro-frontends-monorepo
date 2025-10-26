@@ -22,6 +22,7 @@ const PaymentForm: React.FC = () => {
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<PaymentResult | null>(null);
   const [errors, setErrors] = useState<Partial<Record<keyof PaymentFormData, string>>>({});
+  const [refreshTrigger, setRefreshTrigger] = useState(0); // Trigger to refresh invoice list
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof PaymentFormData, string>> = {};
@@ -153,6 +154,9 @@ const PaymentForm: React.FC = () => {
         timestamp: new Date().toISOString(),
       });
 
+      // Refresh the invoice list to remove the paid invoice
+      setRefreshTrigger(prev => prev + 1);
+
       // Reset form after successful payment
       setTimeout(() => {
         setFormData({
@@ -188,6 +192,7 @@ const PaymentForm: React.FC = () => {
             selectedInvoiceId={formData.selectedInvoiceId}
             onSelectInvoice={(id) => handleInputChange('selectedInvoiceId', id)}
             disabled={processing}
+            refreshTrigger={refreshTrigger}
           />
           {errors.selectedInvoiceId && (
             <span className="error-text">{errors.selectedInvoiceId}</span>

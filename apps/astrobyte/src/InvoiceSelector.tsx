@@ -5,12 +5,14 @@ interface InvoiceSelectorProps {
   selectedInvoiceId: string;
   onSelectInvoice: (invoiceId: string) => void;
   disabled?: boolean;
+  refreshTrigger?: number; // Used to trigger refresh after payment
 }
 
 const InvoiceSelector: React.FC<InvoiceSelectorProps> = ({
   selectedInvoiceId,
   onSelectInvoice,
   disabled = false,
+  refreshTrigger = 0,
 }) => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +20,7 @@ const InvoiceSelector: React.FC<InvoiceSelectorProps> = ({
 
   useEffect(() => {
     fetchUnpaidInvoices();
-  }, []);
+  }, [refreshTrigger]); // Refetch when refreshTrigger changes
 
   const fetchUnpaidInvoices = async () => {
     try {

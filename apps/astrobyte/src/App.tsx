@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
-import './styles.css';
+import '@ui-styles/payment-styles.css';
 import PaymentForm from './PaymentForm';
 
 const App: React.FC = () => {
