@@ -10,6 +10,14 @@
 .mfe-table-container {
   padding: var(--spacing-5);
   transition: var(--transition-colors);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Override when nested inside legacy app */
+.invoice-container .mfe-table-container {
+  padding: 0;
 }
 
 .mfe-table-paper {
@@ -18,6 +26,9 @@
   box-shadow: var(--shadow-base);
   overflow: hidden;
   transition: var(--transition-colors);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* ========================================
@@ -37,7 +48,7 @@
    ======================================== */
 
 .mfe-table-head {
-  background: var(--color-primary-500);
+  background: #000000;
   color: var(--color-text-inverse);
 }
 
@@ -47,7 +58,7 @@
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
   color: var(--color-text-inverse);
-  border-bottom: 2px solid var(--color-primary-600);
+  border-bottom: 2px solid #1a1a1a;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
@@ -55,7 +66,7 @@
 }
 
 .mfe-table-head-cell:hover {
-  background: var(--color-primary-600);
+  background: #1a1a1a;
 }
 
 .mfe-table-head-cell-sortable {
@@ -397,6 +408,9 @@
   cursor: pointer;
   transition: var(--transition-all);
   box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .mfe-table-card:hover {
@@ -456,11 +470,15 @@
    ======================================== */
 
 [data-theme="dark"] .mfe-table-head {
-  background: var(--color-primary-700);
+  background: #ba6800;
+}
+
+[data-theme="dark"] .mfe-table-head-cell {
+  border-bottom: 2px solid #d17500;
 }
 
 [data-theme="dark"] .mfe-table-head-cell:hover {
-  background: var(--color-primary-800);
+  background: #d17500;
 }
 
 [data-theme="dark"] .mfe-table-row:hover {
@@ -520,6 +538,23 @@
 @media (max-width: 768px) {
   .mfe-table-container {
     padding: var(--spacing-3);
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Override when nested inside legacy app */
+  .invoice-container .mfe-table-container {
+    padding: 0;
+  }
+  
+  .mfe-table-paper {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .mfe-table-card {
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .mfe-dialog {

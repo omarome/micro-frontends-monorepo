@@ -4,10 +4,12 @@
 .legacy-app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: var(--spacing-5);
   padding-bottom: var(--spacing-8);
   box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Keyframe animations */
@@ -42,6 +44,31 @@
   flex-direction: column;
   font-family: var(--font-family-secondary);
   color: var(--color-text-primary);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* React Table Component Wrapper */
+.invoice-container react-table-component {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: var(--spacing-3);
+  margin-bottom: var(--spacing-5);
+}
+
+/* Ensure React table containers are properly sized */
+.invoice-container .react-table-container,
+.invoice-container .react-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.invoice-container .mfe-table-container {
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .invoice-title {
@@ -50,10 +77,6 @@
   margin-bottom: var(--spacing-3);
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Filters and Stats Row */
@@ -731,17 +754,24 @@
   .invoice-container {
     width: 100%;
     max-width: 100%;
-    min-width: 80vw;
   }
 }
 
 @media (max-width: 768px) {
+  .legacy-app-container {
+    padding: var(--spacing-3);
+    padding-bottom: var(--spacing-4);
+  }
+  
   .invoice-container {
     width: 100%;
     max-width: 100%;
-    min-width: 80vw;
-    margin: 10px;
-    padding: 15px;
+    padding: 0;
+  }
+  
+  .invoice-container react-table-component {
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .filters-stats-row {
