@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '@ui-styles/shared-styles.css';
+import './styles.css';
+import PaymentForm from './PaymentForm';
 
 const App: React.FC = () => {
+  useEffect(() => {
+    // Listen for invoice:paid events from other MFEs
+    const handleInvoicePaid = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log('[PaymentMFE] Received invoice:paid event:', customEvent.detail);
+    };
+
+    window.addEventListener('invoice:paid', handleInvoicePaid as EventListener);
+
+    return () => {
+      window.removeEventListener('invoice:paid', handleInvoicePaid as EventListener);
+    };
+  }, []);
+
   return (
-    <div className="main-content">
-      <h1 className="home-title">🚀 Astrobyte Micro-Frontend</h1>
-      <p className="home-subtitle">Modern React TypeScript application</p>
-      <div className="intro-section">
-        <div className="intro-icon">⚡</div>
-        <p className="intro-text">Built with cutting-edge technologies</p>
-        <div className="feature-highlights">
-          <span className="feature-tag">⚛️ React + TypeScript</span>
-          <span className="feature-tag">🔗 Module Federation</span>
-          <span className="feature-tag">🔥 Hot Reloading</span>
-          <span className="feature-tag">🎨 Shared Components</span>
-        </div>
-      </div>
+    <div className="payment-mfe-app">
+      <PaymentForm />
     </div>
   );
 };

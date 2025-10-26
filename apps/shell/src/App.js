@@ -9,7 +9,7 @@ import '@ui-styles/invoice-styles.css';
 import '@ui-styles/shell-styles.css';
 
 // Direct Module Federation loading without React.lazy
-const AstrobyteApp = () => {
+const PaymentApp = () => {
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,11 +18,11 @@ const AstrobyteApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Astrobyte module...');
+        console.log('Loading Payment MFE module...');
         
         // Import the Module Federation remote
-        const module = await import('astrobyte/App');
-        console.log('Astrobyte module loaded:', module);
+        const module = await import('paymentMFE/App');
+        console.log('Payment MFE module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
@@ -90,7 +90,7 @@ const AstrobyteApp = () => {
           throw new Error('No valid React component found in module');
         }
       } catch (err) {
-        console.error('Failed to load Astrobyte:', err);
+        console.error('Failed to load Payment MFE:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -104,7 +104,7 @@ const AstrobyteApp = () => {
         return (
           <div className="loading-container">
             <div className="loading-spinner"></div>
-            <div className="loading-text">Loading AstroByte...</div>
+            <div className="loading-text">Loading Payment MFE...</div>
           </div>
         );
       }
@@ -113,7 +113,7 @@ const AstrobyteApp = () => {
         return (
           <div className="error-container">
             <div className="error-icon">⚠️</div>
-            <div className="error-title">Failed to load Astrobyte App</div>
+            <div className="error-title">Failed to load Payment App</div>
             <div className="error-message">Error: {error.message}</div>
           </div>
         );
@@ -313,9 +313,9 @@ function AnimatedRoutes() {
                           <div className="mfe-grid-item-description">AngularJS with Invoice Management</div>
                         </div>
                         <div className="mfe-grid-card">
-                          <div className="mfe-grid-item-icon">🚀</div>
-                          <div className="mfe-grid-item-title">AstroByte App</div>
-                          <div className="mfe-grid-item-description">Modern React TypeScript showcase</div>
+                          <div className="mfe-grid-item-icon">💳</div>
+                          <div className="mfe-grid-item-title">Payment MFE</div>
+                          <div className="mfe-grid-item-description">Process payments with React & TypeScript</div>
                         </div>
                       </div>
                     </div>
@@ -326,8 +326,8 @@ function AnimatedRoutes() {
               element={<LegacyApp />}
             />
             <Route
-              path="/astrobyte"
-              element={<AstrobyteApp />}
+              path="/payment"
+              element={<PaymentApp />}
             />
                 <Route
                   path="/app3"

@@ -31,11 +31,11 @@ const NavBar = () => (
       </NavLink>
       
       <NavLink 
-        to="/astrobyte" 
+        to="/payment" 
         className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
       >
-        <img src={ReactIcon} alt="React" className="link-icon" />
-        <span className="link-text">AstroByte</span>
+        <span className="link-icon">💳</span>
+        <span className="link-text">Payment</span>
       </NavLink>
       
       <NavLink 
