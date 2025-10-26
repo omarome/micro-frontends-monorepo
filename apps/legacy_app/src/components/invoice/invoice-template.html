@@ -24,24 +24,24 @@
     <!-- Statistics -->
     <div ng-if="!vm.loading && !vm.error && vm.stats" class="invoice-stats">
       <div class="stat-item">
-        <div class="stat-value stat-total">{{ vm.stats.total }}</div>
         <div class="stat-label">Total</div>
+        <div class="stat-value stat-total">{{ vm.stats.total }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value stat-paid">{{ vm.stats.paid }}</div>
         <div class="stat-label">Paid</div>
+        <div class="stat-value stat-paid">{{ vm.stats.paid }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value stat-unpaid">{{ vm.stats.unpaid }}</div>
         <div class="stat-label">Unpaid</div>
+        <div class="stat-value stat-unpaid">{{ vm.stats.unpaid }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value stat-overdue">{{ vm.stats.overdue }}</div>
         <div class="stat-label">Overdue</div>
+        <div class="stat-value stat-overdue">{{ vm.stats.overdue }}</div>
       </div>
       <div class="stat-item">
-        <div class="stat-value stat-amount">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
         <div class="stat-label">Amount</div>
+        <div class="stat-value stat-amount">{{ vm.formatCurrency(vm.stats.totalAmount) }}</div>
       </div>
     </div>
   </div>
