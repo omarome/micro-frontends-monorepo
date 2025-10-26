@@ -60,7 +60,8 @@ angular.module('legacyApp')
               console.log('InvoiceController: Updated invoice status:', vm.invoices[index].status);
             }
             
-            vm.selectedInvoice = updatedInvoice;
+            // Don't automatically open the details popup after marking as paid
+            // vm.selectedInvoice = updatedInvoice; // REMOVED
             vm.stats = InvoiceModel.getInvoiceStats(vm.invoices);
             
             // Force Angular digest cycle

@@ -41,7 +41,8 @@ angular.module('legacyApp', [])
           // Update local invoice
           invoice.status = 'paid';
           invoice.paidDate = response.invoice.paidDate;
-          $scope.selectedInvoice = invoice;
+          // Don't automatically open the details popup after marking as paid
+          // $scope.selectedInvoice = invoice; // REMOVED
           
           // Emit event for other MFEs
           if (window.eventBus) {
