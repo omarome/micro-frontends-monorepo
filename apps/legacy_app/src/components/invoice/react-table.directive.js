@@ -36,8 +36,9 @@ angular.module('legacyApp')
 
         // Function to render the React component
         function renderReactComponent() {
+          const invoices = scope.invoices || [];
           const props = {
-            invoices: scope.invoices || [],
+            invoices: invoices,
             loading: scope.loading || false,
             error: scope.error || null,
             onRowClick: (invoice) => {
@@ -54,7 +55,12 @@ angular.module('legacyApp')
             }
           };
 
-          console.log('ReactTable directive: Mounting with props:', props);
+          console.log('ReactTable directive: Mounting with props:', {
+            invoicesCount: invoices.length,
+            loading: props.loading,
+            error: props.error,
+            firstInvoice: invoices[0] ? invoices[0].invoiceNumber : 'none'
+          });
           mountReactTable(container, props);
         }
 
@@ -62,8 +68,17 @@ angular.module('legacyApp')
         renderReactComponent();
 
         // Watch for changes in scope and re-render
-        scope.$watchGroup(['invoices', 'loading', 'error'], function(newValues, oldValues) {
-          console.log('ReactTable directive: Data changed, re-rendering...');
+        // Use deep watch (true) to detect changes within the invoices array
+        scope.$watch('invoices', function(newValue, oldValue) {
+          if (newValue !== oldValue) {
+            console.log('ReactTable directive: Invoices changed, re-rendering...');
+            renderReactComponent();
+          }
+        }, true); // true enables deep watching
+        
+        // Watch loading and error separately (shallow watch is fine for primitives)
+        scope.$watchGroup(['loading', 'error'], function(newValues, oldValues) {
+          console.log('ReactTable directive: Loading/Error changed, re-rendering...');
           renderReactComponent();
         });
 

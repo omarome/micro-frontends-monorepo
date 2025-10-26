@@ -2,7 +2,7 @@ import angular from 'angular';
 
 // Invoice Controller - Uses Model Service
 angular.module('legacyApp')
-  .controller('InvoiceController', function(InvoiceModel) {
+  .controller('InvoiceController', function(InvoiceModel, $scope) {
     const vm = this;
     
     // Initialize data
@@ -34,19 +34,37 @@ angular.module('legacyApp')
 
     // Mark invoice as paid using model service
     vm.markAsPaid = function(invoice) {
+      console.log('InvoiceController: markAsPaid called for invoice:', invoice.id);
       if (confirm(`Mark invoice ${invoice.invoiceNumber} as paid?`)) {
         InvoiceModel.markInvoiceAsPaid(invoice)
           .then(function(updatedInvoice) {
-            // Update local invoice
+            console.log('InvoiceController: Invoice updated:', updatedInvoice);
+            
+            // Update local invoice by creating a new array
+            // This ensures AngularJS watchers detect the change
             const index = vm.invoices.findIndex(function(inv) {
               return inv.id === invoice.id;
             });
+            
+            console.log('InvoiceController: Found invoice at index:', index);
+            
             if (index !== -1) {
-              vm.invoices[index] = updatedInvoice;
+              // Create a new array with the updated invoice
+              vm.invoices = [
+                ...vm.invoices.slice(0, index),
+                updatedInvoice,
+                ...vm.invoices.slice(index + 1)
+              ];
+              
+              console.log('InvoiceController: Updated invoices array, new length:', vm.invoices.length);
+              console.log('InvoiceController: Updated invoice status:', vm.invoices[index].status);
             }
             
             vm.selectedInvoice = updatedInvoice;
             vm.stats = InvoiceModel.getInvoiceStats(vm.invoices);
+            
+            // Force Angular digest cycle
+            $scope.$applyAsync();
             
             // Emit event for other MFEs
             if (window.eventBus) {
