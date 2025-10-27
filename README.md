@@ -3,12 +3,13 @@
 A comprehensive micro-frontend architecture demonstrating enterprise-grade billing system with realistic financial domain complexity.
 
 ## 🎨 Application Screenshots
+********************************************************************************
 
 ### Shell Application - Home Page
 Welcome page showcasing all micro-frontends in a unified shell with seamless navigation:
 
-![Shell App Home](<img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/micro-frontends.jpeg" />)
-)
+![Shell App Home]<img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/micro-frontends.jpeg" />
+<img src="apps/shell_app/src/assets/micro-frontends.jpeg" width="200"> 
 
 *Features: Unified navigation hub, modular application grid, real-time theme switching, and seamless micro-frontend orchestration*
 
