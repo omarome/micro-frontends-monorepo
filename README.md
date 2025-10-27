@@ -4,31 +4,144 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 
 ## 🎨 Application Screenshots
 
-### Shell Application - Home Page
-Welcome page showcasing all micro-frontends in a unified shell with seamless navigation:
+### 🏠 Shell Application - Home Page
+**Central Navigation Hub** showcasing all micro-frontends in a unified shell with seamless navigation:
 
-![Shell App Home](<img width="1810" height="920" alt="light-mode" src="https://github.com/user-attachments/assets/5d3278b3-b541-4e0b-896d-688a128219ca" />)
-)
+![Shell App Home](./screenshots/home-view.png)
 
-*Features: Unified navigation hub, modular application grid, real-time theme switching, and seamless micro-frontend orchestration*
+**🔧 Technical Architecture:**
+- **Host Application** (Port 3000) - React 18 shell orchestrating all micro-frontends
+- **Module Federation** - Dynamic remote loading with shared dependencies
+- **Theme System** - Cross-MFE dark/light mode synchronization
+- **Responsive Grid** - Mobile-first design with adaptive layout
+
+**🎯 Key Features:**
+- **Unified Navigation** - Seamless tab-based routing between all MFEs
+- **Real-time Theme Switching** - Instant dark/light mode across all applications
+- **Modular Application Grid** - Clean, organized presentation of available services
+- **Error Boundaries** - Graceful fallback when remote MFEs are unavailable
 
 ---
 
-### Invoice Management MFE
-AngularJS invoice management system integrated via Module Federation with advanced React table component:
+### 📄 Invoice Management MFE (Dark Mode)
+**AngularJS + React Hybrid Architecture** demonstrating enterprise-grade invoice management:
 
-![Invoice Management](https://github.com/user-attachments/assets/invoice-management.png)
+![Invoice Management Dark Mode](./screenshots/invoice_app-dark-m.jpeg)
 
-*Features: Advanced Material React Table, status filtering, real-time search, invoice statistics, and responsive design*
+**🔧 Technical Architecture:**
+- **Host**: AngularJS 1.x (Port 3001) - Legacy business logic and data management
+- **Remote**: React Material Table (Port 3003) - Modern UI component via Module Federation
+- **Bridge Pattern** - AngularJS directive wrapping React component with data binding
+- **Event Communication** - Bidirectional data flow between frameworks
+
+**🎯 Key Features:**
+- **Advanced Material React Table** - Sorting, filtering, pagination, and responsive design
+- **Real-time Statistics Dashboard** - Live invoice metrics (Total, Paid, Unpaid, Overdue, Amount)
+- **Status Management** - Mark invoices as paid with instant UI updates
+- **Search & Filter** - Real-time filtering by invoice number, client name, and status
+- **Fallback UI** - Graceful degradation when remote table component is unavailable
+- **Backend Monitoring** - Automatic retry when backend goes offline/online
+
+**🔄 Host-Remote Relationship:**
+```
+AngularJS Controller (HOST)
+    ↓ (data binding)
+AngularJS Directive (BRIDGE)
+    ↓ (Module Federation)
+React Table Component (REMOTE)
+    ↓ (events)
+AngularJS Controller (HOST)
+```
 
 ---
 
-### Payment Processing MFE
-Modern React payment form with invoice selection and secure payment processing:
+### 💳 Payment Processing MFE (Light Mode)
+**Modern React Payment System** with dynamic invoice selection and secure processing:
 
-![Payment Processing](https://github.com/user-attachments/assets/payment-processing.png)
+![Payment Processing Light Mode](./screenshots/payment_app-light-mode.jpeg)
 
-*Features: Invoice selector with auto-refresh, card validation, mock payment processing, and responsive form design*
+**🔧 Technical Architecture:**
+- **Host**: React + TypeScript (Port 3002) - Modern payment processing logic
+- **Integration**: Module Federation consumer with shared React dependencies
+- **Event-Driven Communication** - Emits `invoice:paid` events to update invoice status
+- **Form Validation** - Real-time client-side validation with user feedback
+
+**🎯 Key Features:**
+- **Dynamic Invoice Selection** - Auto-refreshing dropdown after successful payment
+- **Advanced Form Validation** - Real-time validation for card details, amounts, and dates
+- **Mock Payment Processing** - Simulates payment flow with success/error states
+- **Responsive Design** - Mobile-optimized payment form with touch-friendly inputs
+- **Cross-MFE Communication** - Updates invoice status across all applications
+- **Backend Monitoring** - Automatic retry when backend connection is restored
+
+**🔄 Host-Remote Relationship:**
+```
+Shell App (HOST)
+    ↓ (Module Federation)
+Payment App (REMOTE)
+    ↓ (Custom Events)
+Invoice App (HOST)
+    ↓ (Status Update)
+MRT Table (REMOTE)
+```
+
+---
+
+### 💳 Payment Processing MFE (Dark Mode)
+**Dark Theme Implementation** showcasing consistent theming across all micro-frontends:
+
+![Payment Processing Dark Mode](./screenshots/payment_app-dark-m.jpeg)
+
+**🔧 Technical Architecture:**
+- **Theme Synchronization** - CSS variables and `[data-theme="dark"]` attribute
+- **Cross-MFE Consistency** - Identical styling across all applications
+- **Responsive Design** - Mobile-optimized layout with touch-friendly controls
+- **Accessibility** - High contrast ratios and proper color schemes
+
+**🎯 Key Features:**
+- **Consistent Dark Theme** - Seamless visual experience across all MFEs
+- **Mobile Responsiveness** - Optimized for all screen sizes and orientations
+- **Form Validation** - Real-time feedback with dark theme-appropriate colors
+- **Event Communication** - Maintains functionality across theme changes
+
+---
+
+### ⚠️ Backend Error Handling (Light Mode)
+**Enterprise-Grade Error Management** demonstrating resilience and user experience:
+
+![Backend Error Handling Light Mode](./screenshots/backend-connection-error-handling-light-m.png)
+
+**🔧 Technical Architecture:**
+- **Backend Connection Service** - Shared monitoring service across all MFEs
+- **Automatic Health Checks** - Polls backend every 5 seconds with exponential backoff
+- **Event-Driven Recovery** - Auto-retry when backend comes back online
+- **Graceful Degradation** - Professional error UI when services are unavailable
+
+**🎯 Key Features:**
+- **Automatic Detection** - Instantly detects when backend goes offline/online
+- **User-Friendly Messages** - Clear, actionable error messages without technical jargon
+- **Retry Mechanisms** - Manual retry buttons and automatic recovery
+- **No Manual Refresh** - Seamless experience without page reloads
+- **Cross-MFE Consistency** - Identical error handling across all applications
+
+---
+
+### ⚠️ Backend Error Handling (Dark Mode)
+**Dark Theme Error States** maintaining visual consistency during error conditions:
+
+![Backend Error Handling Dark Mode](./screenshots/backend-connection-error-handling-dark-m.png)
+
+**🔧 Technical Architecture:**
+- **Theme-Aware Error UI** - Error messages adapt to current theme
+- **Consistent Styling** - Error states match application design language
+- **Accessibility** - High contrast error messages for better readability
+- **Mobile Optimization** - Error UI works perfectly on all device sizes
+
+**🎯 Key Features:**
+- **Professional Error Display** - Enterprise-grade error presentation
+- **Troubleshooting Guidance** - Helpful suggestions for resolving issues
+- **Visual Consistency** - Error states maintain brand and theme consistency
+- **User Experience** - Clear feedback without overwhelming technical details
 
 ---
 
