@@ -7,7 +7,8 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 ### Shell Application - Home Page
 Welcome page showcasing all micro-frontends in a unified shell with seamless navigation:
 
-![Shell App Home](https://github.com/user-attachments/assets/micro-frontends-home.png)
+![Shell App Home](<img width="1810" height="920" alt="light-mode" src="https://github.com/user-attachments/assets/5d3278b3-b541-4e0b-896d-688a128219ca" />)
+)
 
 *Features: Unified navigation hub, modular application grid, real-time theme switching, and seamless micro-frontend orchestration*
 
