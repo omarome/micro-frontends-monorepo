@@ -28,7 +28,7 @@ AngularJS invoice management system integrated via Module Federation with advanc
 Modern React payment form with invoice selection and secure payment processing:
 
 ![Payment Processing] <img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/payment_app.jpeg"/>
-![Payment Processing] <img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/light_mode.jpeg"/>
+![Payment Processing] <img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/light-mode.jpeg"/>
 
 *Features: Invoice selector with auto-refresh, card validation, mock payment processing, and responsive form design*
 
