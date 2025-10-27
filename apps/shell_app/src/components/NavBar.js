@@ -1,9 +1,6 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-import ReactIcon from '../assets/react.svg';
-import AngularIcon from '../assets/angularjs.svg';
 import DarkModeToggle from './DarkModeToggle';
 
 const NavBar = () => (
@@ -26,7 +23,7 @@ const NavBar = () => (
         to="/invoice" 
         className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
       >
-        <img src={AngularIcon} alt="AngularJS" className="link-icon" />
+        <span className="link-icon">🧾</span>
         <span className="link-text">Invoice</span>
       </NavLink>
       
@@ -39,11 +36,11 @@ const NavBar = () => (
       </NavLink>
       
       <NavLink 
-        to="/app3" 
+        to="/mrt-table" 
         className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
       >
-        <span className="link-icon">🚀</span>
-        <span className="link-text">App 3</span>
+        <span className="link-icon">📊</span>
+        <span className="link-text">MRT Table</span>
       </NavLink>
       
       <DarkModeToggle />

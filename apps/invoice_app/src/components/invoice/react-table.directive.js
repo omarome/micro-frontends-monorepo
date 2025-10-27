@@ -3,8 +3,8 @@ import { mountReactTable, unmountReactTable } from '../../ReactTableWrapper.js';
 import '../../../../../libs/ui-styles/src/mfeTable.css';
 
 /**
- * AngularJS directive that bridges the React Material Table component from app3
- * into the AngularJS legacy application
+ * AngularJS directive that bridges the React Material Table component from mrt_table_app
+ * into the AngularJS invoice application
  * 
  * Usage:
  * <react-table-component 

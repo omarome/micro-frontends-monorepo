@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the integration of the React Material Table from `app3` into the `legacy_app` (AngularJS application) using Module Federation. The AngularJS application now acts as a **HOST** that consumes the table component from **app3** (REMOTE).
+This document describes the integration of the React Material Table from `mrt_table_app` into the `invoice_app` (AngularJS application) using Module Federation. The AngularJS application now acts as a **HOST** that consumes the table component from **mrt_table_app** (REMOTE).
 
 ## Architecture
 
@@ -23,10 +23,11 @@ This document describes the integration of the React Material Table from `app3` 
 │  │   │   │  ReactTableWrapper.js        │   │   │           │
 │  │   │   │  (React Bridge Component)    │   │   │           │
 │  │   │   │                               │   │   │           │
-│  │   │   │   ┌──────────────────────┐   │   │   │           │
-│  │   │   │   │  TableComponent      │   │   │   │           │
-│  │   │   │   │  from app3 (REMOTE)  │   │   │   │           │
-│  │   │   │   └──────────────────────┘   │   │   │           │
+│  │   │   │   ┌──────────────────────────────┐   │   │   │           │
+│  │   │   │   │  TableComponent          │   │   │   │           │
+│  │   │   │   │  from mrt_table_app      │   │   │   │           │
+│  │   │   │   │  (REMOTE)                │   │   │   │           │
+│  │   │   │   └──────────────────────────┘   │   │   │           │
 │  │   │   └──────────────────────────────┘   │   │           │
 │  │   └──────────────────────────────────────┘   │           │
 │  └──────────────────────────────────────────────┘           │
@@ -37,8 +38,8 @@ This document describes the integration of the React Material Table from `app3` 
 
 ### 1. Module Federation Configuration
 
-#### app3 (Remote)
-**File:** `apps/app3/webpack.config.cjs`
+#### mrt_table_app (Remote)
+**File:** `apps/mrt_table_app/webpack.config.cjs`
 
 Exposes the `TableComponent`:
 ```javascript
@@ -48,13 +49,13 @@ exposes: {
 }
 ```
 
-#### legacy_app (Host)
-**File:** `apps/legacy_app/webpack.config.js`
+#### invoice_app (Host)
+**File:** `apps/invoice_app/webpack.config.js`
 
-Consumes app3 as a remote:
+Consumes mrt_table_app as a remote:
 ```javascript
 remotes: {
-  app3: 'app3@http://localhost:3003/remoteEntry.js',  // ← NEW
+  mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',  // ← NEW
 }
 ```
 
@@ -63,7 +64,7 @@ remotes: {
 **File:** `apps/legacy_app/src/ReactTableWrapper.js`
 
 This component:
-- Dynamically imports the `TableComponent` from app3 using React's `lazy()` and `Suspense`
+- Dynamically imports the `TableComponent` from mrt_table_app using React's `lazy()` and `Suspense`
 - Manages theme state (dark mode support)
 - Bridges AngularJS data and callbacks to React props
 - Provides `mountReactTable()` and `unmountReactTable()` functions for the AngularJS directive
@@ -105,7 +106,7 @@ The `reactTableComponent` directive:
 
 **With:**
 - Single `<react-table-component>` directive
-- All table features now handled by the Material-React-Table from app3
+- All table features now handled by the Material-React-Table from mrt_table_app
 
 ### 5. Imports and Dependencies
 
@@ -130,7 +131,7 @@ import '../../../libs/ui-styles/src/mfeTable.css';
 1. **Invoice Controller** fetches data using `InvoiceModel.fetchInvoices()`
 2. Data stored in `vm.invoices` (AngularJS scope)
 3. **Directive** watches scope changes and passes data to React wrapper
-4. **React Wrapper** passes props to `TableComponent` from app3
+4. **React Wrapper** passes props to `TableComponent` from mrt_table_app
 5. **TableComponent** renders the Material-React-Table
 
 ### From React to AngularJS
@@ -166,9 +167,9 @@ import '../../../libs/ui-styles/src/mfeTable.css';
 
 ## Running the Applications
 
-### Start app3 (Remote)
+### Start mrt_table_app (Remote)
 ```bash
-cd apps/app3
+cd apps/mrt_table_app
 npm start
 # Runs on http://localhost:3003
 ```
@@ -187,7 +188,7 @@ npm start
 # Runs on http://localhost:5000
 ```
 
-**Important:** app3 must be running for legacy_app to load the table component.
+**Important:** mrt_table_app must be running for invoice_app to load the table component.
 
 ## Troubleshooting
 
@@ -207,7 +208,7 @@ shared: {
 
 **Error:** `Access to fetch at 'http://localhost:3003/remoteEntry.js' has been blocked by CORS policy`
 
-**Solution:** Ensure app3's webpack config has CORS headers:
+**Solution:** Ensure mrt_table_app's webpack config has CORS headers:
 ```javascript
 devServer: {
   headers: {
@@ -238,7 +239,7 @@ import '../../../libs/ui-styles/src/mfeTable.css';
 
 ## Future Enhancements
 
-1. **Replace More Components:** Other AngularJS components can be replaced with React components from app3 or other micro-frontends
+1. **Replace More Components:** Other AngularJS components can be replaced with React components from mrt_table_app or other micro-frontends
 2. **Shared State Management:** Implement a shared state management solution (e.g., Redux, Zustand) across all micro-frontends
 3. **Type Safety:** Add TypeScript definitions for the directive and wrapper interfaces
 4. **Error Boundaries:** Add React Error Boundaries to catch and handle errors gracefully

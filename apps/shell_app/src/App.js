@@ -201,7 +201,7 @@ const LegacyApp = () => {
   return Component ? <Component /> : <div>No component loaded</div>;
 };
 
-const App3Component = () => {
+const MRTTableComponent = () => {
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -210,23 +210,23 @@ const App3Component = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading App3 module...');
+        console.log('Loading MRT Table module...');
         
         // Load the Module Federation remote
-        console.log('Loading app3/App...');
-        const module = await import('app3/App');
+        console.log('Loading mrt_table_app/App...');
+        const module = await import('mrt_table_app/App');
         console.log('Module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
-        // Handle the App3 component (similar to Payment App structure)
+        // Handle the MRT Table component (similar to Payment App structure)
         if (module.default && typeof module.default === 'function') {
-          console.log('Found App3 component at module.default');
+          console.log('Found MRT Table component at module.default');
           setComponent(() => module.default);
           setError(null);
           return;
         } else if (module.default && module.default.default && typeof module.default.default === 'function') {
-          console.log('Found App3 component at module.default.default');
+          console.log('Found MRT Table component at module.default.default');
           setComponent(() => module.default.default);
           setError(null);
           return;
@@ -239,7 +239,7 @@ const App3Component = () => {
         
         throw new Error('No valid React component found in module');
       } catch (err) {
-        console.error('Failed to load App3:', err);
+        console.error('Failed to load MRT Table:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -253,7 +253,7 @@ const App3Component = () => {
     return (
       <div className="loading-container">
         <div className="loading-spinner"></div>
-        <div className="loading-text">Loading App3...</div>
+        <div className="loading-text">Loading MRT Table...</div>
       </div>
     );
   }
@@ -262,7 +262,7 @@ const App3Component = () => {
     return (
       <div className="error-container">
         <div className="error-icon">⚠️</div>
-        <div className="error-title">Failed to load App3</div>
+        <div className="error-title">Failed to load MRT Table</div>
         <div className="error-message">Error: {error.message}</div>
       </div>
     );
@@ -317,6 +317,11 @@ function AnimatedRoutes() {
                           <div className="mfe-grid-item-title">Payment App</div>
                           <div className="mfe-grid-item-description">Process payments with React & TypeScript</div>
                         </div>
+                        <div className="mfe-grid-card">
+                          <div className="mfe-grid-item-icon">📊</div>
+                          <div className="mfe-grid-item-title">MRT Table as MFE</div>
+                          <div className="mfe-grid-item-description">Material React Table standalone micro-frontend</div>
+                        </div>
                       </div>
                     </div>
                   }
@@ -330,8 +335,8 @@ function AnimatedRoutes() {
               element={<PaymentApp />}
             />
                 <Route
-                  path="/app3"
-                  element={<App3Component />}
+                  path="/mrt-table"
+                  element={<MRTTableComponent />}
                 />
           </Routes>
         </div>

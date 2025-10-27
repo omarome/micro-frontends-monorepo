@@ -95,7 +95,7 @@ apps/
 ├── shell_app/      (Port 3000) - React 18 orchestrator with navigation
 ├── invoice_app/    (Port 3001) - AngularJS with React Table integration
 ├── payment_app/    (Port 3002) - React + TypeScript payment form
-└── app3/           (Port 3003) - React + TypeScript analytics
+└── mrt_table_app/  (Port 3003) - Material React Table standalone MFE
 ```
 
 ## 🔑 Key Achievements

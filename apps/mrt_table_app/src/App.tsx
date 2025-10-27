@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import TableComponent from './TableComponent';
 import createInvoiceService from '../../../libs/shared-services/src/invoice.service.js';
+import { initBackendMonitoring } from '../../../libs/shared-services/src/backendConnectionService.js';
 import '@ui-styles/shared-styles.css';
 
 // Initialize the shared service
 const invoiceService = createInvoiceService();
+
+// Initialize backend connection monitoring
+const backendService = initBackendMonitoring({
+  baseUrl: 'http://localhost:4000',
+  healthEndpoint: '/health',
+  pollInterval: 5000
+});
 
 const App: React.FC = () => {
   // State management
@@ -39,23 +47,54 @@ const App: React.FC = () => {
   }, []);
 
   // Fetch invoices from backend
-  useEffect(() => {
-    const loadInvoices = async () => {
-      setLoading(true);
-      setError(null);
+  const loadInvoices = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await invoiceService.fetchInvoices('all');
+      setInvoices(data);
+    } catch (err: any) {
+      // Provide user-friendly error messages based on error type
+      const errorMessage = err.message || '';
       
-      try {
-        const data = await invoiceService.fetchInvoices('all');
-        setInvoices(data);
-      } catch (err: any) {
-        setError(err.message || 'Failed to load invoices');
-        console.error('Error loading invoices:', err);
-      } finally {
-        setLoading(false);
+      if (errorMessage.includes('fetch') || errorMessage.includes('NetworkError') || errorMessage.includes('Failed to fetch')) {
+        setError('Failed to connect to backend server. Please ensure the server is running on port 4000.');
+      } else if (errorMessage.includes('timeout')) {
+        setError('Request timed out. The server is taking too long to respond.');
+      } else if (errorMessage.includes('500')) {
+        setError('Server error occurred. Please check the backend logs.');
+      } else if (errorMessage.includes('404')) {
+        setError('API endpoint not found. Please check the backend configuration.');
+      } else {
+        setError(errorMessage || 'An unexpected error occurred while loading invoices.');
       }
+      
+      console.error('Error loading invoices:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadInvoices();
+  }, []);
+
+  // Listen for backend reconnection - auto-retry when backend comes back online
+  useEffect(() => {
+    const handleBackendConnected = () => {
+      console.log('[MRT Table] Backend reconnected, auto-reloading invoices...');
+      loadInvoices();
     };
 
-    loadInvoices();
+    backendService.on('connected', handleBackendConnected);
+
+    // Cleanup on unmount
+    return () => {
+      console.log('[MRT Table] Cleaning up backend monitoring...');
+      backendService.off('connected', handleBackendConnected);
+      backendService.stop();
+    };
   }, []);
 
   // Handle row click
@@ -119,6 +158,7 @@ const App: React.FC = () => {
         data={invoices}
         onRowClick={handleRowClick}
         onMarkAsPaid={handleMarkAsPaid}
+        onRetry={loadInvoices}
         loading={loading}
         error={error}
         isDarkMode={isDarkMode}

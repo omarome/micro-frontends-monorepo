@@ -10,18 +10,18 @@
 - **Shell App**: `http://localhost:3000`
 - **Invoice App (AngularJS)**: `http://localhost:3001` 
 - **Payment App (React)**: `http://localhost:3002`
-- **App3 (React)**: `http://localhost:3003`
+- **MRT Table (React)**: `http://localhost:3003`
 - **Backend API**: `http://localhost:4000`
 
 ### 🔧 Shell App Configuration (`apps/shell_app/webpack.config.cjs`)
 
 ```javascript
-new ModuleFederationPlugin({
+        new ModuleFederationPlugin({
     name: 'shell',
     remotes: {
         payment_app: 'payment_app@http://localhost:3002/remoteEntry.js',
         invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
-        app3: 'app3@http://localhost:3003/remoteEntry.js',
+        mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',
     },
     shared: {
         react: { 
@@ -225,18 +225,18 @@ module.exports = {
 - **Exposed Module**: `./PaymentForm` → `./src/PaymentForm.tsx`
 - **Shell Route**: `/payment` → loads `payment_app/App`
 
-#### 3. **React MFE (App3) - Standard Module Federation**
+#### 3. **React MFE (MRT Table) - Standard Module Federation**
 - **Entry**: `src/bootstrap.tsx` → loads `src/App.tsx`
-- **Module Federation Name**: `app3`
+- **Module Federation Name**: `mrt_table_app`
 - **Exposed Module**: `./App` → `./src/App.tsx`
-- **Shell Route**: `/app3` → loads `app3/App`
+- **Shell Route**: `/mrt-table` → loads `mrt_table_app/App`
 
 ### 🚀 Startup Sequence
 
 1. **Backend API**: `cd backend && npm start` (port 4000)
 2. **Invoice MFE**: `cd apps/invoice_app && npm start` (port 3001)
 3. **Payment App**: `cd apps/payment_app && npm start` (port 3002)
-4. **App3**: `cd apps/app3 && npm start` (port 3003)
+4. **MRT Table**: `cd apps/mrt_table_app && npm start` (port 3003)
 5. **Shell App**: `cd apps/shell_app && npm start` (port 3000)
 
 ### ✅ Health Check Commands

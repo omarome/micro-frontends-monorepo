@@ -1,4 +1,5 @@
 import angular from 'angular';
+import { initBackendMonitoring } from '../../../../../libs/shared-services/src/backendConnectionService.js';
 
 // Invoice Controller - Uses Model Service
 angular.module('legacyApp')
@@ -15,6 +16,13 @@ angular.module('legacyApp')
     vm.error = null;
     vm.stats = null;
 
+    // Initialize backend connection monitoring
+    const backendService = initBackendMonitoring({
+      baseUrl: 'http://localhost:4000',
+      healthEndpoint: '/health',
+      pollInterval: 5000
+    });
+
     // Load invoices using model service
     vm.loadInvoices = function() {
       vm.loading = true;
@@ -29,7 +37,16 @@ angular.module('legacyApp')
           vm.updateFilteredInvoices();
         })
         .catch(function(error) {
-          vm.error = error.message;
+          // Provide user-friendly error messages based on error type
+          if (error.message.includes('fetch') || error.message.includes('NetworkError')) {
+            vm.error = 'Failed to connect to backend server. Please ensure the server is running on port 4000.';
+          } else if (error.message.includes('timeout')) {
+            vm.error = 'Request timed out. The server is taking too long to respond.';
+          } else if (error.message.includes('500')) {
+            vm.error = 'Server error occurred. Please check the backend logs.';
+          } else {
+            vm.error = error.message || 'An unexpected error occurred while loading invoices.';
+          }
           vm.loading = false;
           console.error('Error loading invoices:', error);
         });
@@ -116,6 +133,23 @@ angular.module('legacyApp')
       if (newValue !== oldValue) {
         vm.updateFilteredInvoices();
       }
+    });
+
+    // Listen for backend reconnection - auto-retry when backend comes back online
+    const handleBackendConnected = () => {
+      console.log('[InvoiceController] Backend reconnected, auto-reloading invoices...');
+      $scope.$apply(() => {
+        vm.loadInvoices();
+      });
+    };
+
+    backendService.on('connected', handleBackendConnected);
+
+    // Cleanup on controller destroy
+    $scope.$on('$destroy', function() {
+      console.log('[InvoiceController] Cleaning up backend monitoring...');
+      backendService.off('connected', handleBackendConnected);
+      backendService.stop();
     });
 
     // Load invoices on controller init

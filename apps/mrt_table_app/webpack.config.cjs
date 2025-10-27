@@ -40,7 +40,7 @@ module.exports = {
       template: './public/index.html',
     }),
     new ModuleFederationPlugin({
-      name: 'app3',
+      name: 'mrt_table_app',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/App.tsx',
