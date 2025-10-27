@@ -143,12 +143,23 @@ angular.module('legacyApp')
       });
     };
 
+    // Listen for backend disconnection - show error when backend goes offline
+    const handleBackendDisconnected = (data) => {
+      console.log('[InvoiceController] Backend disconnected:', data);
+      $scope.$apply(() => {
+        vm.error = 'Backend server is offline. Data will reload automatically when connection is restored.';
+        vm.loading = false;
+      });
+    };
+
     backendService.on('connected', handleBackendConnected);
+    backendService.on('disconnected', handleBackendDisconnected);
 
     // Cleanup on controller destroy
     $scope.$on('$destroy', function() {
       console.log('[InvoiceController] Cleaning up backend monitoring...');
       backendService.off('connected', handleBackendConnected);
+      backendService.off('disconnected', handleBackendDisconnected);
       backendService.stop();
     });
 

@@ -32,11 +32,19 @@ const InvoiceSelector: React.FC<InvoiceSelectorProps> = ({
       fetchUnpaidInvoices();
     };
 
+    const handleBackendDisconnected = (data: any) => {
+      console.log('[Payment InvoiceSelector] Backend disconnected:', data);
+      setError('Backend server is offline. Data will reload automatically when connection is restored.');
+      setLoading(false);
+    };
+
     backendService.on('connected', handleBackendConnected);
+    backendService.on('disconnected', handleBackendDisconnected);
 
     // Cleanup on unmount
     return () => {
       backendService.off('connected', handleBackendConnected);
+      backendService.off('disconnected', handleBackendDisconnected);
     };
   }, []);
 

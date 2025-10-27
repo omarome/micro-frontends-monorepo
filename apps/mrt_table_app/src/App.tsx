@@ -87,12 +87,20 @@ const App: React.FC = () => {
       loadInvoices();
     };
 
+    const handleBackendDisconnected = (data: any) => {
+      console.log('[MRT Table] Backend disconnected:', data);
+      setError('Backend server is offline. Data will reload automatically when connection is restored.');
+      setLoading(false);
+    };
+
     backendService.on('connected', handleBackendConnected);
+    backendService.on('disconnected', handleBackendDisconnected);
 
     // Cleanup on unmount
     return () => {
       console.log('[MRT Table] Cleaning up backend monitoring...');
       backendService.off('connected', handleBackendConnected);
+      backendService.off('disconnected', handleBackendDisconnected);
       backendService.stop();
     };
   }, []);

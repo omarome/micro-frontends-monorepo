@@ -108,7 +108,8 @@ class BackendConnectionService {
           console.log('[BackendConnectionService] ✅ Backend is ONLINE (initial check)');
         }
       } else {
-        this.handleDisconnection(wasConnected);
+        // Backend responded but with error status
+        this.handleDisconnection(wasConnected, new Error(`HTTP ${response.status}: ${response.statusText}`));
       }
     } catch (error) {
       const wasConnected = this.isConnected;
