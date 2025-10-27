@@ -3,6 +3,7 @@
 A comprehensive micro-frontend architecture demonstrating enterprise-grade billing system with realistic financial domain complexity.
 
 ## 🎨 Application Screenshots
+********************************************************************************
 
 ### 🏠 Shell Application - Home Page
 **Central Navigation Hub** showcasing all micro-frontends in a unified shell with seamless navigation:
