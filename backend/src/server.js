@@ -17,7 +17,15 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Health check endpoint
+// Health check endpoints
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    service: 'PayBridge Backend'
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'ok', 

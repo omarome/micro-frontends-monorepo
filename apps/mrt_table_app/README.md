@@ -28,7 +28,7 @@ The app will be available at [http://localhost:3003](http://localhost:3003).
 
 ## Integration
 
-This micro-frontend is integrated into the main shell application at [http://localhost:3000/app3](http://localhost:3000/app3).
+This micro-frontend is integrated into the main shell application at [http://localhost:3000/mrt-table](http://localhost:3000/mrt-table).
 
 ## Architecture
 

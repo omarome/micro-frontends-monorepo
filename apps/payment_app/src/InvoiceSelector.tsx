@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Invoice } from './types';
+import { getBackendConnectionService } from '../../../libs/shared-services/src/backendConnectionService.js';
 
 interface InvoiceSelectorProps {
   selectedInvoiceId: string;
@@ -21,6 +22,31 @@ const InvoiceSelector: React.FC<InvoiceSelectorProps> = ({
   useEffect(() => {
     fetchUnpaidInvoices();
   }, [refreshTrigger]); // Refetch when refreshTrigger changes
+
+  // Listen for backend reconnection - auto-retry when backend comes back online
+  useEffect(() => {
+    const backendService = getBackendConnectionService();
+    
+    const handleBackendConnected = () => {
+      console.log('[Payment InvoiceSelector] Backend reconnected, auto-reloading invoices...');
+      fetchUnpaidInvoices();
+    };
+
+    const handleBackendDisconnected = (data: any) => {
+      console.log('[Payment InvoiceSelector] Backend disconnected:', data);
+      setError('Backend server is offline. Data will reload automatically when connection is restored.');
+      setLoading(false);
+    };
+
+    backendService.on('connected', handleBackendConnected);
+    backendService.on('disconnected', handleBackendDisconnected);
+
+    // Cleanup on unmount
+    return () => {
+      backendService.off('connected', handleBackendConnected);
+      backendService.off('disconnected', handleBackendDisconnected);
+    };
+  }, []);
 
   const fetchUnpaidInvoices = async () => {
     try {

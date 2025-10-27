@@ -13,7 +13,7 @@ class RemoteErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('Error loading remote MFE (app3):', error, errorInfo);
+    console.error('Error loading remote MFE (mrt_table_app):', error, errorInfo);
   }
 
   render() {
@@ -24,10 +24,10 @@ class RemoteErrorBoundary extends Component {
   }
 }
 
-// Dynamically import the TableComponent from app3 (the remote)
+// Dynamically import the TableComponent from mrt_table_app (the remote)
 const TableComponent = lazy(() => 
-  import('app3/TableComponent').catch(err => {
-    console.error('Failed to load app3/TableComponent. App3 may be offline:', err);
+  import('mrt_table_app/TableComponent').catch(err => {
+    console.error('Failed to load mrt_table_app/TableComponent. MRT Table may be offline:', err);
     // Return a fallback component
     return {
       default: ({ data, onRowClick, onMarkAsPaid }) => (
@@ -86,7 +86,7 @@ const TableComponent = lazy(() =>
 );
 
 /**
- * React wrapper component that loads the Material-React-Table from app3
+ * React wrapper component that loads the Material-React-Table from mrt_table_app
  * and bridges it with AngularJS data and callbacks
  */
 const ReactTableWrapper = ({ 

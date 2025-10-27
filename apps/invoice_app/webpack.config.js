@@ -65,7 +65,7 @@ module.exports = {
       name: 'invoice_app',
       filename: 'remoteEntry.js',
       remotes: {
-        app3: 'app3@http://localhost:3003/remoteEntry.js',
+        mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',
       },
       exposes: {
         './App': './src/ReactWrapper.js',

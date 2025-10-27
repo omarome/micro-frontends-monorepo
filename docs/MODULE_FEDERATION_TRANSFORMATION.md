@@ -115,7 +115,7 @@ new ModuleFederationPlugin({
   remotes: {
     payment_app: 'payment_app@http://localhost:3002/remoteEntry.js',
     invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
-    app3: 'app3@http://localhost:3003/remoteEntry.js',
+    mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',
   },
   shared: {
     react: { singleton: true },
