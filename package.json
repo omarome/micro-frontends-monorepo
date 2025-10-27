@@ -7,14 +7,16 @@
     "libs/*"
   ],
   "scripts": {
-    "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:payment\" \"pnpm run start:invoice\"",
+    "start": "concurrently \"pnpm run start:mrt-table\" \"pnpm run start:payment\" \"pnpm run start:invoice\" \"pnpm run start:shell\"",
     "start:shell": "cd apps/shell_app && pnpm start",
     "start:payment": "cd apps/payment_app && pnpm start",
     "start:invoice": "cd apps/invoice_app && pnpm start",
-    "build": "pnpm run build:shell && pnpm run build:payment && pnpm run build:invoice",
+    "start:mrt-table": "cd apps/mrt_table_app && pnpm start",
+    "build": "pnpm run build:mrt-table && pnpm run build:payment && pnpm run build:invoice && pnpm run build:shell",
     "build:shell": "cd apps/shell_app && pnpm build",
     "build:payment": "cd apps/payment_app && pnpm build",
     "build:invoice": "cd apps/invoice_app && pnpm build",
+    "build:mrt-table": "cd apps/mrt_table_app && pnpm build",
     "install:all": "pnpm install",
     "build:shared-services": "cd libs/shared-services && pnpm build"
   },

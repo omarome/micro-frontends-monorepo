@@ -164,7 +164,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 | Payment App | Module Federation | ✅ Active |
 | MRT Table | Module Federation | ✅ Active |
 
-**Note**: The Invoice App was successfully migrated from iframe to Module Federation for better performance and integration.
+**Note**: The Invoice App uses Module Federation for optimal performance and integration.
 
 ### 🏗️ Module Federation Architecture
 
@@ -432,7 +432,7 @@ pnpm start
 
 **⚠️ Important**: After renaming folders or making config changes, **restart all apps**. Remotes (MRT Table, Payment) must start before hosts (Invoice, Shell). See [START_APPS.md](./START_APPS.md) for detailed startup instructions.
 
-**Note**: The Invoice App now runs as a Module Federation remote, not as a standalone iframe application.
+**Note**: The Invoice App runs as a Module Federation remote for seamless integration.
 
 ### Individual App Development
 
@@ -468,12 +468,12 @@ Each micro-frontend exposes components via Webpack Module Federation:
 - `payment_app/PaymentForm` - React payment component  
 - `mrt_table_app/App` - Material React Table standalone component
 
-### Recent Transformation: Iframe → Module Federation
+### Module Federation Integration
 
-The Invoice AngularJS app has been successfully transformed from iframe-based integration to Module Federation:
+The Invoice AngularJS app uses Module Federation for optimal integration:
 
-- **Before**: Isolated iframe with limited communication
-- **After**: Integrated React wrapper with shared dependencies
+- **Architecture**: Direct Module Federation integration with shared dependencies
+- **Communication**: Seamless data flow between AngularJS and React components
 - **Benefits**: Better performance, unified styling, direct communication
 - **Documentation**: See [Module Federation Transformation Guide](./docs/MODULE_FEDERATION_TRANSFORMATION.md)
 
@@ -507,7 +507,7 @@ The Invoice AngularJS app has been successfully transformed from iframe-based in
 ### ✅ Completed Features
 
 - **Module Federation Setup**: All apps configured with shared dependencies
-- **Invoice App Migration**: Successfully migrated from iframe to Module Federation
+- **Invoice App Integration**: Module Federation with AngularJS + React hybrid architecture
 - **Shared Services**: Common business logic across all apps
 - **Unified Styling**: Tailwind CSS shared across all applications
 - **Development Environment**: Hot reloading and HMR for all apps
@@ -519,16 +519,14 @@ The Invoice AngularJS app has been successfully transformed from iframe-based in
 - **Bundle Size Reduction**: 34% smaller bundle size
 - **Memory Optimization**: 38% reduction in memory usage
 - **Developer Experience**: Unified debugging and development tools
-- **User Experience**: Seamless navigation without iframe boundaries
+- **User Experience**: Seamless navigation with unified interface
 
 ## 📖 Documentation
 
 For comprehensive documentation, see the [`/docs`](./docs) directory:
 
 - **[Documentation Index](./docs/README.md)** - Complete documentation overview
-- **[Module Federation Guide](./docs/MODULE_FEDERATION_TRANSFORMATION.md)** - Detailed migration guide
-- **[Backend Error Handling](./docs/BACKEND_ERROR_HANDLING.md)** - ⭐ Best practices for handling backend failures
-- **[Backend Connection Service](./docs/BACKEND_CONNECTION_SERVICE.md)** - 🔄 Automatic retry & monitoring service
+- **[Module Federation Guide](./docs/MODULE_FEDERATION_TRANSFORMATION.md)** - Detailed integration guide
 - **[Fallback Configuration](./FALLBACK_CONFIGURATION.md)** - MFE error handling and resilience
 - **[Startup Guide](./START_APPS.md)** - Proper application startup order
 - **[Transformation Summary](./docs/TRANSFORMATION_SUMMARY.md)** - Quick overview of achievements
