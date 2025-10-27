@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './App.js';
+import App from './App';
 
 // Only render if running standalone (not as a module federation remote)
 const container = document.getElementById('root');

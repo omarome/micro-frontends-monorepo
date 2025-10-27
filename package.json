@@ -9,11 +9,11 @@
   "scripts": {
     "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:payment\" \"pnpm run start:invoice\"",
     "start:shell": "cd apps/shell && pnpm start",
-    "start:payment": "cd apps/payment && pnpm start",
+    "start:payment": "cd apps/payment_app && pnpm start",
     "start:invoice": "cd apps/invoice_app && pnpm start",
     "build": "pnpm run build:shell && pnpm run build:payment && pnpm run build:invoice",
     "build:shell": "cd apps/shell && pnpm build",
-    "build:payment": "cd apps/payment && pnpm build",
+    "build:payment": "cd apps/payment_app && pnpm build",
     "build:invoice": "cd apps/invoice_app && pnpm build",
     "install:all": "pnpm install",
     "build:shared-services": "cd libs/shared-services && pnpm build"

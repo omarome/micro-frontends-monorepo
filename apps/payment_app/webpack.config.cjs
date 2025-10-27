@@ -81,7 +81,7 @@ module.exports = {
             template: "./public/index.html"
         }),
         new ModuleFederationPlugin({
-            name: 'paymentMFE',
+            name: 'payment_app',
             filename: 'remoteEntry.js',
             exposes: {
                 './App': './src/App.tsx',

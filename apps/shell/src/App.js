@@ -18,11 +18,11 @@ const PaymentApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Payment MFE module...');
+        console.log('Loading Payment App module...');
         
         // Import the Module Federation remote
-        const module = await import('paymentMFE/App');
-        console.log('Payment MFE module loaded:', module);
+        const module = await import('payment_app/App');
+        console.log('Payment App module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
@@ -90,7 +90,7 @@ const PaymentApp = () => {
           throw new Error('No valid React component found in module');
         }
       } catch (err) {
-        console.error('Failed to load Payment MFE:', err);
+        console.error('Failed to load Payment App:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -104,7 +104,7 @@ const PaymentApp = () => {
         return (
           <div className="loading-container">
             <div className="loading-spinner"></div>
-            <div className="loading-text">Loading Payment MFE...</div>
+            <div className="loading-text">Loading Payment App...</div>
           </div>
         );
       }
@@ -219,7 +219,7 @@ const App3Component = () => {
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
-        // Handle the App3 component (similar to Payment MFE structure)
+        // Handle the App3 component (similar to Payment App structure)
         if (module.default && typeof module.default === 'function') {
           console.log('Found App3 component at module.default');
           setComponent(() => module.default);
@@ -314,7 +314,7 @@ function AnimatedRoutes() {
                         </div>
                         <div className="mfe-grid-card">
                           <div className="mfe-grid-item-icon">💳</div>
-                          <div className="mfe-grid-item-title">Payment MFE</div>
+                          <div className="mfe-grid-item-title">Payment App</div>
                           <div className="mfe-grid-item-description">Process payments with React & TypeScript</div>
                         </div>
                       </div>

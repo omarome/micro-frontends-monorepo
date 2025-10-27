@@ -1,5 +1,5 @@
 {
-  "name": "paymentMFE",
+  "name": "payment_app",
   "private": true,
   "version": "1.0.0",
   "scripts": {

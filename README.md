@@ -8,7 +8,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 
 - **Shell App** (Port 3000) - React 18 shell with navigation and orchestration
 - **Invoice App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
-- **Payment MFE** (Port 3002) - React + TypeScript payment processing  
+- **Payment App** (Port 3002) - React + TypeScript payment processing  
 - **App3** (Port 3003) - React + TypeScript analytics and planning
 
 ### Integration Methods
@@ -17,7 +17,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 |-----|-------------------|--------|
 | Shell | Host Application | ✅ Active |
 | Invoice App | **Module Federation** | ✅ **Recently Migrated** |
-| Payment MFE | Module Federation | ✅ Active |
+| Payment App | Module Federation | ✅ Active |
 | App3 | Module Federation | ✅ Active |
 
 **Note**: The Invoice App was successfully migrated from iframe to Module Federation for better performance and integration.
@@ -56,7 +56,7 @@ pnpm start
 # 2. Access the applications
 # Shell App: http://localhost:3000
 # Invoice App: http://localhost:3001 (Module Federation)
-# Payment MFE: http://localhost:3002
+# Payment App: http://localhost:3002
 # App3: http://localhost:3003
 ```
 
@@ -71,8 +71,8 @@ cd apps/shell && pnpm start
 # Invoice App (Port 3001) 
 cd apps/invoice_app && pnpm start
 
-# Payment MFE (Port 3002)
-cd apps/payment && pnpm start
+# Payment App (Port 3002)
+cd apps/payment_app && pnpm start
 
 # App3 (Port 3003)
 cd apps/app3 && pnpm start
@@ -93,7 +93,7 @@ Each micro-frontend exposes components via Webpack Module Federation:
 
 - `shell` - Orchestrates and consumes all remotes
 - `invoice_app/App` - **NEW**: React wrapper for AngularJS invoice management
-- `paymentMFE/PaymentForm` - React payment component  
+- `payment_app/PaymentForm` - React payment component  
 - `app3/App` - React analytics component
 
 ### Recent Transformation: Iframe → Module Federation
