@@ -66,7 +66,7 @@ pnpm start
 
 ```bash
 # Shell App (Port 3000)
-cd apps/shell && pnpm start
+cd apps/shell_app && pnpm start
 
 # Invoice App (Port 3001) 
 cd apps/invoice_app && pnpm start
@@ -116,9 +116,9 @@ The Invoice AngularJS app has been successfully transformed from iframe-based in
 
 ```
 ├── apps/
-│   ├── shell/           # Main shell application
+│   ├── shell_app/       # Main shell application
 │   ├── invoice_app/     # AngularJS invoice management (Module Federation)
-│   ├── payment/         # React payment processing
+│   ├── payment_app/     # React payment processing
 │   └── app3/            # React analytics & planning
 ├── libs/
 │   ├── ui-styles/       # Shared Tailwind CSS styles

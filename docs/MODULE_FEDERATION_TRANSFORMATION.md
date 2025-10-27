@@ -109,7 +109,7 @@ module.exports = {
 
 #### Shell App Webpack Config
 ```javascript
-// apps/shell/webpack.config.cjs
+// apps/shell_app/webpack.config.cjs
 new ModuleFederationPlugin({
   name: 'shell',
   remotes: {
@@ -178,7 +178,7 @@ export { LegacyAppWrapper as LegacyApp };
 ### 3. Shell App Integration
 
 ```javascript
-// apps/shell/src/App.js
+// apps/shell_app/src/App.js
 const LegacyApp = () => {
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);

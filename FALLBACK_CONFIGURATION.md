@@ -13,7 +13,7 @@
 - **App3 (React)**: `http://localhost:3003`
 - **Backend API**: `http://localhost:4000`
 
-### 🔧 Shell App Configuration (`apps/shell/webpack.config.cjs`)
+### 🔧 Shell App Configuration (`apps/shell_app/webpack.config.cjs`)
 
 ```javascript
 new ModuleFederationPlugin({
@@ -237,7 +237,7 @@ module.exports = {
 2. **Invoice MFE**: `cd apps/invoice_app && npm start` (port 3001)
 3. **Payment App**: `cd apps/payment_app && npm start` (port 3002)
 4. **App3**: `cd apps/app3 && npm start` (port 3003)
-5. **Shell App**: `cd apps/shell && npm start` (port 3000)
+5. **Shell App**: `cd apps/shell_app && npm start` (port 3000)
 
 ### ✅ Health Check Commands
 
