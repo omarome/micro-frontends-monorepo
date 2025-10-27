@@ -1,26 +1,26 @@
 # 🏥 FALLBACK CONFIGURATION - "BRIDGE_PATTERN_WORKING"
 
 **Name**: `BRIDGE_PATTERN_WORKING`  
-**Date**: 2025-01-27  
-**Purpose**: Working Module Federation Bridge Pattern for AngularJS to React migration
+**Date**: October 2025  
+**Purpose**: Working Module Federation Bridge Pattern for AngularJS to React migration with Error Boundaries and graceful fallback UI
 
 ## 📋 Current Working State
 
 ### 🎯 Port Allocation
 - **Shell App**: `http://localhost:3000`
-- **Legacy App (AngularJS)**: `http://localhost:3001` 
-- **Astrobyte App (React)**: `http://localhost:3002`
+- **Invoice App (AngularJS)**: `http://localhost:3001` 
+- **Payment App (React)**: `http://localhost:3002`
 - **App3 (React)**: `http://localhost:3003`
 - **Backend API**: `http://localhost:4000`
 
-### 🔧 Shell App Configuration (`apps/shell/webpack.config.cjs`)
+### 🔧 Shell App Configuration (`apps/shell_app/webpack.config.cjs`)
 
 ```javascript
 new ModuleFederationPlugin({
     name: 'shell',
     remotes: {
-        astrobyte: 'astrobyte@http://localhost:3002/remoteEntry.js',
-        legacyApp: 'legacyApp@http://localhost:3001/remoteEntry.js',
+        payment_app: 'payment_app@http://localhost:3002/remoteEntry.js',
+        invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
         app3: 'app3@http://localhost:3003/remoteEntry.js',
     },
     shared: {
@@ -46,7 +46,7 @@ new ModuleFederationPlugin({
 })
 ```
 
-### 🅰️ Invoice MFE (AngularJS) Configuration (`apps/legacy_app/`)
+### 🅰️ Invoice MFE (AngularJS) Configuration (`apps/invoice_app/`)
 
 #### Bridge Service: `src/bootstrap.js`
 ```javascript
@@ -219,11 +219,11 @@ module.exports = {
 - **Shell Route**: `/invoice` → loads via bridge service
 - **Loading Method**: Dynamic script loading + `window.InvoiceBootstrap.init()`
 
-#### 2. **React MFE (Astrobyte) - Standard Module Federation**
-- **Entry**: `src/bootstrap.js` → loads `src/App.js`
-- **Module Federation Name**: `astrobyte`
-- **Exposed Module**: `./App` → `./src/App.js`
-- **Shell Route**: `/astrobyte` → loads `astrobyte/App`
+#### 2. **React MFE (Payment) - Standard Module Federation**
+- **Entry**: `src/bootstrap.js` → loads `src/App.tsx`
+- **Module Federation Name**: `payment_app`
+- **Exposed Module**: `./PaymentForm` → `./src/PaymentForm.tsx`
+- **Shell Route**: `/payment` → loads `payment_app/App`
 
 #### 3. **React MFE (App3) - Standard Module Federation**
 - **Entry**: `src/bootstrap.tsx` → loads `src/App.tsx`
@@ -234,10 +234,10 @@ module.exports = {
 ### 🚀 Startup Sequence
 
 1. **Backend API**: `cd backend && npm start` (port 4000)
-2. **Invoice MFE**: `cd apps/legacy_app && npm start` (port 3001)
-3. **Astrobyte App**: `cd apps/astrobyte && npm start` (port 3002)
+2. **Invoice MFE**: `cd apps/invoice_app && npm start` (port 3001)
+3. **Payment App**: `cd apps/payment_app && npm start` (port 3002)
 4. **App3**: `cd apps/app3 && npm start` (port 3003)
-5. **Shell App**: `cd apps/shell && npm start` (port 3000)
+5. **Shell App**: `cd apps/shell_app && npm start` (port 3000)
 
 ### ✅ Health Check Commands
 
@@ -255,7 +255,7 @@ curl -s http://localhost:3000 | grep -o "PayBridge" | head -1  # Should return P
 
 # Test individual MFEs
 curl -s http://localhost:3001 | grep -o "Invoice Management" | head -1  # Should return Invoice Management
-curl -s http://localhost:3002 | grep -o "AstroByte" | head -1  # Should return AstroByte
+curl -s http://localhost:3002 | grep -o "Payment App" | head -1  # Should return Payment App
 curl -s http://localhost:3003 | grep -o "InvoiceHub" | head -1  # Should return InvoiceHub
 ```
 

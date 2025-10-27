@@ -83,8 +83,8 @@ module.exports = {
         new ModuleFederationPlugin({
             name: 'shell',
             remotes: {
-                astrobyte: 'astrobyte@http://localhost:3002/remoteEntry.js',
-                legacy_app: 'legacy_app@http://localhost:3001/remoteEntry.js',
+                payment_app: 'payment_app@http://localhost:3002/remoteEntry.js',
+                invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
                 app3: 'app3@http://localhost:3003/remoteEntry.js',
             },
             shared: {

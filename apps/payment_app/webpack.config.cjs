@@ -81,10 +81,11 @@ module.exports = {
             template: "./public/index.html"
         }),
         new ModuleFederationPlugin({
-            name: 'astrobyte',
+            name: 'payment_app',
             filename: 'remoteEntry.js',
             exposes: {
                 './App': './src/App.tsx',
+                './PaymentForm': './src/PaymentForm.tsx',
             },
             shared: {
                 react: { 

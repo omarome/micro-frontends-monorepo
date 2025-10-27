@@ -9,7 +9,7 @@ import '@ui-styles/invoice-styles.css';
 import '@ui-styles/shell-styles.css';
 
 // Direct Module Federation loading without React.lazy
-const AstrobyteApp = () => {
+const PaymentApp = () => {
   const [Component, setComponent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -18,11 +18,11 @@ const AstrobyteApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Astrobyte module...');
+        console.log('Loading Payment App module...');
         
         // Import the Module Federation remote
-        const module = await import('astrobyte/App');
-        console.log('Astrobyte module loaded:', module);
+        const module = await import('payment_app/App');
+        console.log('Payment App module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
@@ -90,7 +90,7 @@ const AstrobyteApp = () => {
           throw new Error('No valid React component found in module');
         }
       } catch (err) {
-        console.error('Failed to load Astrobyte:', err);
+        console.error('Failed to load Payment App:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -104,7 +104,7 @@ const AstrobyteApp = () => {
         return (
           <div className="loading-container">
             <div className="loading-spinner"></div>
-            <div className="loading-text">Loading AstroByte...</div>
+            <div className="loading-text">Loading Payment App...</div>
           </div>
         );
       }
@@ -113,7 +113,7 @@ const AstrobyteApp = () => {
         return (
           <div className="error-container">
             <div className="error-icon">⚠️</div>
-            <div className="error-title">Failed to load Astrobyte App</div>
+            <div className="error-title">Failed to load Payment App</div>
             <div className="error-message">Error: {error.message}</div>
           </div>
         );
@@ -131,30 +131,30 @@ const LegacyApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Legacy App module...');
+        console.log('Loading Invoice App module...');
         
         // Import the Module Federation remote
-        const module = await import('legacy_app/InvoiceComponent');
-        console.log('Legacy App module loaded:', module);
+        const module = await import('invoice_app/InvoiceComponent');
+        console.log('Invoice App module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default:', module.default);
         console.log('Module.InvoiceComponent:', module.InvoiceComponent);
         
         // Handle the component
         if (module.default && typeof module.default === 'function') {
-          console.log('Found Legacy App component at module.default');
+          console.log('Found Invoice App component at module.default');
           setComponent(() => module.default);
           setError(null);
         } else if (module.InvoiceComponent && typeof module.InvoiceComponent === 'function') {
-          console.log('Found Legacy App component at module.InvoiceComponent');
+          console.log('Found Invoice App component at module.InvoiceComponent');
           setComponent(() => module.InvoiceComponent);
           setError(null);
         } else if (module.LegacyAppWrapper && typeof module.LegacyAppWrapper === 'function') {
-          console.log('Found Legacy App component at module.LegacyAppWrapper');
+          console.log('Found Invoice App component at module.LegacyAppWrapper');
           setComponent(() => module.LegacyAppWrapper);
           setError(null);
         } else if (module.LegacyApp && typeof module.LegacyApp === 'function') {
-          console.log('Found Legacy App component at module.LegacyApp');
+          console.log('Found Invoice App component at module.LegacyApp');
           setComponent(() => module.LegacyApp);
           setError(null);
         } else {
@@ -163,7 +163,7 @@ const LegacyApp = () => {
           throw new Error('No valid component found in module');
         }
       } catch (err) {
-        console.error('Failed to load Legacy App:', err);
+        console.error('Failed to load Invoice App:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -219,7 +219,7 @@ const App3Component = () => {
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
-        // Handle the App3 component (similar to Astrobyte structure)
+        // Handle the App3 component (similar to Payment App structure)
         if (module.default && typeof module.default === 'function') {
           console.log('Found App3 component at module.default');
           setComponent(() => module.default);
@@ -308,14 +308,14 @@ function AnimatedRoutes() {
                           <div className="mfe-grid-item-description">Main orchestrator & navigation hub</div>
                         </div>
                         <div className="mfe-grid-card">
-                          <div className="mfe-grid-item-icon">🎭</div>
-                          <div className="mfe-grid-item-title">Legacy App</div>
+                          <div className="mfe-grid-item-icon">📄</div>
+                          <div className="mfe-grid-item-title">Invoice App</div>
                           <div className="mfe-grid-item-description">AngularJS with Invoice Management</div>
                         </div>
                         <div className="mfe-grid-card">
-                          <div className="mfe-grid-item-icon">🚀</div>
-                          <div className="mfe-grid-item-title">AstroByte App</div>
-                          <div className="mfe-grid-item-description">Modern React TypeScript showcase</div>
+                          <div className="mfe-grid-item-icon">💳</div>
+                          <div className="mfe-grid-item-title">Payment App</div>
+                          <div className="mfe-grid-item-description">Process payments with React & TypeScript</div>
                         </div>
                       </div>
                     </div>
@@ -326,8 +326,8 @@ function AnimatedRoutes() {
               element={<LegacyApp />}
             />
             <Route
-              path="/astrobyte"
-              element={<AstrobyteApp />}
+              path="/payment"
+              element={<PaymentApp />}
             />
                 <Route
                   path="/app3"

@@ -646,15 +646,24 @@
   }
   
   .footer {
-    padding: var(--spacing-8) 0 0;
+    padding: var(--spacing-4) 0 var(--spacing-2); /* Reduce from spacing-8 to spacing-4 */
   }
   
   .footer-content {
     padding: 0 var(--spacing-2);
+    gap: var(--spacing-3); /* Reduce gaps between sections */
+  }
+  
+  /* Hide less critical sections on very small screens */
+  .footer-section:nth-child(3),
+  .footer-section:nth-child(4) {
+    display: none; /* Hide extra sections */
   }
   
   .footer-bottom-content {
-    padding: 0 var(--spacing-2);
+    padding: var(--spacing-2) 0;
+    padding-left: var(--spacing-2);
+    padding-right: var(--spacing-2);
   }
   
   .footer-legal {

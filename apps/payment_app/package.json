@@ -1,7 +1,7 @@
 {
-  "name": "shell",
+  "name": "payment_app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "start": "webpack serve --config webpack.config.cjs",
     "build": "webpack build --config webpack.config.cjs",
@@ -10,9 +10,7 @@
   },
   "dependencies": {
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-router-dom": "^6.18.0",
-    "react-transition-group": "^4.4.5"
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",

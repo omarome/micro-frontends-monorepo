@@ -2,13 +2,42 @@
 
 A comprehensive micro-frontend architecture demonstrating enterprise-grade billing system with realistic financial domain complexity.
 
+## 🎨 Application Screenshots
+
+### Shell Application - Home Page
+Welcome page showcasing all micro-frontends in a unified shell with seamless navigation:
+
+![Shell App Home](https://github.com/user-attachments/assets/micro-frontends-home.png)
+
+*Features: Unified navigation hub, modular application grid, real-time theme switching, and seamless micro-frontend orchestration*
+
+---
+
+### Invoice Management MFE
+AngularJS invoice management system integrated via Module Federation with advanced React table component:
+
+![Invoice Management](https://github.com/user-attachments/assets/invoice-management.png)
+
+*Features: Advanced Material React Table, status filtering, real-time search, invoice statistics, and responsive design*
+
+---
+
+### Payment Processing MFE
+Modern React payment form with invoice selection and secure payment processing:
+
+![Payment Processing](https://github.com/user-attachments/assets/payment-processing.png)
+
+*Features: Invoice selector with auto-refresh, card validation, mock payment processing, and responsive form design*
+
+---
+
 ## Architecture
 
 This monorepo contains multiple micro-frontends orchestrated by a shell application:
 
 - **Shell App** (Port 3000) - React 18 shell with navigation and orchestration
-- **Legacy App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
-- **Astrobyte App** (Port 3002) - React + TypeScript payment processing  
+- **Invoice App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
+- **Payment App** (Port 3002) - React + TypeScript payment processing  
 - **App3** (Port 3003) - React + TypeScript analytics and planning
 
 ### Integration Methods
@@ -16,19 +45,49 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 | App | Integration Method | Status |
 |-----|-------------------|--------|
 | Shell | Host Application | ✅ Active |
-| Legacy App | **Module Federation** | ✅ **Recently Migrated** |
-| Astrobyte | Module Federation | ✅ Active |
+| Invoice App | **Module Federation** | ✅ **Recently Migrated** |
+| Payment App | Module Federation | ✅ Active |
 | App3 | Module Federation | ✅ Active |
 
-**Note**: The Legacy App was successfully migrated from iframe to Module Federation for better performance and integration.
+**Note**: The Invoice App was successfully migrated from iframe to Module Federation for better performance and integration.
+
+## ✨ Key Features
+
+### 🏠 **Unified Shell Application**
+- **Seamless Navigation**: Tab-based routing between micro-frontends
+- **Theme Management**: Dark/Light mode with real-time synchronization across all MFEs
+- **Responsive Design**: Mobile-first approach with optimized layouts
+- **Modern UI**: Gradient backgrounds, smooth transitions, and polished animations
+
+### 📄 **Invoice Management MFE**
+- **Advanced React Table**: Material React Table integrated in AngularJS app via Module Federation
+- **Real-time Filtering**: Search by invoice number, client name, or filter by status
+- **Invoice Statistics**: Live dashboard showing total, paid, unpaid, overdue counts and amounts
+- **Action Buttons**: View invoice details and mark invoices as paid
+- **Responsive Mobile**: Optimized table view for all screen sizes
+
+### 💳 **Payment Processing MFE**
+- **Invoice Selector**: Dynamic dropdown with auto-refresh after payment
+- **Form Validation**: Real-time validation for card details and expiry date
+- **Invoice Details**: Shows selected invoice information (client, amount, due date)
+- **Mock Payments**: Simulates payment processing with success/error handling
+- **Cross-MFE Events**: Emits payment events to update invoice status across apps
+
+### 🎯 **Cross-Cutting Features**
+- **Module Federation**: Zero-reload micro-frontend integration
+- **Shared State**: Theme and payment events synchronized across all apps
+- **Error Boundaries**: Graceful fallback when remote MFEs are unavailable
+- **Independent Deployment**: Each MFE can be deployed and updated separately
+- **Framework Agnostic**: React 18 and AngularJS 1.x working together seamlessly
 
 ## Tech Stack
 
 - **Frontend**: React 18, AngularJS 1.x, TypeScript
-- **Styling**: Tailwind CSS (shared across all apps)
+- **Styling**: Tailwind CSS + Custom CSS Variables (shared across all apps)
 - **Build**: Webpack 5 with Module Federation
 - **Package Manager**: pnpm with workspace support
 - **Development**: Hot Module Replacement, Live Reloading
+- **State Management**: Event-driven communication via Custom Events
 
 ## Getting Started
 
@@ -55,24 +114,24 @@ pnpm start
 
 # 2. Access the applications
 # Shell App: http://localhost:3000
-# Legacy App: http://localhost:3001 (Module Federation)
-# Astrobyte: http://localhost:3002
+# Invoice App: http://localhost:3001 (Module Federation)
+# Payment App: http://localhost:3002
 # App3: http://localhost:3003
 ```
 
-**Note**: The Legacy App now runs as a Module Federation remote, not as a standalone iframe application.
+**Note**: The Invoice App now runs as a Module Federation remote, not as a standalone iframe application.
 
 ### Individual App Development
 
 ```bash
 # Shell App (Port 3000)
-cd apps/shell && pnpm start
+cd apps/shell_app && pnpm start
 
-# Legacy App (Port 3001) 
-cd apps/legacy_app && pnpm start
+# Invoice App (Port 3001) 
+cd apps/invoice_app && pnpm start
 
-# Astrobyte App (Port 3002)
-cd apps/astrobyte && pnpm start
+# Payment App (Port 3002)
+cd apps/payment_app && pnpm start
 
 # App3 (Port 3003)
 cd apps/app3 && pnpm start
@@ -92,13 +151,13 @@ All applications use Tailwind CSS for consistent styling:
 Each micro-frontend exposes components via Webpack Module Federation:
 
 - `shell` - Orchestrates and consumes all remotes
-- `legacyApp/App` - **NEW**: React wrapper for AngularJS invoice management
-- `astrobyte/App` - React payment component  
+- `invoice_app/App` - **NEW**: React wrapper for AngularJS invoice management
+- `payment_app/PaymentForm` - React payment component  
 - `app3/App` - React analytics component
 
 ### Recent Transformation: Iframe → Module Federation
 
-The legacy AngularJS app has been successfully transformed from iframe-based integration to Module Federation:
+The Invoice AngularJS app has been successfully transformed from iframe-based integration to Module Federation:
 
 - **Before**: Isolated iframe with limited communication
 - **After**: Integrated React wrapper with shared dependencies
@@ -116,9 +175,9 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 
 ```
 ├── apps/
-│   ├── shell/           # Main shell application
-│   ├── legacy_app/      # AngularJS invoice management (Module Federation)
-│   ├── astrobyte/       # React payment processing
+│   ├── shell_app/       # Main shell application
+│   ├── invoice_app/     # AngularJS invoice management (Module Federation)
+│   ├── payment_app/     # React payment processing
 │   └── app3/            # React analytics & planning
 ├── libs/
 │   ├── ui-styles/       # Shared Tailwind CSS styles
@@ -135,7 +194,7 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 ### ✅ Completed Features
 
 - **Module Federation Setup**: All apps configured with shared dependencies
-- **Legacy App Migration**: Successfully migrated from iframe to Module Federation
+- **Invoice App Migration**: Successfully migrated from iframe to Module Federation
 - **Shared Services**: Common business logic across all apps
 - **Unified Styling**: Tailwind CSS shared across all applications
 - **Development Environment**: Hot reloading and HMR for all apps
@@ -149,13 +208,35 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 - **Developer Experience**: Unified debugging and development tools
 - **User Experience**: Seamless navigation without iframe boundaries
 
-## Contributing
+## 📖 Documentation
+
+For comprehensive documentation, see the [`/docs`](./docs) directory:
+
+- **[Documentation Index](./docs/README.md)** - Complete documentation overview
+- **[Module Federation Guide](./docs/MODULE_FEDERATION_TRANSFORMATION.md)** - Detailed migration guide
+- **[Transformation Summary](./docs/TRANSFORMATION_SUMMARY.md)** - Quick overview of achievements
+- **[Fallback Configuration](./FALLBACK_CONFIGURATION.md)** - Error handling and resilience
+- **[Dark Mode Feature](./docs/DARK_MODE_FEATURE.md)** - Theme management implementation
+
+## 🤝 Contributing
 
 1. Follow the established micro-frontend patterns
-2. Use Tailwind CSS for all styling
+2. Use Tailwind CSS + CSS Variables for all styling
 3. Maintain Module Federation compatibility
 4. Test integration between shell and remotes
+5. Ensure mobile responsiveness for all features
+6. Add error boundaries for remote component loading
+7. Update documentation when adding new features
 
-## License
+## 📝 License
 
 ISC
+
+---
+
+**PayBridge Micro-Frontends Monorepo**  
+*Enterprise-grade billing system demonstrating advanced micro-frontend architecture*
+
+🌐 Features: Module Federation • Cross-Framework Integration • Dark Mode • Mobile Responsive • Error Boundaries
+
+*Last updated: October 2025*
