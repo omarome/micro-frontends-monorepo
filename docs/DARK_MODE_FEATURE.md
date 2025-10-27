@@ -29,7 +29,7 @@ The micro-frontend monorepo now includes a comprehensive dark mode toggle featur
 
 #### 1. **DarkModeToggle Component**
 ```javascript
-// Location: apps/shell/src/components/DarkModeToggle.js
+// Location: apps/shell_app/src/components/DarkModeToggle.js
 - Interactive toggle switch with sun/moon icons
 - Smooth animations and transitions
 - Accessible with proper ARIA labels
@@ -38,7 +38,7 @@ The micro-frontend monorepo now includes a comprehensive dark mode toggle featur
 
 #### 2. **ThemeContext Provider**
 ```javascript
-// Location: apps/shell/src/contexts/ThemeContext.js
+// Location: apps/shell_app/src/contexts/ThemeContext.js
 - Centralized theme state management
 - localStorage persistence
 - System preference detection
