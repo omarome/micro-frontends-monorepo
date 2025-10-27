@@ -9,7 +9,6 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 Welcome page showcasing all micro-frontends in a unified shell with seamless navigation:
 
 ![Shell App Home]<img width="1810" height="920" alt="light-mode" src="apps/shell_app/src/assets/micro-frontends.jpeg" />
-<img src="apps/shell_app/src/assets/micro-frontends.jpeg" width="200"> 
 
 *Features: Unified navigation hub, modular application grid, real-time theme switching, and seamless micro-frontend orchestration*
 
@@ -18,7 +17,7 @@ Welcome page showcasing all micro-frontends in a unified shell with seamless nav
 ### Invoice Management MFE
 AngularJS invoice management system integrated via Module Federation with advanced React table component:
 
-![Invoice Management](https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/invoice_app.jpeg)
+![Invoice Management]https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/invoice_app.jpeg
 
 *Features: Advanced Material React Table, status filtering, real-time search, invoice statistics, and responsive design*
 
@@ -27,8 +26,8 @@ AngularJS invoice management system integrated via Module Federation with advanc
 ### Payment Processing MFE
 Modern React payment form with invoice selection and secure payment processing:
 
-![Payment Processing](https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/payment_app.jpeg)
-![Payment Processing](https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/light_mode.jpeg)
+![Payment Processing] https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/payment_app.jpeg
+![Payment Processing] https://github.com/omarome/micro-frontends-monorepo/apps/shell_app/src/assets/light_mode.jpeg 
 
 *Features: Invoice selector with auto-refresh, card validation, mock payment processing, and responsive form design*
 
