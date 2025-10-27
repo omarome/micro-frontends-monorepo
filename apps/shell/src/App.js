@@ -131,30 +131,30 @@ const LegacyApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Legacy App module...');
+        console.log('Loading Invoice App module...');
         
         // Import the Module Federation remote
-        const module = await import('legacy_app/InvoiceComponent');
-        console.log('Legacy App module loaded:', module);
+        const module = await import('invoice_app/InvoiceComponent');
+        console.log('Invoice App module loaded:', module);
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default:', module.default);
         console.log('Module.InvoiceComponent:', module.InvoiceComponent);
         
         // Handle the component
         if (module.default && typeof module.default === 'function') {
-          console.log('Found Legacy App component at module.default');
+          console.log('Found Invoice App component at module.default');
           setComponent(() => module.default);
           setError(null);
         } else if (module.InvoiceComponent && typeof module.InvoiceComponent === 'function') {
-          console.log('Found Legacy App component at module.InvoiceComponent');
+          console.log('Found Invoice App component at module.InvoiceComponent');
           setComponent(() => module.InvoiceComponent);
           setError(null);
         } else if (module.LegacyAppWrapper && typeof module.LegacyAppWrapper === 'function') {
-          console.log('Found Legacy App component at module.LegacyAppWrapper');
+          console.log('Found Invoice App component at module.LegacyAppWrapper');
           setComponent(() => module.LegacyAppWrapper);
           setError(null);
         } else if (module.LegacyApp && typeof module.LegacyApp === 'function') {
-          console.log('Found Legacy App component at module.LegacyApp');
+          console.log('Found Invoice App component at module.LegacyApp');
           setComponent(() => module.LegacyApp);
           setError(null);
         } else {
@@ -163,7 +163,7 @@ const LegacyApp = () => {
           throw new Error('No valid component found in module');
         }
       } catch (err) {
-        console.error('Failed to load Legacy App:', err);
+        console.error('Failed to load Invoice App:', err);
         setError(err);
       } finally {
         setLoading(false);
@@ -308,8 +308,8 @@ function AnimatedRoutes() {
                           <div className="mfe-grid-item-description">Main orchestrator & navigation hub</div>
                         </div>
                         <div className="mfe-grid-card">
-                          <div className="mfe-grid-item-icon">🎭</div>
-                          <div className="mfe-grid-item-title">Legacy App</div>
+                          <div className="mfe-grid-item-icon">📄</div>
+                          <div className="mfe-grid-item-title">Invoice App</div>
                           <div className="mfe-grid-item-description">AngularJS with Invoice Management</div>
                         </div>
                         <div className="mfe-grid-card">

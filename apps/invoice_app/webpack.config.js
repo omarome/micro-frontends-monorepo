@@ -62,7 +62,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({ template: './index.html' }),
     new ModuleFederationPlugin({
-      name: 'legacy_app',
+      name: 'invoice_app',
       filename: 'remoteEntry.js',
       remotes: {
         app3: 'app3@http://localhost:3003/remoteEntry.js',

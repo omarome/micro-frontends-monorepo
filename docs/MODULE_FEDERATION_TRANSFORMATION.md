@@ -36,7 +36,7 @@ This document details the complete transformation of the legacy AngularJS app fr
 │  │  ┌─────────────────────────────────────────────┐   │   │
 │  │  │            <iframe>                         │   │   │
 │  │  │  ┌─────────────────────────────────────┐   │   │   │
-│  │  │  │     Legacy App (AngularJS)           │   │   │   │
+│  │  │  │     Invoice App (AngularJS)          │   │   │   │
 │  │  │  │  - Complete isolation                │   │   │   │
 │  │  │  │  - No shared dependencies            │   │   │   │
 │  │  │  │  - Limited communication              │   │   │   │
@@ -74,15 +74,15 @@ This document details the complete transformation of the legacy AngularJS app fr
 
 ### 1. Webpack Configuration
 
-#### Legacy App Webpack Config
+#### Invoice App Webpack Config
 ```javascript
-// apps/legacy_app/webpack.config.js
+// apps/invoice_app/webpack.config.js
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 module.exports = {
   plugins: [
     new ModuleFederationPlugin({
-      name: 'legacy_app',
+      name: 'invoice_app',
       filename: 'remoteEntry.js',
       exposes: {
         './App': './src/ReactWrapper.js',
@@ -114,7 +114,7 @@ new ModuleFederationPlugin({
   name: 'shell',
   remotes: {
     paymentMFE: 'paymentMFE@http://localhost:3002/remoteEntry.js',
-    legacy_app: 'legacy_app@http://localhost:3001/remoteEntry.js',
+    invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
     app3: 'app3@http://localhost:3003/remoteEntry.js',
   },
   shared: {
@@ -127,7 +127,7 @@ new ModuleFederationPlugin({
 ### 2. React Wrapper Component
 
 ```javascript
-// apps/legacy_app/src/ReactWrapper.js
+// apps/invoice_app/src/ReactWrapper.js
 import React, { useEffect, useRef } from 'react';
 import angular from 'angular';
 import './app.js';
@@ -188,19 +188,19 @@ const LegacyApp = () => {
     const loadModule = async () => {
       try {
         setLoading(true);
-        console.log('Loading Legacy App module...');
+        console.log('Loading Invoice App module...');
         
         // Import the Module Federation remote
-        const module = await import('legacy_app/InvoiceComponent');
-        console.log('Legacy App module loaded:', module);
+        const module = await import('invoice_app/InvoiceComponent');
+        console.log('Invoice App module loaded:', module);
         
         // Handle the component
         if (module.default && typeof module.default === 'function') {
-          console.log('Found Legacy App component at module.default');
+          console.log('Found Invoice App component at module.default');
           setComponent(() => module.default);
           setError(null);
         } else if (module.InvoiceComponent && typeof module.InvoiceComponent === 'function') {
-          console.log('Found Legacy App component at module.InvoiceComponent');
+          console.log('Found Invoice App component at module.InvoiceComponent');
           setComponent(() => module.InvoiceComponent);
           setError(null);
         } else {
@@ -257,7 +257,7 @@ const LegacyApp = () => {
 
 #### Component Registration
 ```javascript
-// apps/legacy_app/src/components/invoice/invoice.component.js
+// apps/invoice_app/src/components/invoice/invoice.component.js
 import angular from 'angular';
 import invoiceTemplate from './invoice-template.html';
 
@@ -271,7 +271,7 @@ angular.module('legacyApp').component('invoiceComponent', {
 
 #### Controller Registration
 ```javascript
-// apps/legacy_app/src/components/invoice/invoice.controller.js
+// apps/invoice_app/src/components/invoice/invoice.controller.js
 import angular from 'angular';
 
 // Invoice Controller - Uses Model Service
@@ -312,7 +312,7 @@ angular.module('legacyApp')
 
 #### Service Registration
 ```javascript
-// apps/legacy_app/src/components/invoice/invoice.model.js
+// apps/invoice_app/src/components/invoice/invoice.model.js
 import angular from 'angular';
 import { createInvoiceService } from '../../../../../libs/shared-services/src/index.js';
 
@@ -386,7 +386,7 @@ angular.module('legacyApp')
 ### Step 3: Update Shell App
 1. Replace iframe with dynamic import
 2. Add error handling and loading states
-3. Update webpack config to include legacy_app remote
+3. Update webpack config to include invoice_app remote
 
 ### Step 4: Fix AngularJS Registration
 1. Register components in correct module (legacyApp)
@@ -428,10 +428,10 @@ const LegacyApp = () => {
   useEffect(() => {
     const loadModule = async () => {
       try {
-        const module = await import('legacy_app/InvoiceComponent');
+        const module = await import('invoice_app/InvoiceComponent');
         setComponent(() => module.default);
       } catch (err) {
-        console.error('Failed to load Legacy App:', err);
+        console.error('Failed to load Invoice App:', err);
       } finally {
         setLoading(false);
       }
@@ -453,7 +453,7 @@ const LegacyApp = () => {
 
 #### 1. Module Not Found
 ```
-Error: Module "legacy_app/InvoiceComponent" not found
+Error: Module "invoice_app/InvoiceComponent" not found
 ```
 **Solution**: Ensure remoteEntry.js is accessible and webpack config is correct.
 

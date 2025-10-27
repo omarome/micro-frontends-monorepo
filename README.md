@@ -7,7 +7,7 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 This monorepo contains multiple micro-frontends orchestrated by a shell application:
 
 - **Shell App** (Port 3000) - React 18 shell with navigation and orchestration
-- **Legacy App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
+- **Invoice App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
 - **Payment MFE** (Port 3002) - React + TypeScript payment processing  
 - **App3** (Port 3003) - React + TypeScript analytics and planning
 
@@ -16,11 +16,11 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 | App | Integration Method | Status |
 |-----|-------------------|--------|
 | Shell | Host Application | ✅ Active |
-| Legacy App | **Module Federation** | ✅ **Recently Migrated** |
+| Invoice App | **Module Federation** | ✅ **Recently Migrated** |
 | Payment MFE | Module Federation | ✅ Active |
 | App3 | Module Federation | ✅ Active |
 
-**Note**: The Legacy App was successfully migrated from iframe to Module Federation for better performance and integration.
+**Note**: The Invoice App was successfully migrated from iframe to Module Federation for better performance and integration.
 
 ## Tech Stack
 
@@ -55,12 +55,12 @@ pnpm start
 
 # 2. Access the applications
 # Shell App: http://localhost:3000
-# Legacy App: http://localhost:3001 (Module Federation)
+# Invoice App: http://localhost:3001 (Module Federation)
 # Payment MFE: http://localhost:3002
 # App3: http://localhost:3003
 ```
 
-**Note**: The Legacy App now runs as a Module Federation remote, not as a standalone iframe application.
+**Note**: The Invoice App now runs as a Module Federation remote, not as a standalone iframe application.
 
 ### Individual App Development
 
@@ -68,8 +68,8 @@ pnpm start
 # Shell App (Port 3000)
 cd apps/shell && pnpm start
 
-# Legacy App (Port 3001) 
-cd apps/legacy_app && pnpm start
+# Invoice App (Port 3001) 
+cd apps/invoice_app && pnpm start
 
 # Payment MFE (Port 3002)
 cd apps/payment && pnpm start
@@ -92,13 +92,13 @@ All applications use Tailwind CSS for consistent styling:
 Each micro-frontend exposes components via Webpack Module Federation:
 
 - `shell` - Orchestrates and consumes all remotes
-- `legacyApp/App` - **NEW**: React wrapper for AngularJS invoice management
+- `invoice_app/App` - **NEW**: React wrapper for AngularJS invoice management
 - `paymentMFE/PaymentForm` - React payment component  
 - `app3/App` - React analytics component
 
 ### Recent Transformation: Iframe → Module Federation
 
-The legacy AngularJS app has been successfully transformed from iframe-based integration to Module Federation:
+The Invoice AngularJS app has been successfully transformed from iframe-based integration to Module Federation:
 
 - **Before**: Isolated iframe with limited communication
 - **After**: Integrated React wrapper with shared dependencies
@@ -117,7 +117,7 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 ```
 ├── apps/
 │   ├── shell/           # Main shell application
-│   ├── legacy_app/      # AngularJS invoice management (Module Federation)
+│   ├── invoice_app/     # AngularJS invoice management (Module Federation)
 │   ├── payment/         # React payment processing
 │   └── app3/            # React analytics & planning
 ├── libs/
@@ -135,7 +135,7 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 ### ✅ Completed Features
 
 - **Module Federation Setup**: All apps configured with shared dependencies
-- **Legacy App Migration**: Successfully migrated from iframe to Module Federation
+- **Invoice App Migration**: Successfully migrated from iframe to Module Federation
 - **Shared Services**: Common business logic across all apps
 - **Unified Styling**: Tailwind CSS shared across all applications
 - **Development Environment**: Hot reloading and HMR for all apps

@@ -8,7 +8,7 @@
 
 ### 🎯 Port Allocation
 - **Shell App**: `http://localhost:3000`
-- **Legacy App (AngularJS)**: `http://localhost:3001` 
+- **Invoice App (AngularJS)**: `http://localhost:3001` 
 - **Payment MFE (React)**: `http://localhost:3002`
 - **App3 (React)**: `http://localhost:3003`
 - **Backend API**: `http://localhost:4000`
@@ -20,7 +20,7 @@ new ModuleFederationPlugin({
     name: 'shell',
     remotes: {
         paymentMFE: 'paymentMFE@http://localhost:3002/remoteEntry.js',
-        legacyApp: 'legacyApp@http://localhost:3001/remoteEntry.js',
+        invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
         app3: 'app3@http://localhost:3003/remoteEntry.js',
     },
     shared: {
@@ -46,7 +46,7 @@ new ModuleFederationPlugin({
 })
 ```
 
-### 🅰️ Invoice MFE (AngularJS) Configuration (`apps/legacy_app/`)
+### 🅰️ Invoice MFE (AngularJS) Configuration (`apps/invoice_app/`)
 
 #### Bridge Service: `src/bootstrap.js`
 ```javascript
@@ -234,7 +234,7 @@ module.exports = {
 ### 🚀 Startup Sequence
 
 1. **Backend API**: `cd backend && npm start` (port 4000)
-2. **Invoice MFE**: `cd apps/legacy_app && npm start` (port 3001)
+2. **Invoice MFE**: `cd apps/invoice_app && npm start` (port 3001)
 3. **Payment MFE**: `cd apps/payment && npm start` (port 3002)
 4. **App3**: `cd apps/app3 && npm start` (port 3003)
 5. **Shell App**: `cd apps/shell && npm start` (port 3000)
