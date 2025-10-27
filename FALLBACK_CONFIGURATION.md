@@ -9,7 +9,7 @@
 ### 🎯 Port Allocation
 - **Shell App**: `http://localhost:3000`
 - **Legacy App (AngularJS)**: `http://localhost:3001` 
-- **Astrobyte App (React)**: `http://localhost:3002`
+- **Payment MFE (React)**: `http://localhost:3002`
 - **App3 (React)**: `http://localhost:3003`
 - **Backend API**: `http://localhost:4000`
 
@@ -19,7 +19,7 @@
 new ModuleFederationPlugin({
     name: 'shell',
     remotes: {
-        astrobyte: 'astrobyte@http://localhost:3002/remoteEntry.js',
+        paymentMFE: 'paymentMFE@http://localhost:3002/remoteEntry.js',
         legacyApp: 'legacyApp@http://localhost:3001/remoteEntry.js',
         app3: 'app3@http://localhost:3003/remoteEntry.js',
     },
@@ -219,11 +219,11 @@ module.exports = {
 - **Shell Route**: `/invoice` → loads via bridge service
 - **Loading Method**: Dynamic script loading + `window.InvoiceBootstrap.init()`
 
-#### 2. **React MFE (Astrobyte) - Standard Module Federation**
-- **Entry**: `src/bootstrap.js` → loads `src/App.js`
-- **Module Federation Name**: `astrobyte`
-- **Exposed Module**: `./App` → `./src/App.js`
-- **Shell Route**: `/astrobyte` → loads `astrobyte/App`
+#### 2. **React MFE (Payment) - Standard Module Federation**
+- **Entry**: `src/bootstrap.js` → loads `src/App.tsx`
+- **Module Federation Name**: `paymentMFE`
+- **Exposed Module**: `./PaymentForm` → `./src/PaymentForm.tsx`
+- **Shell Route**: `/payment` → loads `paymentMFE/App`
 
 #### 3. **React MFE (App3) - Standard Module Federation**
 - **Entry**: `src/bootstrap.tsx` → loads `src/App.tsx`
@@ -235,7 +235,7 @@ module.exports = {
 
 1. **Backend API**: `cd backend && npm start` (port 4000)
 2. **Invoice MFE**: `cd apps/legacy_app && npm start` (port 3001)
-3. **Astrobyte App**: `cd apps/astrobyte && npm start` (port 3002)
+3. **Payment MFE**: `cd apps/payment && npm start` (port 3002)
 4. **App3**: `cd apps/app3 && npm start` (port 3003)
 5. **Shell App**: `cd apps/shell && npm start` (port 3000)
 
@@ -255,7 +255,7 @@ curl -s http://localhost:3000 | grep -o "PayBridge" | head -1  # Should return P
 
 # Test individual MFEs
 curl -s http://localhost:3001 | grep -o "Invoice Management" | head -1  # Should return Invoice Management
-curl -s http://localhost:3002 | grep -o "AstroByte" | head -1  # Should return AstroByte
+curl -s http://localhost:3002 | grep -o "Payment MFE" | head -1  # Should return Payment MFE
 curl -s http://localhost:3003 | grep -o "InvoiceHub" | head -1  # Should return InvoiceHub
 ```
 

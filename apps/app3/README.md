@@ -34,7 +34,7 @@ This micro-frontend is integrated into the main shell application at [http://loc
 
 - **Shell App** (Port 3000) - Navigation and orchestration
 - **Legacy App** (Port 3001) - AngularJS invoice management
-- **Astrobyte App** (Port 3002) - React payment processing
+- **Payment MFE** (Port 3002) - React payment processing
 - **App3** (Port 3003) - React analytics and planning (this app)
 
 ## Development

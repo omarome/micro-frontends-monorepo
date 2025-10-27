@@ -8,7 +8,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 
 - **Shell App** (Port 3000) - React 18 shell with navigation and orchestration
 - **Legacy App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
-- **Astrobyte App** (Port 3002) - React + TypeScript payment processing  
+- **Payment MFE** (Port 3002) - React + TypeScript payment processing  
 - **App3** (Port 3003) - React + TypeScript analytics and planning
 
 ### Integration Methods
@@ -17,7 +17,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 |-----|-------------------|--------|
 | Shell | Host Application | ✅ Active |
 | Legacy App | **Module Federation** | ✅ **Recently Migrated** |
-| Astrobyte | Module Federation | ✅ Active |
+| Payment MFE | Module Federation | ✅ Active |
 | App3 | Module Federation | ✅ Active |
 
 **Note**: The Legacy App was successfully migrated from iframe to Module Federation for better performance and integration.
@@ -56,7 +56,7 @@ pnpm start
 # 2. Access the applications
 # Shell App: http://localhost:3000
 # Legacy App: http://localhost:3001 (Module Federation)
-# Astrobyte: http://localhost:3002
+# Payment MFE: http://localhost:3002
 # App3: http://localhost:3003
 ```
 
@@ -71,8 +71,8 @@ cd apps/shell && pnpm start
 # Legacy App (Port 3001) 
 cd apps/legacy_app && pnpm start
 
-# Astrobyte App (Port 3002)
-cd apps/astrobyte && pnpm start
+# Payment MFE (Port 3002)
+cd apps/payment && pnpm start
 
 # App3 (Port 3003)
 cd apps/app3 && pnpm start
@@ -93,7 +93,7 @@ Each micro-frontend exposes components via Webpack Module Federation:
 
 - `shell` - Orchestrates and consumes all remotes
 - `legacyApp/App` - **NEW**: React wrapper for AngularJS invoice management
-- `astrobyte/App` - React payment component  
+- `paymentMFE/PaymentForm` - React payment component  
 - `app3/App` - React analytics component
 
 ### Recent Transformation: Iframe → Module Federation
@@ -118,7 +118,7 @@ The legacy AngularJS app has been successfully transformed from iframe-based int
 ├── apps/
 │   ├── shell/           # Main shell application
 │   ├── legacy_app/      # AngularJS invoice management (Module Federation)
-│   ├── astrobyte/       # React payment processing
+│   ├── payment/         # React payment processing
 │   └── app3/            # React analytics & planning
 ├── libs/
 │   ├── ui-styles/       # Shared Tailwind CSS styles

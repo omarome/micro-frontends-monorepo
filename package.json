@@ -7,13 +7,13 @@
     "libs/*"
   ],
   "scripts": {
-    "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:astrobyte\" \"pnpm run start:legacy\"",
+    "start": "concurrently \"pnpm run start:shell\" \"pnpm run start:payment\" \"pnpm run start:legacy\"",
     "start:shell": "cd apps/shell && pnpm start",
-    "start:astrobyte": "cd apps/astrobyte && pnpm start",
+    "start:payment": "cd apps/payment && pnpm start",
     "start:legacy": "cd apps/legacy_app && pnpm start",
-    "build": "pnpm run build:shell && pnpm run build:astrobyte && pnpm run build:legacy",
+    "build": "pnpm run build:shell && pnpm run build:payment && pnpm run build:legacy",
     "build:shell": "cd apps/shell && pnpm build",
-    "build:astrobyte": "cd apps/astrobyte && pnpm build",
+    "build:payment": "cd apps/payment && pnpm build",
     "build:legacy": "cd apps/legacy_app && pnpm build",
     "install:all": "pnpm install",
     "build:shared-services": "cd libs/shared-services && pnpm build"

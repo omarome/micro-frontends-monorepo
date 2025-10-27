@@ -219,7 +219,7 @@ const App3Component = () => {
         console.log('Module keys:', Object.keys(module));
         console.log('Module.default type:', typeof module.default);
         
-        // Handle the App3 component (similar to Astrobyte structure)
+        // Handle the App3 component (similar to Payment MFE structure)
         if (module.default && typeof module.default === 'function') {
           console.log('Found App3 component at module.default');
           setComponent(() => module.default);

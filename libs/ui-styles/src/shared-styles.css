@@ -21,24 +21,7 @@
   opacity: 1;
   transform: translateY(0);
 }
-/* AstroByte app specific shared styles */
-.astrobyte-container {
-  padding: var(--spacing-10);
-}
-.astrobyte-title {
-  font-size: var(--font-size-4xl);
-  margin-bottom: var(--spacing-1);
-}
-.astrobyte-subtitle {
-  font-size: var(--font-size-xl);
-  margin-bottom: var(--spacing-6);
-  color: var(--color-info-400);
-}
-.astrobyte-fact {
-  font-size: var(--font-size-lg);
-  margin: var(--spacing-6) 0;
-  min-height: 2.5em;
-}
+
 /* ========================================
    GLOBAL STYLES - CONSOLIDATED
    ======================================== */
