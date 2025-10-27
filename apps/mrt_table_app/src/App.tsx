@@ -59,7 +59,7 @@ const App: React.FC = () => {
       const errorMessage = err.message || '';
       
       if (errorMessage.includes('fetch') || errorMessage.includes('NetworkError') || errorMessage.includes('Failed to fetch')) {
-        setError('Failed to connect to backend server. Please ensure the server is running on port 4000.');
+        setError('Failed to connect to backend server. Please ensure the server is running.');
       } else if (errorMessage.includes('timeout')) {
         setError('Request timed out. The server is taking too long to respond.');
       } else if (errorMessage.includes('500')) {

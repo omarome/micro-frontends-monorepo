@@ -16,7 +16,7 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({ error, onRetry }) => {
           <div className="error-suggestions">
             <p><strong>Possible causes:</strong></p>
             <ul>
-              <li>Backend server is not running (Port 4000)</li>
+                <li>Backend server is not running</li>
               <li>Network connectivity issues</li>
               <li>Database connection problems</li>
             </ul>

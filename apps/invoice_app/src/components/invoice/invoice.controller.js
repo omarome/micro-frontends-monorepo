@@ -39,7 +39,7 @@ angular.module('legacyApp')
         .catch(function(error) {
           // Provide user-friendly error messages based on error type
           if (error.message.includes('fetch') || error.message.includes('NetworkError')) {
-            vm.error = 'Failed to connect to backend server. Please ensure the server is running on port 4000.';
+            vm.error = 'Failed to connect to backend server. Please ensure the server is running.';
           } else if (error.message.includes('timeout')) {
             vm.error = 'Request timed out. The server is taking too long to respond.';
           } else if (error.message.includes('500')) {
