@@ -22,7 +22,15 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx|js|jsx)$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+            compilerOptions: {
+              noEmit: false,
+            },
+          },
+        },
         exclude: /node_modules/,
       },
       {
