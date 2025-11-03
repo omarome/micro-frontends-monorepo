@@ -72,7 +72,7 @@
 }
 
 .invoice-title {
-  color: var(--color-text-primary);
+  color: var(--color-text-white);
   text-align: center;
   margin-bottom: var(--spacing-3);
   font-size: var(--font-size-3xl);
@@ -80,7 +80,7 @@
 }
 
 [data-theme="dark"] .invoice-title {
-  color: var(--color-text-primary);
+  color: var(--color-text-white);
 }
 
 /* Filters and Stats Row */

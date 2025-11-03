@@ -123,6 +123,7 @@
   --color-text-tertiary: var(--color-neutral-500);
   --color-text-quaternary: var(--color-neutral-400);
   --color-text-inverse: #ffffff;
+  --color-text-white: #ffffff;
   --color-text-muted: var(--color-neutral-500);
   --color-text-disabled: var(--color-neutral-400);
 
