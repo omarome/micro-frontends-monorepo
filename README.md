@@ -8,7 +8,9 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 ### 🏠 Shell Application - Home Page
 **Central Navigation Hub** showcasing all micro-frontends in a unified shell with seamless navigation:
 
-![Shell App Home](./screenshots/home-view.png)
+![Shell App Home Light Mode](./screenshots/home-view-light.jpeg)
+
+![Shell App Home Dark Mode](./screenshots/home-view-dark.jpeg)
 
 **🔧 Technical Architecture:**
 - **Host Application** (Port 3000) - React 18 shell orchestrating all micro-frontends
