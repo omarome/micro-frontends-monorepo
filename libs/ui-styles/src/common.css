@@ -425,7 +425,7 @@
 [data-theme="dark"] .mfe-container,
 [data-theme="dark"] .mfe-content,
 [data-theme="dark"] .home-container {
-  background: var(--color-background-primary);
+  background: var(--color-background-gradient);
   color: var(--color-text-primary);
 }
 
