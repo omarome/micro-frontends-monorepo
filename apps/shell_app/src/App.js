@@ -271,6 +271,76 @@ const MRTTableComponent = () => {
   return Component ? <Component /> : <div>No component loaded</div>;
 };
 
+const AnalysisApp = () => {
+  const [Component, setComponent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadModule = async () => {
+      try {
+        setLoading(true);
+        console.log('Loading Analysis App module...');
+        
+        // Load the Module Federation remote
+        console.log('Loading analysis_app/App...');
+        const module = await import('analysis_app/App');
+        console.log('Module loaded:', module);
+        console.log('Module keys:', Object.keys(module));
+        console.log('Module.default type:', typeof module.default);
+        
+        // Handle the Analysis App component (same structure as MRT Table)
+        if (module.default && typeof module.default === 'function') {
+          console.log('Found Analysis App component at module.default');
+          setComponent(() => module.default);
+          setError(null);
+          return;
+        } else if (module.default && module.default.default && typeof module.default.default === 'function') {
+          console.log('Found Analysis App component at module.default.default');
+          setComponent(() => module.default.default);
+          setError(null);
+          return;
+        } else {
+          console.log('No valid React component found in module');
+          console.log('Available exports:', Object.keys(module));
+          console.log('module.default:', module.default);
+          console.log('Full module structure:', module);
+        }
+        
+        throw new Error('No valid React component found in module');
+      } catch (err) {
+        console.error('Failed to load Analysis App:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadModule();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Loading Analysis App...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <div className="error-title">Failed to load Analysis App</div>
+        <div className="error-message">Error: {error.message}</div>
+      </div>
+    );
+  }
+
+  return Component ? <Component /> : <div>No component loaded</div>;
+};
+
 function AnimatedRoutes() {
   const location = useLocation();
   const nodeRef = useRef(null);
@@ -318,9 +388,9 @@ function AnimatedRoutes() {
                           <div className="mfe-grid-item-description">Process payments with React & TypeScript</div>
                         </div>
                         <div className="mfe-grid-card">
-                          <div className="mfe-grid-item-icon">📊</div>
-                          <div className="mfe-grid-item-title">MRT Table as MFE</div>
-                          <div className="mfe-grid-item-description">Material React Table standalone micro-frontend</div>
+                          <div className="mfe-grid-item-icon">📈</div>
+                          <div className="mfe-grid-item-title">Analysis App</div>
+                          <div className="mfe-grid-item-description">Data analysis and reporting micro-frontend</div>
                         </div>
                       </div>
                     </div>
@@ -337,6 +407,10 @@ function AnimatedRoutes() {
                 <Route
                   path="/mrt-table"
                   element={<MRTTableComponent />}
+                />
+                <Route
+                  path="/analysis"
+                  element={<AnalysisApp />}
                 />
           </Routes>
         </div>

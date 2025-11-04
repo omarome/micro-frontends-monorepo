@@ -36,11 +36,11 @@ const NavBar = () => (
       </NavLink>
       
       <NavLink 
-        to="/mrt-table" 
+        to="/analysis" 
         className={({ isActive }) => `nav-link ${isActive ? 'nav-link-active' : ''}`}
       >
-        <span className="link-icon">📊</span>
-        <span className="link-text">MRT Table</span>
+        <span className="link-icon">📈</span>
+        <span className="link-text">Analysis</span>
       </NavLink>
       
       <DarkModeToggle />

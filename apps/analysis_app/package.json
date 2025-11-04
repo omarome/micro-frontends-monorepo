@@ -1,0 +1,35 @@
+{
+  "name": "analysis_app",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "webpack serve --config webpack.config.cjs",
+    "build": "webpack build --config webpack.config.cjs",
+    "lint": "eslint .",
+    "preview": "webpack serve --config webpack.config.cjs --mode production"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^5.18.0",
+    "@mui/material": "^5.18.0",
+    "@tanstack/react-table": "^8.21.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@svgr/webpack": "^8.1.0",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
