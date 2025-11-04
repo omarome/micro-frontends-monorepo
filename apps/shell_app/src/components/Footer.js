@@ -20,7 +20,7 @@ const Footer = () => {
             <li><Link to="/" className="footer-link">Home</Link></li>
             <li><Link to="/invoice" className="footer-link">Invoice Management</Link></li>
             <li><Link to="/payment" className="footer-link">Payment Processing</Link></li>
-            <li><Link to="/mrt-table" className="footer-link">Analytics</Link></li>
+            <li><Link to="/analysis" className="footer-link">Analysis</Link></li>
           </ul>
         </div>
         

@@ -8,9 +8,8 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 ### 🏠 Shell Application - Home Page
 **Central Navigation Hub** showcasing all micro-frontends in a unified shell with seamless navigation:
 
-![Shell App Home Light Mode](./screenshots/home-view-light.jpeg)
-
-![Shell App Home Dark Mode](./screenshots/home-view-dark.jpeg)
+![Shell App Home Dark Mode](./screenshots/home-dark-mode.jpeg)
+![Shell App Home Light Mode](./screenshots/home-light-mode.jpeg)
 
 **🔧 Technical Architecture:**
 - **Host Application** (Port 3000) - React 18 shell orchestrating all micro-frontends
@@ -29,7 +28,8 @@ A comprehensive micro-frontend architecture demonstrating enterprise-grade billi
 ### 📄 Invoice Management MFE (Dark Mode)
 **AngularJS + React Hybrid Architecture** demonstrating enterprise-grade invoice management:
 
-![Invoice Management Dark Mode](./screenshots/invoice_app-dark-m.jpeg)
+![Invoice Management Dark Mode](./screenshots/invoice-dark-mode.jpeg)
+![Invoice Management Light Mode](./screenshots/invoice-light-mode.jpeg)
 
 **🔧 Technical Architecture:**
 - **Host**: AngularJS 1.x (Port 3001) - Legacy business logic and data management
@@ -61,7 +61,8 @@ AngularJS Controller (HOST)
 ### 💳 Payment Processing MFE (Light Mode)
 **Modern React Payment System** with dynamic invoice selection and secure processing:
 
-![Payment Processing Light Mode](./screenshots/payment_app-light-mode.jpeg)
+![Payment Processing Dark Mode](./screenshots/payment-dark-mode.jpeg)
+![Payment Processing Light Mode](./screenshots/payment-light-mode.jpeg)
 
 **🔧 Technical Architecture:**
 - **Host**: React + TypeScript (Port 3002) - Modern payment processing logic
@@ -76,36 +77,30 @@ AngularJS Controller (HOST)
 - **Responsive Design** - Mobile-optimized payment form with touch-friendly inputs
 - **Cross-MFE Communication** - Updates invoice status across all applications
 - **Backend Monitoring** - Automatic retry when backend connection is restored
+---
 
-**🔄 Host-Remote Relationship:**
-```
-Shell App (HOST)
-    ↓ (Module Federation)
-Payment App (REMOTE)
-    ↓ (Custom Events)
-Invoice App (HOST)
-    ↓ (Status Update)
-MRT Table (REMOTE)
-```
+### 📈 Analysis Dashboard MFE (Light Mode)
+**Comprehensive Analytics Platform** with real-time statistics and reporting capabilities:
+
+![Analysis Dashboard Light Mode](./screenshots/analysis-light-mode.jpeg)
+
+![Analysis Dashboard Dark Mode](./screenshots/analysis-dark-mode.jpeg)
+**🔧 Technical Architecture:**
+- **React + TypeScript** (Port 3004) - Modern analytics dashboard with type safety
+- **Module Federation** - Seamlessly integrated as a remote MFE
+- **Shared Styling System** - Consistent design with CSS variables and scoped styles
+- **Theme Synchronization** - Real-time dark/light mode support across all sections
+
+**🎯 Key Features:**
+- **Interactive Dashboard** - Revenue trends, user activity, and quick action buttons
+- **Public Stats** - Live metrics showing total users, invoices, payments, and revenue with trend indicators
+- **SSR Reports** - Server-side rendered reports with view and generate functionality
+- **SEO Pages** - Page management with performance metrics and optimization tools
+- **Horizontal Layout** - Optimized stat cards displayed in responsive grid layouts
+- **Notification System** - Toast notifications and modal dialogs for user feedback
 
 ---
 
-### 💳 Payment Processing MFE (Dark Mode)
-**Dark Theme Implementation** showcasing consistent theming across all micro-frontends:
-
-![Payment Processing Dark Mode](./screenshots/payment_app-dark-m.jpeg)
-
-**🔧 Technical Architecture:**
-- **Theme Synchronization** - CSS variables and `[data-theme="dark"]` attribute
-- **Cross-MFE Consistency** - Identical styling across all applications
-- **Responsive Design** - Mobile-optimized layout with touch-friendly controls
-- **Accessibility** - High contrast ratios and proper color schemes
-
-**🎯 Key Features:**
-- **Consistent Dark Theme** - Seamless visual experience across all MFEs
-- **Mobile Responsiveness** - Optimized for all screen sizes and orientations
-- **Form Validation** - Real-time feedback with dark theme-appropriate colors
-- **Event Communication** - Maintains functionality across theme changes
 
 ---
 
@@ -147,6 +142,18 @@ MRT Table (REMOTE)
 - **User Experience** - Clear feedback without overwhelming technical details
 
 ---
+**🔄 Host-Remote Relationship:**
+```
+Shell App (HOST)
+    ↓ (Module Federation)
+Payment App (REMOTE)
+    ↓ (Custom Events)
+Invoice App (HOST)
+    ↓ (Status Update)
+       MRT Table App (Remote)
+Analysis App (REMOTE)
+```
+---
 
 ## Architecture
 
@@ -156,6 +163,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 - **Invoice App** (Port 3001) - **UPDATED**: AngularJS 1.x invoice management with React wrapper
 - **Payment App** (Port 3002) - React + TypeScript payment processing  
 - **MRT Table** (Port 3003) - React + TypeScript Material React Table standalone MFE
+- **Analysis App** (Port 3004) - React + TypeScript analytics dashboard with reporting features
 
 ### Integration Methods
 
@@ -165,6 +173,7 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 | Invoice App | **Module Federation** | ✅ **Recently Migrated** |
 | Payment App | Module Federation | ✅ Active |
 | MRT Table | Module Federation | ✅ Active |
+| Analysis App | Module Federation | ✅ Active |
 
 **Note**: The Invoice App uses Module Federation for optimal performance and integration.
 
@@ -197,6 +206,17 @@ This monorepo contains multiple micro-frontends orchestrated by a shell applicat
 │  │  │  │ • MRT     │  │  │                 │                   │   │
 │  │  │  │   Table   │  │  │                 │                   │   │
 │  │  │  └───────────┘  │  └─────────────────┘                   │   │
+│  │  └─────────────────┘                                         │   │
+│  │                                                               │   │
+│  │  ┌─────────────────┐                                         │   │
+│  │  │  ANALYSIS_APP   │                                         │   │
+│  │  │  (React + TS)   │                                         │   │
+│  │  │  Port 3004      │                                         │   │
+│  │  │                 │                                         │   │
+│  │  │  ┌───────────┐  │                                         │   │
+│  │  │  │ Exposes:  │  │                                         │   │
+│  │  │  │ • App     │  │                                         │   │
+│  │  │  └───────────┘  │                                         │   │
 │  │  └─────────────────┘                                         │   │
 │  │                                                               │   │
 │  └───────────────────────────────────────────────────────────────┘   │
@@ -386,6 +406,14 @@ angular.module('legacyApp')
 - **Mock Payments**: Simulates payment processing with success/error handling
 - **Cross-MFE Events**: Emits payment events to update invoice status across apps
 
+### 📈 **Analysis Dashboard MFE**
+- **Comprehensive Analytics**: Dashboard with revenue trends, user activity, and key metrics
+- **Public Stats**: Live statistics showing total users, invoices, payments, and revenue
+- **SSR Reports**: Server-side rendered reports with view and generate functionality
+- **SEO Pages**: SEO page management with performance metrics and optimization tools
+- **Interactive Dashboard**: Quick action buttons for report generation, data export, and stats refresh
+- **Responsive Design**: Optimized layouts for all screen sizes with horizontal stat cards
+
 ### 🎯 **Cross-Cutting Features**
 - **Module Federation**: Zero-reload micro-frontend integration
 - **Shared State**: Theme and payment events synchronized across all apps
@@ -430,9 +458,10 @@ pnpm start
 # Invoice App: http://localhost:3001 (Module Federation)
 # Payment App: http://localhost:3002
 # MRT Table: http://localhost:3003
+# Analysis App: http://localhost:3004
 ```
 
-**⚠️ Important**: After renaming folders or making config changes, **restart all apps**. Remotes (MRT Table, Payment) must start before hosts (Invoice, Shell). See [START_APPS.md](./START_APPS.md) for detailed startup instructions.
+**⚠️ Important**: After renaming folders or making config changes, **restart all apps**. Remotes (MRT Table, Payment, Analysis App) must start before hosts (Invoice, Shell). See [START_APPS.md](./START_APPS.md) for detailed startup instructions.
 
 **Note**: The Invoice App runs as a Module Federation remote for seamless integration.
 
@@ -450,6 +479,9 @@ cd apps/payment_app && pnpm start
 
 # MRT Table (Port 3003)
 cd apps/mrt_table_app && pnpm start
+
+# Analysis App (Port 3004)
+cd apps/analysis_app && pnpm start
 ```
 
 ## Tailwind CSS
@@ -469,6 +501,7 @@ Each micro-frontend exposes components via Webpack Module Federation:
 - `invoice_app/App` - **NEW**: React wrapper for AngularJS invoice management
 - `payment_app/PaymentForm` - React payment component  
 - `mrt_table_app/App` - Material React Table standalone component
+- `analysis_app/App` - React analytics dashboard with reporting features
 
 ### Module Federation Integration
 
@@ -493,7 +526,8 @@ The Invoice AngularJS app uses Module Federation for optimal integration:
 │   ├── shell_app/       # Main shell application
 │   ├── invoice_app/     # AngularJS invoice management (Module Federation)
 │   ├── payment_app/     # React payment processing
-│   └── mrt_table_app/   # Material React Table standalone MFE
+│   ├── mrt_table_app/   # Material React Table standalone MFE
+│   └── analysis_app/   # React analytics dashboard and reporting
 ├── libs/
 │   ├── ui-styles/       # Shared Tailwind CSS styles
 │   └── shared-services/ # Shared business logic services
