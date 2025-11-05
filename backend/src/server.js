@@ -5,15 +5,24 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// Middleware
-app.use(cors({
-  origin: [
+// Get CORS origins from environment or use defaults for development
+const getCorsOrigins = () => {
+  if (process.env.CORS_ORIGINS) {
+    return process.env.CORS_ORIGINS.split(',').map(origin => origin.trim());
+  }
+  // Default to localhost for development
+  return [
     'http://localhost:3000',
     'http://localhost:3001',
     'http://localhost:3002',
     'http://localhost:3003',
     'http://localhost:3004'
-  ],
+  ];
+};
+
+// Middleware
+app.use(cors({
+  origin: getCorsOrigins(),
   credentials: true
 }));
 app.use(express.json());

@@ -2,9 +2,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const path = require('path');
 
+// Get environment-based URLs
+const getPublicPath = () => {
+  const envVar = process.env.REACT_APP_ANALYSIS_URL;
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return 'http://localhost:3004/';
+};
+
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   entry: './src/bootstrap.tsx',
+  output: {
+    publicPath: getPublicPath(),
+    filename: '[name].bundle.js',
+    clean: true,
+  },
   devServer: {
     port: 3004,
     historyApiFallback: true,

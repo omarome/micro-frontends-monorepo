@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: paybridge-backend
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          name: paybridge-backend
+          type: web
+          property: port
+

@@ -2,11 +2,22 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 const path = require('path');
 
+// Get environment-based URLs
+const getPublicPath = () => {
+  const envVar = process.env.REACT_APP_PAYMENT_URL;
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return 'http://localhost:3002/';
+};
+
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
     entry: "./src/main.tsx",
     output: {
-        publicPath: 'http://localhost:3002/',
+        publicPath: getPublicPath(),
         filename: '[name].bundle.js',
         clean: true,
     },
@@ -75,7 +86,7 @@ module.exports = {
             '@ui-styles': path.resolve(__dirname, '../../libs/ui-styles/src')
         }
     },
-    devtool: 'eval-source-map',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: "./public/index.html"
