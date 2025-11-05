@@ -2,11 +2,30 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ModuleFederationPlugin } = require('webpack').container;
 const path = require('path');
 
+// Get environment-based URLs
+const getRemoteUrl = (appName, defaultPort) => {
+  const envVar = process.env[`REACT_APP_${appName.toUpperCase()}_URL`];
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return `http://localhost:${defaultPort}/`;
+};
+
+const getPublicPath = () => {
+  const envVar = process.env.REACT_APP_SHELL_URL;
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return 'http://localhost:3000/';
+};
+
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-    mode: 'development',
+    mode: isProduction ? 'production' : 'development',
     entry: "./src/main.js",
     output: {
-        publicPath: 'http://localhost:3000/',
+        publicPath: getPublicPath(),
         filename: '[name].bundle.js',
         clean: true,
     },
@@ -75,7 +94,7 @@ module.exports = {
             '@ui-styles': path.resolve(__dirname, '../../libs/ui-styles/src')
         }
     },
-    devtool: 'eval-source-map',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     plugins: [
         new HtmlWebpackPlugin({
             template: "./public/index.html"
@@ -83,10 +102,10 @@ module.exports = {
         new ModuleFederationPlugin({
             name: 'shell',
             remotes: {
-                payment_app: 'payment_app@http://localhost:3002/remoteEntry.js',
-                invoice_app: 'invoice_app@http://localhost:3001/remoteEntry.js',
-                mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',
-                analysis_app: 'analysis_app@http://localhost:3004/remoteEntry.js',
+                payment_app: `payment_app@${getRemoteUrl('payment_app', 3002)}remoteEntry.js`,
+                invoice_app: `invoice_app@${getRemoteUrl('invoice_app', 3001)}remoteEntry.js`,
+                mrt_table_app: `mrt_table_app@${getRemoteUrl('mrt_table_app', 3003)}remoteEntry.js`,
+                analysis_app: `analysis_app@${getRemoteUrl('analysis_app', 3004)}remoteEntry.js`,
             },
             shared: {
                 react: { 

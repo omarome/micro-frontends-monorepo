@@ -1,10 +1,29 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
+// Get environment-based URLs
+const getRemoteUrl = (appName, defaultPort) => {
+  const envVar = process.env[`REACT_APP_${appName.toUpperCase()}_URL`];
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return `http://localhost:${defaultPort}/`;
+};
+
+const getPublicPath = () => {
+  const envVar = process.env.REACT_APP_INVOICE_URL;
+  if (envVar) {
+    return envVar.endsWith('/') ? envVar : `${envVar}/`;
+  }
+  return 'http://localhost:3001/';
+};
+
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  devtool: 'eval-source-map',
+  devtool: isProduction ? 'source-map' : 'eval-source-map',
   entry: './src/bootstrap.js',
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   devServer: {
     port: 3001,
     historyApiFallback: true,
@@ -16,7 +35,7 @@ module.exports = {
     }
   },
   output: {
-    publicPath: 'http://localhost:3001/',
+    publicPath: getPublicPath(),
     filename: '[name].bundle.js',
     clean: true
   },
@@ -65,7 +84,7 @@ module.exports = {
       name: 'invoice_app',
       filename: 'remoteEntry.js',
       remotes: {
-        mrt_table_app: 'mrt_table_app@http://localhost:3003/remoteEntry.js',
+        mrt_table_app: `mrt_table_app@${getRemoteUrl('mrt_table_app', 3003)}remoteEntry.js`,
       },
       exposes: {
         './App': './src/ReactWrapper.js',

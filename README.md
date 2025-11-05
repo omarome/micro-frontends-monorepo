@@ -148,9 +148,11 @@ Shell App (HOST)
     ↓ (Module Federation)
 Payment App (REMOTE)
     ↓ (Custom Events)
-Invoice App (HOST)
+Invoice App (HOST & REMOTE)
     ↓ (Status Update)
-       MRT Table App (Remote)
+      ↓
+      MRT Table App (REMOTE)
+    ↓ 
 Analysis App (REMOTE)
 ```
 ---
