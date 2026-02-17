@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Invoice } from './types';
 import { getBackendConnectionService } from '../../../libs/shared-services/src/backendConnectionService.js';
+import { getApiUrl } from '../../../libs/shared-services/src/apiConfig.js';
 
 interface InvoiceSelectorProps {
   selectedInvoiceId: string;
@@ -53,7 +54,8 @@ const InvoiceSelector: React.FC<InvoiceSelectorProps> = ({
       setLoading(true);
       setError(null);
       
-      const response = await fetch('http://localhost:4000/api/invoices?status=unpaid');
+      const apiUrl = getApiUrl();
+      const response = await fetch(`${apiUrl}/api/invoices?status=unpaid`);
       
       if (!response.ok) {
         throw new Error(`Failed to fetch invoices: ${response.statusText}`);

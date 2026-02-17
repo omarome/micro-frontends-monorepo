@@ -118,8 +118,11 @@ const PaymentForm: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Call backend to mark invoice as paid
+      // Note: process.env is replaced by webpack at build time, but we check window first for runtime testing
+      const apiUrl = (typeof window !== 'undefined' && (window as any).REACT_APP_API_URL) || 
+                     'http://localhost:4000';
       const response = await fetch(
-        `http://localhost:4000/api/invoices/${formData.selectedInvoiceId}/paid`,
+        `${apiUrl}/api/invoices/${formData.selectedInvoiceId}/paid`,
         {
           method: 'POST',
           headers: {

@@ -56,11 +56,15 @@ app.get('/', (req, res) => {
   });
 });
 
-// Import routes
+// Import routes and middleware
 const invoiceRoutes = require('./routes/invoices');
+const authenticate = require('./middleware/auth');
 
 // Mount routes
-app.use('/api/invoices', invoiceRoutes);
+// ⚠️ SECURITY WARNING: Currently NO authentication - API is open to everyone!
+// To enable authentication: Set API_KEY in Railway and uncomment the line below
+// app.use('/api/invoices', authenticate, invoiceRoutes);
+app.use('/api/invoices', invoiceRoutes); // ⚠️ REMOVE THIS LINE and uncomment above when adding auth
 
 // Start server
 app.listen(PORT, () => {

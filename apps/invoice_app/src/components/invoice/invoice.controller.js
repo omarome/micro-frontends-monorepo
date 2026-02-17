@@ -16,9 +16,13 @@ angular.module('legacyApp')
     vm.error = null;
     vm.stats = null;
 
+    // Get API URL from environment or window (for testing) or default to localhost
+    const apiUrl = (typeof window !== 'undefined' && window.REACT_APP_API_URL) || 
+                   'http://localhost:4000';
+    
     // Initialize backend connection monitoring
     const backendService = initBackendMonitoring({
-      baseUrl: 'http://localhost:4000',
+      baseUrl: apiUrl,
       healthEndpoint: '/health',
       pollInterval: 5000
     });

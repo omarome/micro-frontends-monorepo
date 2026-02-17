@@ -5,7 +5,22 @@
  */
 
 function createInvoiceService() {
-  const API_BASE = 'http://localhost:4000/api';
+  // Get API URL dynamically - priority: window (for testing) > process.env (webpack build) > default
+  // Note: process.env.REACT_APP_API_URL is injected by webpack DefinePlugin at build time
+  const getApiBase = () => {
+    let apiUrl;
+    if (typeof window !== 'undefined' && window.REACT_APP_API_URL) {
+      // Runtime override (for testing)
+      apiUrl = window.REACT_APP_API_URL;
+    } else if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_URL) {
+      // Build-time injection via webpack DefinePlugin
+      apiUrl = process.env.REACT_APP_API_URL;
+    } else {
+      // Default for local development
+      apiUrl = 'http://localhost:4000';
+    }
+    return `${apiUrl}/api`;
+  };
 
   /**
    * Fetches invoices from the API
@@ -13,7 +28,7 @@ function createInvoiceService() {
    * @returns {Promise<Array>} A promise that resolves with an array of invoices
    */
   async function fetchInvoices(statusFilter = 'all') {
-    let url = `${API_BASE}/invoices`;
+    let url = `${getApiBase()}/invoices`;
     if (statusFilter && statusFilter !== 'all') {
       url += `?status=${statusFilter}`;
     }
@@ -38,7 +53,7 @@ function createInvoiceService() {
    */
   async function markInvoiceAsPaid(invoice) {
     try {
-      const response = await fetch(`${API_BASE}/invoices/${invoice.id}/paid`, {
+      const response = await fetch(`${getApiBase()}/invoices/${invoice.id}/paid`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

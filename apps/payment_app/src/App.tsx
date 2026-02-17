@@ -6,9 +6,14 @@ import { initBackendMonitoring } from '../../../libs/shared-services/src/backend
 
 const App: React.FC = () => {
   useEffect(() => {
+    // Get API URL from window (for testing) or default to localhost
+    // Note: process.env is replaced by webpack at build time, but we check window first for runtime testing
+    const apiUrl = (typeof window !== 'undefined' && (window as any).REACT_APP_API_URL) || 
+                   'http://localhost:4000';
+    
     // Initialize backend connection monitoring
     const backendService = initBackendMonitoring({
-      baseUrl: 'http://localhost:4000',
+      baseUrl: apiUrl,
       healthEndpoint: '/health',
       pollInterval: 5000
     });

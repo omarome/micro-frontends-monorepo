@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const webpack = require('webpack');
 
 // Get environment-based URLs
 const getRemoteUrl = (appName, defaultPort) => {
@@ -80,6 +81,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: './index.html' }),
+    // Inject environment variables at build time
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'http://localhost:4000')
+    }),
     new ModuleFederationPlugin({
       name: 'invoice_app',
       filename: 'remoteEntry.js',

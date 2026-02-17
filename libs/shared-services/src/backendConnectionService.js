@@ -14,7 +14,20 @@
 
 class BackendConnectionService {
   constructor(config = {}) {
-    this.baseUrl = config.baseUrl || 'http://localhost:4000';
+    // Use window (for testing) > process.env (build) > config > default
+    // Note: process.env.REACT_APP_API_URL is injected by webpack DefinePlugin at build time
+    let defaultBaseUrl;
+    if (typeof window !== 'undefined' && window.REACT_APP_API_URL) {
+      // Runtime override (for testing)
+      defaultBaseUrl = window.REACT_APP_API_URL;
+    } else if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_URL) {
+      // Build-time injection via webpack DefinePlugin
+      defaultBaseUrl = process.env.REACT_APP_API_URL;
+    } else {
+      // Default for local development
+      defaultBaseUrl = 'http://localhost:4000';
+    }
+    this.baseUrl = config.baseUrl || defaultBaseUrl;
     this.healthEndpoint = config.healthEndpoint || '/health';
     this.pollInterval = config.pollInterval || 5000; // 5 seconds default
     this.maxPollInterval = config.maxPollInterval || 30000; // 30 seconds max

@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
+const webpack = require('webpack');
 const path = require('path');
 
 // Get environment-based URLs
@@ -62,6 +63,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './public/index.html',
+    }),
+    // Inject environment variables at build time
+    new webpack.DefinePlugin({
+      'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || 'http://localhost:4000')
     }),
     new ModuleFederationPlugin({
       name: 'mrt_table_app',
